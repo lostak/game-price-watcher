@@ -18,6 +18,7 @@ const { chromium } = require('playwright');
 const DRY = process.argv.includes('--dry');
 const DEBUG = process.argv.includes('--debug') || process.env.DEBUG === '1';
 const FORCE_DISCOVER = process.argv.includes('--discover');
+const REPORT = process.argv.includes('--report');   // also post the daily price report (every game, both tiers, change since last report)
 const CFG = JSON.parse(fs.readFileSync(path.join(__dirname, 'wants.json'), 'utf8'));
 const STATE_DIR = path.join(__dirname, 'state');
 const SEEN_FILE = path.join(STATE_DIR, 'seen.json');
@@ -195,9 +196,9 @@ async function launch() {
     for (const g of CFG.games || []) {
       const hit = cache.games.find(x => x.team === g.team && x.date === g.date);
       if (hit) Object.assign(hit, { target: g.target || hit.target, opponent: g.opponent || hit.opponent });
-      else cache.games.push(Object.assign({ venue: (CFG.teams.find(t => t.name === g.team) || {}).venue }, g));
+      else cache.games.push(Object.assign({ venue: (CFG.teams.find(t => t.name === g.team) || {}).venue, manual: true }, g));
     }
-    const upcoming = cache.games.filter(g => g.date >= today && g.date <= until).sort((a, b) => a.date.localeCompare(b.date));
+    const upcoming = cache.games.filter(g => g.date >= today && (g.date <= until || g.manual)).sort((a, b) => a.date.localeCompare(b.date));
     console.log(`${cache.games.filter(g => g.date >= today).length} home game(s) known, ${upcoming.length} within ${CFG.daysAhead || 14} days.`);
     const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1280, height: 900 }, locale: 'en-US' });
     const alerts = [];
@@ -233,6 +234,27 @@ async function launch() {
       console.log('\n' + text);
       if (!DRY) await notify(text);
     } else console.log('No drops.');
+    if (REPORT && upcoming.length) {
+      const REPORT_FILE = path.join(STATE_DIR, 'report.json');
+      const prev = readJson(REPORT_FILE, {});
+      const arrow = (now, old) => !now ? '' : !old ? '' : now < old * 0.97 ? ' ↓' : now > old * 1.03 ? ' ↑' : ' =';
+      const lines = [`🎟 *Ticket prices – ${niceDate(today)}* (${QTY} together, all-in on TickPick)`];
+      const cur = {};
+      let bestAll = null, bestLower = null;
+      for (const g of upcoming) {
+        const key = `${g.date} ${g.team} vs ${g.opponent}`, st = seen[key] || {}, l = st.last || {};
+        const p = prev[key] || {};
+        cur[key] = { all: l.all && l.all.price, lower: l.lower && l.lower.price };
+        lines.push(`${niceDate(g.date)} ${g.team} vs ${g.opponent} – ${l.all ? money(l.all.price) + ' anywhere (sec ' + l.all.section + ')' + arrow(l.all.price, p.all) : 'n/a'} · ${l.lower ? money(l.lower.price) + ' lower bowl (sec ' + l.lower.section + ')' + arrow(l.lower.price, p.lower) : 'lower bowl n/a'}${g.target ? ' · target ' + [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(' / ') : ''}`);
+        if (l.all && (!bestAll || l.all.price < bestAll.price)) bestAll = { ...l.all, g };
+        if (l.lower && (!bestLower || l.lower.price < bestLower.price)) bestLower = { ...l.lower, g };
+      }
+      if (bestAll) lines.push(`BEST VALUE: ${bestAll.g.team} vs ${bestAll.g.opponent} ${niceDate(bestAll.g.date)} ${money(bestAll.price)}` + (bestLower ? ` · lower bowl: ${bestLower.g.team} vs ${bestLower.g.opponent} ${niceDate(bestLower.g.date)} ${money(bestLower.price)}` : ''));
+      lines.push('Set a target here: "watch Nuggets vs Suns Nov 20 under 80 lower under 150". Alerts fire on 20%+ drops anyway.');
+      const text = lines.join('\n');
+      console.log('\n' + text);
+      if (!DRY) { await notify(text); writeJson(REPORT_FILE, cur); }
+    }
     if (errors.length) console.log('errors: ' + errors.join('; '));
     if (!DRY) {
       // tell him once a day if nothing could be read at all
