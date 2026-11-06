@@ -64,7 +64,8 @@ async function discoverTeam(browser, team) {
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
       await sleep(4000);
-      for (let i = 0; i < 3; i++) { await page.mouse.wheel(0, 3000); await sleep(800); }   // lazy-loaded lists
+      for (let i = 0; i < 8; i++) { await page.mouse.wheel(0, 4000); await sleep(700); }
+      for (const sel of ['button:has-text("Show more")', 'button:has-text("Load more")', 'a:has-text("See all")']) { try { const b = await page.$(sel); if (b) { await b.click(); await sleep(1500); } } catch {} }   // lazy-loaded lists
       const hrefs = await page.$$eval('a[href]', as => as.map(a => a.href));
       const uniq = [...new Set(hrefs)];
       dbg(site, team.name, 'anchors:', uniq.length, 'sample:', uniq.filter(h => /\/buy-/.test(h)).slice(0, 4));
@@ -116,19 +117,29 @@ function isLower(section, team) {
   return n >= lb.min && n <= lb.max;
 }
 async function capture(page, url, re, label) {
-  let body = null;
+  let body = null, seenReq = null;
+  const seen = [];
   const onResp = async r => {
-    if (!re.test(r.url()) || body) return;
-    try { const j = await r.json(); if (extractListings(j).length) body = j; else dbg(label, 'JSON without listings from', r.url().slice(0, 120)); } catch {}
+    if (!re.test(r.url())) return;
+    if (DEBUG) seen.push(`${r.status()} ${r.url().slice(0, 140)}`);
+    if (body) return;
+    try { const txt = await r.text(); const j = JSON.parse(txt); if (extractListings(j).length) body = j; else dbg(label, 'JSON without listings:', txt.slice(0, 300)); } catch (e) { dbg(label, 'response not JSON:', e.message.slice(0, 80)); }
   };
-  const seen = new Set();
-  const onReq = r => { if (DEBUG && /api|listing|json/i.test(r.url()) && !/\.(png|jpg|css|js|woff)/.test(r.url())) seen.add(r.url().slice(0, 160)); };
+  const onReq = r => { if (re.test(r.url())) seenReq = r; };
   page.on('response', onResp); page.on('request', onReq);
   try {
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
     for (let i = 0; i < 40 && !body; i++) await sleep(500);                       // up to 20 s for the listings call
+    if (!body) {                                                                   // fall back: ask for the listings from inside the page
+      const apiUrl = seenReq ? seenReq.url() : (label === 'tickpick' && url.match(/\/(\d+)\/?(?:\?|$)/) ? `https://api.tickpick.com/1.0/listings/internal/event-v2/${url.match(/\/(\d+)\/?(?:\?|$)/)[1]}?trackView=false` : null);
+      if (apiUrl) {
+        const res = await page.evaluate(async u => { try { const r = await fetch(u, { credentials: 'include' }); return { status: r.status, text: await r.text() }; } catch (e) { return { status: 0, text: String(e) }; } }, apiUrl);
+        dbg(label, 'in-page fetch', apiUrl.slice(0, 120), '→', res.status, (res.text || '').slice(0, 300));
+        try { const j = JSON.parse(res.text); if (extractListings(j).length) body = j; } catch {}
+      }
+    }
   } finally { page.off('response', onResp); page.off('request', onReq); }
-  if (DEBUG && !body) dbg(label, 'no listings captured; XHRs seen:', [...seen].slice(0, 15));
+  if (DEBUG && !body) dbg(label, 'no listings captured; API responses seen:', seen.slice(0, 10));
   return body;
 }
 async function readSite(ctx, site, game, team) {
