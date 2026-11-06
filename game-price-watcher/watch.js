@@ -19,7 +19,8 @@ const gcal = require('./gcal');   // Bradley's calendar: TEAMS from "Personal: l
 const DRY = process.argv.includes('--dry');
 const DEBUG = process.argv.includes('--debug') || process.env.DEBUG === '1';
 const FORCE_DISCOVER = process.argv.includes('--discover');
-const REPORT = process.argv.includes('--report');   // also post the daily price report (every game, both tiers, change since last report)
+const DAILY = process.argv.includes('--daily');     // with --report: only post if today's board hasn't gone out yet
+const REPORT = process.argv.includes('--report') || DAILY;   // also post the daily price report (every game, both tiers, change since last report)
 const CFG = JSON.parse(fs.readFileSync(path.join(__dirname, 'wants.json'), 'utf8'));
 const STATE_DIR = path.join(__dirname, 'state');
 const SEEN_FILE = path.join(STATE_DIR, 'seen.json');
@@ -335,8 +336,10 @@ async function launch() {
         await gcal.patch(logEv.id, { description: [...keep, ...rows, 'TICKET-WATCH-LOG'].join('\n') });
       } catch (e) { console.log('Calendar log failed: ' + e.message.slice(0, 120)); }
     }
-    if (REPORT && upcoming.length) {
-      const REPORT_FILE = path.join(STATE_DIR, 'report.json');
+    const REPORT_FILE = path.join(STATE_DIR, 'report.json');
+    const alreadyToday = DAILY && readJson(REPORT_FILE, {})._date === today;
+    if (alreadyToday) console.log("Daily board already posted today.");
+    if (REPORT && upcoming.length && !alreadyToday) {
       const prev = readJson(REPORT_FILE, {});
       const arrow = (now, old) => !now ? '' : !old ? '' : now < old * 0.97 ? ' ↓' : now > old * 1.03 ? ' ↑' : ' =';
       const lines = [`🎟 *Ticket prices – ${niceDate(today)}* (${QTY} together, all-in prices)`];
@@ -354,7 +357,7 @@ async function launch() {
       lines.push('Set a target here: "watch Nuggets vs Suns Nov 20 under 80 lower under 150". Alerts fire on 20%+ drops anyway.');
       const text = lines.join('\n');
       console.log('\n' + text);
-      if (!DRY) { await notify(text); writeJson(REPORT_FILE, cur); }
+      if (!DRY) { await notify(text); writeJson(REPORT_FILE, { ...cur, _date: today }); }
     }
     if (errors.length) console.log('errors: ' + errors.join('; '));
     if (!DRY) {

@@ -1,8 +1,6 @@
 name: wake
-# Once a day (7:15 AM Denver): refresh the schedule, post the daily price report, and re-enable the 30-minute checks.
+# A change to wants.json starts a price check right away (tick.yml handles the regular schedule).
 on:
-  schedule:
-    - cron: '15 13,14 * * *'   # 7:15 AM MDT / 7:15 AM MST; the gate keeps the right one
   push:
     branches: [main]
     paths: [game-price-watcher/wants.json]
@@ -13,7 +11,4 @@ jobs:
     steps:
       - env: { GH_TOKEN: '${{ github.token }}', EVENT: '${{ github.event_name }}' }
         run: |
-          h=$((10#$(TZ=America/Denver date +%H)))
-          if [ "$EVENT" = "schedule" ] && [ "$h" != "7" ]; then echo "not 7 AM Denver – skip"; exit 0; fi
-          gh workflow enable game-prices.yml -R "$GITHUB_REPOSITORY" || true
-          gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f discover=true -f report=${{ github.event_name == 'schedule' }}
+          gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main

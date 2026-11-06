@@ -1,14 +1,14 @@
 name: game-prices
+# Started by tick.yml every 30 minutes (5 AM–10 PM, while a home game is within 14 days), by Discord/Pocket commands,
+# and on demand. No cron of its own.
 on:
-  schedule:
-    # Every 30 minutes, 5 AM–10 PM Denver (UTC hours cover MST and MDT; the gate trims the edges).
-    - cron: '7,37 0-4,11-23 * * *'   # GitHub may delay scheduled runs by a few minutes
   workflow_dispatch:
     inputs:
       dry: { description: 'Dry run (read only, no Slack/Discord, no state)', type: boolean, default: false }
       debug: { description: 'Verbose log', type: boolean, default: false }
       discover: { description: 'Refresh the home-game schedule now', type: boolean, default: false }
-      report: { description: 'Also post the daily price report', type: boolean, default: false }
+      report: { description: 'Also post the price board', type: boolean, default: false }
+      daily: { description: 'Post the board only if it has not gone out yet today', type: boolean, default: false }
 concurrency: { group: game-prices, cancel-in-progress: false }
 permissions: { contents: write, actions: write }
 jobs:
@@ -46,7 +46,7 @@ jobs:
         run: npm install --no-audit --no-fund
       # No browser download: the runner's own Google Chrome is used (chromium.launch({ channel: 'chrome' })).
       - if: steps.gate.outputs.run == 'yes'
-        run: xvfb-run -a node watch.js ${{ inputs.dry && '--dry' || '' }} ${{ inputs.debug && '--debug' || '' }} ${{ inputs.discover && '--discover' || '' }} ${{ inputs.report && '--report' || '' }}
+        run: xvfb-run -a node watch.js ${{ inputs.dry && '--dry' || '' }} ${{ inputs.debug && '--debug' || '' }} ${{ inputs.discover && '--discover' || '' }} ${{ inputs.report && '--report' || '' }} ${{ inputs.daily && '--daily' || '' }}
         env: { HEADFUL: '1', SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}', DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}', GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}', GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}' }
       - name: Save state
         if: steps.gate.outputs.run == 'yes' && inputs.dry != true

@@ -1,0 +1,67 @@
+name: tick
+# Heartbeat, every ~5 minutes around the clock. Each run: reads new Discord commands in the game-prices channel,
+# starts the price check every 30 minutes (5 AM–10 PM, while a home game is within 14 days) and the price board on the
+# first tick after 7:15 AM, then waits out the rest of its 5 minutes and starts the next tick. GitHub's own cron is
+# unreliable (often hours late), so cron here only restarts the chain if it ever stops.
+on:
+  schedule:
+    - cron: '4-59/5 * * * *'
+  workflow_dispatch:
+concurrency: { group: tick, cancel-in-progress: false }
+permissions: { contents: write, actions: write }
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults: { run: { working-directory: game-price-watcher } }
+    steps:
+      - id: t0
+        working-directory: .
+        run: echo "t=$(date +%s)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+      - name: Discord commands
+        id: cmd
+        env:
+          DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
+          DISCORD_CHANNEL_ID: '${{ secrets.DISCORD_CHANNEL_ID }}'
+          DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}'
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+        run: |
+          set +e; node commands.js; rc=$?; set -e
+          [ "$rc" = "3" ] && echo "changed=yes" >> "$GITHUB_OUTPUT"
+          [ "$rc" = "4" ] && echo "report=yes" >> "$GITHUB_OUTPUT"
+          [ "$rc" = "0" ] || [ "$rc" = "3" ] || [ "$rc" = "4" ] || echo "::warning::commands.js exited $rc"
+      - name: Save cursor / wants
+        run: |
+          git config user.name game-price-watcher && git config user.email game-price-watcher@users.noreply.github.com
+          git add state/discord.json wants.json 2>/dev/null; git diff --cached --quiet || (git commit -q -m "tick: discord state" && git pull --rebase -q -X theirs && git push -q) || true
+      - name: Start what's due
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          h=$((10#$(TZ=America/Denver date +%H))); m=$((10#$(TZ=America/Denver date +%M))); today=$(TZ=America/Denver date +%F)
+          last() { gh run list -R "$GITHUB_REPOSITORY" -w game-prices.yml -L 1 --json createdAt,status --jq '.[0] // {} | "\(.status // "none") \(.createdAt // "1970-01-01T00:00:00Z")"'; }
+          read -r st created <<< "$(last)"; age=$(( $(date +%s) - $(date -d "$created" +%s) ))
+          active=$(node -e "
+            const c=require('./wants.json'), s=require('./state/games.json');
+            const until=new Date(Date.now()+(c.daysAhead||14)*864e5).toISOString().slice(0,10);
+            const g=[...(s.games||[]).filter(x=>x.date<=until),...(c.games||[])].filter(x=>x.date>='$today');
+            const stale=!s.updated||Date.now()-Date.parse(s.updated)>864e5;
+            console.log(g.length||stale?'yes':'no')")
+          rep=$(node -e "try{console.log(require('./state/report.json')._date||'')}catch{console.log('')}")
+          echo "Denver $h:$m · last price check $st, ${age}s ago · active=$active · board posted: ${rep:-never}"
+          inhours=no; [ "$h" -ge 5 ] && [ "$h" -lt 22 ] && inhours=yes
+          board=no; [ "$rep" != "$today" ] && [ "$h" -lt 21 ] && { [ "$h" -gt 7 ] || { [ "$h" -eq 7 ] && [ "$m" -ge 15 ]; }; } && board=yes
+          asked=${{ steps.cmd.outputs.report == 'yes' && 'yes' || 'no' }}; changed=${{ steps.cmd.outputs.changed == 'yes' && 'yes' || 'no' }}
+          if [ "$st" != "completed" ] && [ "$st" != "none" ]; then echo "price check still running"; exit 0; fi
+          if [ "$asked" = yes ]; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f report=true && echo "→ board (asked for)"
+          elif [ "$changed" = yes ] || { [ "$inhours" = yes ] && [ "$board" = yes ]; }; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f daily=true && echo "→ price check + daily board"
+          elif [ "$inhours" = yes ] && [ "$active" = yes ] && [ "$age" -ge 1740 ]; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main && echo "→ price check"
+          fi
+      - name: Next tick in 5 minutes
+        if: always()
+        working-directory: .
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          left=$(( 300 - ($(date +%s) - ${{ steps.t0.outputs.t }}) )); [ "$left" -gt 0 ] && sleep "$left"
+          gh workflow run tick.yml -R "$GITHUB_REPOSITORY" --ref main

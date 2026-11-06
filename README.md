@@ -7,8 +7,7 @@ game is within `daysAhead` (default 14 days), 5 AM–10 PM Denver; pauses itself
 - `game-price-watcher/wants.json` – teams, venue lower-bowl definition, `daysAhead`, drop thresholds, optional manual
   `games` with targets, e.g. `{"team":"Nuggets","opponent":"Suns","date":"2026-11-20","target":{"all":60,"lower":120}}`.
   Pushing a change to this file wakes the watcher immediately.
-- `game-price-watcher/watch.js` – opens each game's TickPick and SeatGeek page in the runner's Chrome, captures the
-  listings JSON, finds the cheapest 4-together price anywhere and in the lower bowl, and alerts when a price is
+- `game-price-watcher/watch.js` – reads each game's listings from Gametime's public API (TickPick page as fallback), finds the cheapest 4-together price anywhere and in the lower bowl, and alerts when a price is
   20%+ below the lowest seen (or at/under a target), not re-alerting within 15% of the last alert.
 - `state/games.json` – cached home-game schedule (refreshed daily); `state/seen.json` – prices seen and alerts sent.
 - `.github/workflows/notify.yml` – relay used by Claude's scheduled tasks to post to Slack + Discord.
@@ -28,3 +27,9 @@ With `GCAL_SA_KEY` + `GCAL_CALENDAR_ID` set (a Google service account the calend
 from the `TEAMS:` line of the silent **"Personal: life settings"** event (the app's Settings), games and targets from `WATCH:`
 lines on **"Personal: ticket watch"** (written by Discord commands and Pocket), keeps the **"Price watch: Broncos & Avs tickets
 (log)"** event current (read by the morning brief and Sunday reset), and creates "Personal: ticket drop – …" alert events.
+
+## How it stays on schedule
+`tick.yml` is a self-chaining heartbeat: every ~5 minutes it reads Discord, starts the price check every 30 minutes
+(5 AM–10 PM, while a home game is within 14 days) and the price board on the first tick after 7:15 AM, then starts the
+next tick. GitHub's cron is unreliable (often hours late), so cron only restarts the chain if it stops.
+Price data: Gametime's public API (all-in prices, section/row); TickPick is a fallback.
