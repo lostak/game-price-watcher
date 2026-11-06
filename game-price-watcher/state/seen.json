@@ -1,1 +1,157 @@
-{}
+{
+  "2026-11-07 Avs vs Detroit Red Wings": {
+    "all": {
+      "first": 126,
+      "low": 126,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "lower": {
+      "first": 197,
+      "low": 197,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "last": {
+      "at": "2026-11-06T18:35:02.827Z",
+      "all": {
+        "price": 126,
+        "section": "332",
+        "row": "8",
+        "site": "gametime",
+        "url": "https://gametime.co/nhl-hockey/red-wings-at-avalanche-tickets/11-7-2026-denver-co-ball-arena/events/6a5965fb3d28279a364e018f"
+      },
+      "lower": {
+        "price": 197,
+        "section": "323",
+        "row": "1",
+        "site": "gametime",
+        "url": "https://gametime.co/nhl-hockey/red-wings-at-avalanche-tickets/11-7-2026-denver-co-ball-arena/events/6a5965fb3d28279a364e018f"
+      }
+    }
+  },
+  "2026-11-16 Nuggets vs Phoenix Suns": {
+    "all": {
+      "first": 14,
+      "low": 14,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "lower": {
+      "first": 74,
+      "low": 74,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "last": {
+      "at": "2026-11-06T18:35:02.827Z",
+      "all": {
+        "price": 14,
+        "section": "352",
+        "row": "9",
+        "site": "gametime",
+        "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
+      },
+      "lower": {
+        "price": 74,
+        "section": "136",
+        "row": "11",
+        "site": "gametime",
+        "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
+      }
+    }
+  },
+  "2026-11-18 Nuggets vs Boston Celtics": {
+    "all": {
+      "first": 29,
+      "low": 29,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "lower": {
+      "first": 86,
+      "low": 86,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "last": {
+      "at": "2026-11-06T18:35:02.827Z",
+      "all": {
+        "price": 29,
+        "section": "366",
+        "row": "11",
+        "site": "gametime",
+        "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
+      },
+      "lower": {
+        "price": 86,
+        "section": "136",
+        "row": "16",
+        "site": "gametime",
+        "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
+      }
+    }
+  },
+  "2026-11-19 Avs vs Anaheim Ducks": {
+    "all": {
+      "first": 55,
+      "low": 55,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "lower": {
+      "first": 114,
+      "low": 114,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "last": {
+      "at": "2026-11-06T18:35:02.827Z",
+      "all": {
+        "price": 55,
+        "section": "360",
+        "row": "12",
+        "site": "gametime",
+        "url": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48"
+      },
+      "lower": {
+        "price": 114,
+        "section": "323",
+        "row": "1",
+        "site": "gametime",
+        "url": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48"
+      }
+    }
+  },
+  "2026-11-20 Nuggets vs Houston Rockets": {
+    "all": {
+      "first": 38,
+      "low": 38,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "lower": {
+      "first": 116,
+      "low": 116,
+      "lowDate": "2026-11-06",
+      "alerted": null
+    },
+    "last": {
+      "at": "2026-11-06T18:35:02.827Z",
+      "all": {
+        "price": 38,
+        "section": "358",
+        "row": "7",
+        "site": "gametime",
+        "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
+      },
+      "lower": {
+        "price": 116,
+        "section": "114",
+        "row": "10",
+        "site": "gametime",
+        "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
+      }
+    }
+  }
+}
