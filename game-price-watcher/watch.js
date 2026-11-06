@@ -139,7 +139,14 @@ async function capture(page, url, re, label) {
       }
     }
   } finally { page.off('response', onResp); page.off('request', onReq); }
-  if (DEBUG && !body) dbg(label, 'no listings captured; API responses seen:', seen.slice(0, 10));
+  if (DEBUG && !body) {
+    dbg(label, 'no listings captured; API responses seen:', seen.slice(0, 10));
+    try {
+      const html = await page.content();
+      const hits = [...html.matchAll(/.{0,80}(lowestPrice|minPrice|"price"|__NEXT_DATA__|__INITIAL_STATE__|listings)[^]{0,120}/g)].slice(0, 6).map(m => m[0].replace(/\s+/g, ' '));
+      dbg(label, 'page title:', await page.title(), '| embedded hints:', hits);
+    } catch {}
+  }
   return body;
 }
 async function readSite(ctx, site, game, team) {
@@ -185,8 +192,9 @@ function judge(tier, price, target, now) {
 }
 async function launch() {
   const args = ['--disable-blink-features=AutomationControlled'];
-  try { return await chromium.launch({ channel: 'chrome', args }); }               // GitHub runners ship Google Chrome
-  catch (e) { dbg('system Chrome not available (' + e.message.split('\n')[0] + '), using Playwright Chromium'); return chromium.launch({ args }); }
+  const headless = process.env.HEADFUL !== '1';                                    // the workflow runs under xvfb so a real (headed) Chrome can be used
+  try { return await chromium.launch({ channel: 'chrome', args, headless }); }     // GitHub runners ship Google Chrome
+  catch (e) { dbg('system Chrome not available (' + e.message.split('\n')[0] + '), using Playwright Chromium'); return chromium.launch({ args, headless }); }
 }
 
 (async () => {

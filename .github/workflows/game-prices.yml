@@ -47,8 +47,8 @@ jobs:
         run: npm install --no-audit --no-fund
       # No browser download: the runner's own Google Chrome is used (chromium.launch({ channel: 'chrome' })).
       - if: steps.gate.outputs.run == 'yes'
-        run: node watch.js ${{ inputs.dry && '--dry' || '' }} ${{ inputs.debug && '--debug' || '' }} ${{ inputs.discover && '--discover' || '' }} ${{ inputs.report && '--report' || '' }}
-        env: { SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}', DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}' }
+        run: xvfb-run -a node watch.js ${{ inputs.dry && '--dry' || '' }} ${{ inputs.debug && '--debug' || '' }} ${{ inputs.discover && '--discover' || '' }} ${{ inputs.report && '--report' || '' }}
+        env: { HEADFUL: '1', SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}', DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}', GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}', GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}' }
       - name: Save state
         if: steps.gate.outputs.run == 'yes' && inputs.dry != true
         run: |

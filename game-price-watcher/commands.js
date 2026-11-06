@@ -14,8 +14,9 @@
 const fs = require('fs');
 const TZ = 'America/Denver';
 const WANTS = 'wants.json', STATE = 'state/discord.json', GAMES = 'state/games.json', SEEN = 'state/seen.json';
-const token = process.env.DISCORD_BOT_TOKEN, channel = process.env.DISCORD_CHANNEL_ID, hook = process.env.DISCORD_WEBHOOK_URL;
-if (!token || !channel) { console.log('DISCORD_BOT_TOKEN / DISCORD_CHANNEL_ID not set – skipping.'); process.exit(0); }
+const token = process.env.DISCORD_BOT_TOKEN, channel = process.env.DISCORD_CHANNEL_ID, hook = process.env.DISCORD_WEBHOOK_URL, slackHook = process.env.SLACK_WEBHOOK_URL;
+const TEXT = (() => { const i = process.argv.indexOf('--text'); return i > -1 ? process.argv[i + 1] : null; })();   // one command passed in (from Pocket via Claude) instead of reading Discord
+if (!TEXT && (!token || !channel)) { console.log('DISCORD_BOT_TOKEN / DISCORD_CHANNEL_ID not set – skipping.'); process.exit(0); }
 const readJson = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return d; } };
 const today = () => new Date().toLocaleDateString('en-CA', { timeZone: TZ });
 const addDays = (d, n) => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
@@ -54,7 +55,11 @@ async function discord(path, opts = {}) {
   if (!r.ok) throw new Error(`Discord ${path} → ${r.status} ${await r.text()}`);
   return r.json();
 }
-async function reply(text) { console.log('reply:', text); if (hook) await fetch(hook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: text.slice(0, 1990) }) }); }
+async function reply(text) {
+  console.log('reply:', text);
+  if (hook) await fetch(hook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: text.slice(0, 1990) }) });
+  if (TEXT && slackHook) await fetch(slackHook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });   // a Pocket request also gets its answer in Slack
+}
 const money = n => '$' + Math.round(n);
 
 (async () => {
@@ -63,8 +68,12 @@ const money = n => '$' + Math.round(n);
   const sched = (readJson(GAMES, { games: [] }).games || []).filter(g => g.date >= today());
   const seen = readJson(SEEN, {});
   let msgs;
-  if (!st.last) { msgs = await discord(`/channels/${channel}/messages?limit=1`); st.last = msgs[0] ? msgs[0].id : '0'; msgs = []; console.log('First run – cursor set, nothing processed.'); }
-  else msgs = (await discord(`/channels/${channel}/messages?after=${st.last}&limit=50`)).reverse();
+  if (TEXT) msgs = [{ id: st.last, content: TEXT }];
+  else if (!st.last) {                                                // first run: start from now, don't replay old messages
+    msgs = await discord(`/channels/${channel}/messages?limit=1`);
+    st.last = msgs[0] ? msgs[0].id : '0'; msgs = [];
+    console.log('First run – cursor set, nothing processed.');
+  } else msgs = (await discord(`/channels/${channel}/messages?after=${st.last}&limit=50`)).reverse();
   let changed = false, report = false;
   const describe = g => { const k = `${g.date} ${g.team} vs ${g.opponent}`, l = (seen[k] || {}).last || {}; return `${nice(g.date)} ${g.team} vs ${g.opponent}${l.all ? ' – ' + money(l.all.price) + ' anywhere' : ''}${l.lower ? ' / ' + money(l.lower.price) + ' lower' : ''}${g.target ? ' (target ' + [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(', ') + ')' : ''}`; };
   for (const msg of msgs) {
@@ -105,7 +114,7 @@ const money = n => '$' + Math.round(n);
     await reply(`Got it – watching ${describe(entry)}. Checking every 30 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
   }
   fs.mkdirSync('state', { recursive: true });
-  fs.writeFileSync(STATE, JSON.stringify(st));
+  if (!TEXT) fs.writeFileSync(STATE, JSON.stringify(st));
   if (changed) { cfg.games = cfg.games.filter(g => g.date >= today()); fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); console.log('wants.json changed'); process.exit(3); }
   if (report) process.exit(4);
   console.log(`${msgs.length} message(s), no change.`);
