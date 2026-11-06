@@ -23,7 +23,8 @@
       "aliases": [
         "nuggets",
         "nugs"
-      ]
+      ],
+      "gametime": "nbaden"
     },
     {
       "name": "Avs",
@@ -39,7 +40,8 @@
       "aliases": [
         "avalanche",
         "avs"
-      ]
+      ],
+      "gametime": "nhlcol"
     },
     {
       "name": "Broncos",
@@ -54,7 +56,8 @@
       },
       "aliases": [
         "broncos"
-      ]
+      ],
+      "gametime": "nflden"
     }
   ],
   "games": []

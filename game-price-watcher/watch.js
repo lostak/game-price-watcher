@@ -58,6 +58,8 @@ function parseSeatGeek(href, team) {
 }
 async function discoverTeam(browser, team) {
   const games = {};                                                                // date -> game
+  try { for (const g of await gtHomeGames(team)) games[g.date] = g; console.log(`  ${team.name} on gametime: ${Object.keys(games).length} home game(s)`); }
+  catch (e) { console.log(`  ${team.name} on gametime: ${e.message.split('\n')[0]}`); }
   const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1280, height: 900 } });
   const page = await ctx.newPage();
   for (const [site, parse] of [['tickpick', parseTickPick]]) {           // SeatGeek's team pages don't render for bots; skipped
@@ -81,6 +83,44 @@ async function discoverTeam(browser, team) {
   }
   await ctx.close();
   return Object.values(games).sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// ---------- Gametime (mobile.gametime.co, open JSON API: schedule + listings with section/row/all-in price) ----------
+const GT = 'https://mobile.gametime.co/v1';
+async function gtJson(url) { const r = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } }); if (!r.ok) throw new Error(`gametime ${r.status} ${url.slice(0, 80)}`); return r.json(); }
+async function gtHomeGames(team) {
+  if (!team.gametime) return [];
+  const out = [];
+  for (let page = 1; page <= 3; page++) {
+    const j = await gtJson(`${GT}/events?performer_slug=${team.gametime}&page=${page}&per_page=50`);
+    const venues = Object.fromEntries((j.venues || []).map(v => [v.id, v]));
+    for (const e of j.events || []) {
+      const x = e.event || e, venue = (e.venue && e.venue.name) || (venues[x.venue_id] || {}).name || '';
+      const home = team.venue && venue && venue.toLowerCase().includes(team.venue.toLowerCase().split(' ')[0]);
+      if (!home) continue;
+      const m = (x.name || '').match(/^(?:.*? - )?(.+?) at (.+)$/i);
+      const opponent = m ? m[1].trim() : (x.name || '').replace(/denver nuggets|colorado avalanche|denver broncos/i, '').replace(/\b(at|vs\.?)\b/i, '').trim();
+      out.push({ team: team.name, venue, opponent, date: x.datetime_local.slice(0, 10), time: x.datetime_local.slice(11, 16), gametimeId: x.id, gametime: x.seo_url, name: x.name });
+    }
+    if (!j.more) break;
+  }
+  return out;
+}
+async function readGametime(game, team) {
+  if (!game.gametimeId) return null;
+  try {
+    const j = await gtJson(`${GT}/listings?event_id=${game.gametimeId}&quantity=${QTY}`);
+    const ls = (j.listings || []).map(l => ({ price: (l.price && (l.price.total || l.price.prefee) || 0) / 100, section: String(l.section || ''), row: l.row, group: l.section_group, lots: l.lots || [], seats: (l.seats || []).length, raw: l }))
+      .filter(l => l.price > 0 && !/parking|suite|loge|hospitality/i.test(l.section + ' ' + (l.group || '')));
+    if (DEBUG) dbg('gametime', game.team, game.opponent, 'listings:', (j.listings || []).length, 'sample:', JSON.stringify((j.listings || [])[0]).slice(0, 500));
+    const four = ls.filter(l => l.lots.includes(QTY) || (!l.lots.length && l.seats >= QTY));
+    const pool = four.length ? four : ls;                                   // if lots are absent the API already filtered by quantity
+    const cheapest = arr => arr.length ? arr.reduce((a, b) => (b.price < a.price ? b : a)) : null;
+    const lower = cheapest(pool.filter(l => isLower(l.section, team) || /^lower/i.test(l.group || '') && !PREMIUM.test(l.section)));
+    const any = cheapest(pool);
+    const url = game.gametime || `https://gametime.co/events/${game.gametimeId}`;
+    return { site: 'gametime', url, count: pool.length, all: any && { price: any.price, section: any.section, row: any.row }, lower: lower && { price: lower.price, section: lower.section, row: lower.row } };
+  } catch (e) { return { site: 'gametime', error: e.message.slice(0, 100) }; }
 }
 
 // ---------- listings ----------
@@ -251,7 +291,8 @@ async function launch() {
       const team = CFG.teams.find(t => t.name === g.team) || {};
       const key = `${g.date} ${g.team} vs ${g.opponent}`;
       const results = [];
-      for (const site of ['tickpick', 'seatgeek']) { const r = await readSite(ctx, site, g, team); if (r) results.push(r); }
+      const gt = await readGametime(g, team); if (gt) results.push(gt);
+      if (!gt || gt.error || !gt.all) for (const site of ['tickpick']) { const r = await readSite(ctx, site, g, team); if (r) results.push(r); }
       const okRes = results.filter(r => !r.error);
       results.filter(r => r.error).forEach(r => errors.push(`${key} ${r.site}: ${r.error}`));
       const best = tier => okRes.filter(r => r[tier]).map(r => ({ ...r[tier], site: r.site, url: r.url })).sort((a, b) => a.price - b.price)[0] || null;
@@ -270,7 +311,7 @@ async function launch() {
       const lines = ['🚨 *TICKET DROP*'];
       for (const a of alerts) {
         const when = `${niceDate(a.g.date)}${a.g.time ? ' ' + a.g.time : ''}`;
-        lines.push(`*${a.g.team} vs ${a.g.opponent} ${when} – ${money(a.val.price)}/ticket for ${QTY} (${money(a.val.price * QTY)}) ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} – sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site === 'tickpick' ? 'TickPick (all-in)' : 'SeatGeek'}*`);
+        lines.push(`*${a.g.team} vs ${a.g.opponent} ${when} – ${money(a.val.price)}/ticket for ${QTY} (${money(a.val.price * QTY)}) ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} – sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site === 'tickpick' ? 'TickPick (all-in)' : a.val.site === 'gametime' ? 'Gametime (all-in)' : a.val.site}*`);
         lines.push(a.val.url);
         lines.push(`${a.why}${a.other ? `; ${a.tier === 'lower' ? 'anywhere' : 'lower bowl'} ${money(a.other.price)} (${a.other.site} sec ${a.other.section})` : ''}`);
       }
@@ -298,7 +339,7 @@ async function launch() {
       const REPORT_FILE = path.join(STATE_DIR, 'report.json');
       const prev = readJson(REPORT_FILE, {});
       const arrow = (now, old) => !now ? '' : !old ? '' : now < old * 0.97 ? ' ↓' : now > old * 1.03 ? ' ↑' : ' =';
-      const lines = [`🎟 *Ticket prices – ${niceDate(today)}* (${QTY} together, all-in on TickPick)`];
+      const lines = [`🎟 *Ticket prices – ${niceDate(today)}* (${QTY} together, all-in prices)`];
       const cur = {};
       let bestAll = null, bestLower = null;
       for (const g of upcoming) {
