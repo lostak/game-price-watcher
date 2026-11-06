@@ -76,7 +76,7 @@ const money = n => '$' + Math.round(n);
       cfg.games.push({ team: m[2], opponent: m[3].trim(), date: m[1], target: Object.keys(target).length ? target : undefined });
     }
     otherLines = d.split('\n').filter(l => !/^\s*(WATCH:|TICKET-WATCH)/.test(l) && l.trim());
-    if (!otherLines.length) otherLines = ['Games to watch for 4 tickets (the game-price-watcher checks TickPick every 30 minutes). Home games in the next 14 days are watched automatically; add a line to watch another or set targets.'];
+    if (!otherLines.length) otherLines = ['Games to watch for 4 tickets (the game-price-watcher checks TickPick every 5 minutes). Home games in the next 14 days are watched automatically; add a line to watch another or set targets.'];
   }
   const sched = (readJson(GAMES, { games: [] }).games || []).filter(g => g.date >= today());
   const seen = readJson(SEEN, {});
@@ -124,7 +124,7 @@ const money = n => '$' + Math.round(n);
     cfg.games = cfg.games.filter(g => !(g.team === entry.team && g.date === entry.date));
     cfg.games.push(entry); cfg.games.sort((a, b) => a.date.localeCompare(b.date));
     changed = true;
-    await reply(`Got it – watching ${describe(entry)}. Checking every 30 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
+    await reply(`Got it – watching ${describe(entry)}. Checking every 5 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
   }
   fs.mkdirSync('state', { recursive: true });
   if (!TEXT) fs.writeFileSync(STATE, JSON.stringify(st));

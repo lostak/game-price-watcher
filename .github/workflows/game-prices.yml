@@ -1,5 +1,5 @@
 name: game-prices
-# Started by tick.yml every 30 minutes (5 AM–10 PM, while a home game is within 14 days), by Discord/Pocket commands,
+# Started by tick.yml every 5 minutes (5 AM–10 PM, while a home game is within 14 days), by Discord/Pocket commands,
 # and on demand. No cron of its own.
 on:
   workflow_dispatch:

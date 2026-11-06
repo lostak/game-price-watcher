@@ -1,6 +1,6 @@
 name: tick
 # Heartbeat, every ~5 minutes around the clock. Each run: reads new Discord commands in the game-prices channel,
-# starts the price check every 30 minutes (5 AM–10 PM, while a home game is within 14 days) and the price board on the
+# starts the price check every 5 minutes (5 AM–10 PM, while a home game is within 14 days) and the price board on the
 # first tick after 7:15 AM, then waits out the rest of its 5 minutes and starts the next tick. GitHub's own cron is
 # unreliable (often hours late), so cron here only restarts the chain if it ever stops.
 on:
@@ -56,7 +56,7 @@ jobs:
           if [ "$st" != "completed" ] && [ "$st" != "none" ]; then echo "price check still running"; exit 0; fi
           if [ "$asked" = yes ]; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f report=true && echo "→ board (asked for)"
           elif [ "$changed" = yes ] || { [ "$inhours" = yes ] && [ "$board" = yes ]; }; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f daily=true && echo "→ price check + daily board"
-          elif [ "$inhours" = yes ] && [ "$active" = yes ] && [ "$age" -ge 1740 ]; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main && echo "→ price check"
+          elif [ "$inhours" = yes ] && [ "$active" = yes ] && [ "$age" -ge 240 ]; then gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main && echo "→ price check"
           fi
       - name: Next tick in 5 minutes
         if: always()

@@ -1,5 +1,5 @@
 // game-price-watcher: watches resale ticket prices (4 seats together) for Bradley's teams' home games
-// and posts to Slack + Discord when a price drops. Runs on GitHub Actions every 30 minutes while there is a
+// and posts to Slack + Discord when a price drops. Runs on GitHub Actions every 5 minutes while there is a
 // home game within `daysAhead`; pauses itself otherwise (see .github/workflows/game-prices.yml).
 //
 // Sources: TickPick (all-in prices, no fees) and SeatGeek (with fees shown). Both are read by opening the

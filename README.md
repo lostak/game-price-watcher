@@ -1,7 +1,7 @@
 # game-price-watcher
 
 Watches resale ticket prices (4 seats together) for the Nuggets, Avalanche and Broncos home games and posts to
-Slack + Discord when a price drops. Runs on GitHub Actions (free on a public repo) every 30 minutes while a home
+Slack + Discord when a price drops. Runs on GitHub Actions (free on a public repo) every 5 minutes while a home
 game is within `daysAhead` (default 14 days), 5 AM–10 PM Denver; pauses itself otherwise and wakes up once a day.
 
 - `game-price-watcher/wants.json` – teams, venue lower-bowl definition, `daysAhead`, drop thresholds, optional manual
@@ -29,7 +29,7 @@ lines on **"Personal: ticket watch"** (written by Discord commands and Pocket), 
 (log)"** event current (read by the morning brief and Sunday reset), and creates "Personal: ticket drop – …" alert events.
 
 ## How it stays on schedule
-`tick.yml` is a self-chaining heartbeat: every ~5 minutes it reads Discord, starts the price check every 30 minutes
+`tick.yml` is a self-chaining heartbeat: every ~5 minutes it reads Discord, starts the price check every 5 minutes
 (5 AM–10 PM, while a home game is within 14 days) and the price board on the first tick after 7:15 AM, then starts the
 next tick. GitHub's cron is unreliable (often hours late), so cron only restarts the chain if it stops.
 Price data: Gametime's public API (all-in prices, section/row); TickPick is a fallback.
