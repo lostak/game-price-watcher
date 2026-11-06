@@ -716,7 +716,10 @@
       "gametimeId": "695c95eb04735c7d3049efc7",
       "gametime": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7",
       "name": "Las Vegas Raiders at Denver Broncos",
-      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-las-vegas-raiders-tickets-empower-field-at-mile-high-11-22-26-2pm/7730172/"
+      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-las-vegas-raiders-tickets-empower-field-at-mile-high-11-22-26-2pm/7730172/",
+      "target": {
+        "all": 80
+      }
     },
     {
       "team": "Broncos",
