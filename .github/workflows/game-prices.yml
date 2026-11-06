@@ -35,8 +35,7 @@ jobs:
             const stale=!s.updated||Date.now()-Date.parse(s.updated)>864e5;
             console.log(g.length||(stale?'stale':0))")
           if [ "$n" = "0" ] && [ "$EVENT" = "schedule" ]; then
-            echo "No home games within range – pausing until the daily wake-up or a wants.json change."
-            gh workflow disable game-prices.yml -R "$GITHUB_REPOSITORY" || true
+            echo "No home games within range – nothing to do (the daily wake-up refreshes the schedule)."
             echo "run=no" >> "$GITHUB_OUTPUT"; exit 0
           fi
           echo "Active ($n)."; echo "run=yes" >> "$GITHUB_OUTPUT"
