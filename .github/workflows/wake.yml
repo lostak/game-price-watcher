@@ -12,3 +12,4 @@ jobs:
       - env: { GH_TOKEN: '${{ github.token }}', EVENT: '${{ github.event_name }}' }
         run: |
           gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main
+# schedule registered by lostak

@@ -35,3 +35,4 @@ jobs:
             gh workflow enable game-prices.yml -R "$GITHUB_REPOSITORY" || true
             gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f report=${{ steps.cmd.outputs.report == 'yes' }}
           fi
+# schedule registered by lostak
