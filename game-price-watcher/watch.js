@@ -146,6 +146,10 @@ async function capture(page, url, re, label) {
       const html = await page.content();
       const hits = [...html.matchAll(/.{0,80}(lowestPrice|minPrice|"price"|__NEXT_DATA__|__INITIAL_STATE__|listings)[^]{0,120}/g)].slice(0, 6).map(m => m[0].replace(/\s+/g, ' '));
       dbg(label, 'page title:', await page.title(), '| embedded hints:', hits);
+      await sleep(4000);
+      const panel = await page.evaluate(() => { const p = document.querySelector('#panel-event-listings') || document.body; const first = p.querySelector('[data-listing-id], [data-testid*="listing"], li, article');
+        return { text: p.innerText.slice(0, 1500), firstHtml: first ? first.outerHTML.slice(0, 1200) : null, counts: { li: p.querySelectorAll('li').length, article: p.querySelectorAll('article').length, buttons: p.querySelectorAll('button').length } }; });
+      dbg(label, 'listings panel:', JSON.stringify(panel).slice(0, 3000));
     } catch {}
   }
   return body;
