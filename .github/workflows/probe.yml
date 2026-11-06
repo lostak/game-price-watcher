@@ -11,5 +11,5 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: npm install --no-audit --no-fund
-      - run: xvfb-run -a node probe.js
+      - run: node probe.js
         env: { HEADFUL: '1' }
