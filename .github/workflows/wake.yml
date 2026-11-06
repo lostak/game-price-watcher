@@ -1,0 +1,18 @@
+name: wake
+# Re-enables the watcher once a day (so the schedule gets refreshed and new games picked up) and whenever
+# wants.json changes.
+on:
+  schedule:
+    - cron: '15 13 * * *'   # 6:15 AM MST / 7:15 AM MDT
+  push:
+    branches: [main]
+    paths: [game-price-watcher/wants.json]
+permissions: { actions: write }
+jobs:
+  wake:
+    runs-on: ubuntu-latest
+    steps:
+      - env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          gh workflow enable game-prices.yml -R "$GITHUB_REPOSITORY" || true
+          gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f discover=true
