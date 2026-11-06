@@ -60,5 +60,14 @@
       "gametime": "nflden"
     }
   ],
-  "games": []
+  "games": [
+    {
+      "team": "Broncos",
+      "opponent": "Las Vegas Raiders",
+      "date": "2026-11-22",
+      "target": {
+        "all": 80
+      }
+    }
+  ]
 }
