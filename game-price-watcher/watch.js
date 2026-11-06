@@ -111,12 +111,12 @@ async function readGametime(game, team) {
   try {
     const j = await gtJson(`${GT}/listings?event_id=${game.gametimeId}&quantity=${QTY}`);
     const ls = (j.listings || []).map(l => ({ price: (l.price && (l.price.total || l.price.prefee) || 0) / 100, section: String(l.section || ''), row: l.row, group: l.section_group, lots: l.lots || [], seats: (l.seats || []).length, raw: l }))
-      .filter(l => l.price > 0 && !/parking|suite|loge|hospitality/i.test(l.section + ' ' + (l.group || '')));
+      .filter(l => l.price > 0 && !/parking|suite|loge|hospitality/i.test(l.section + ' ' + (l.group || '')) && !/sro|standing/i.test(String(l.row || '') + ' ' + ((l.raw.disclosures || []).join(' '))));
     if (DEBUG) dbg('gametime', game.team, game.opponent, 'listings:', (j.listings || []).length, 'sample:', JSON.stringify((j.listings || [])[0]).slice(0, 500));
     const four = ls.filter(l => l.lots.includes(QTY) || (!l.lots.length && l.seats >= QTY));
     const pool = four.length ? four : ls;                                   // if lots are absent the API already filtered by quantity
     const cheapest = arr => arr.length ? arr.reduce((a, b) => (b.price < a.price ? b : a)) : null;
-    const lower = cheapest(pool.filter(l => isLower(l.section, team) || /^lower/i.test(l.group || '') && !PREMIUM.test(l.section)));
+    const lower = cheapest(pool.filter(l => isLower(l.section, team)));           // lower bowl = the venue's 100-level sections only
     const any = cheapest(pool);
     const url = game.gametime || `https://gametime.co/events/${game.gametimeId}`;
     return { site: 'gametime', url, count: pool.length, all: any && { price: any.price, section: any.section, row: any.row }, lower: lower && { price: lower.price, section: lower.section, row: lower.row } };
