@@ -22,3 +22,9 @@ Post in the Discord game-prices channel (a bot reads it every 5 minutes):
 `stop all` · `list` · `report`. Home games in the next 14 days are watched automatically; a "watch" adds a game further out or
 sets targets. Every morning at 7:15 a price report lists every upcoming game (anywhere / lower bowl, arrows vs yesterday).
 Secrets for this: `DISCORD_BOT_TOKEN`, `DISCORD_CHANNEL_ID` (the game-prices channel), `DISCORD_WEBHOOK_URL`.
+
+## One source of truth: Bradley's Google Calendar
+With `GCAL_SA_KEY` + `GCAL_CALENDAR_ID` set (a Google service account the calendar is shared with), the watcher takes the teams
+from the `TEAMS:` line of the silent **"Personal: life settings"** event (the app's Settings), games and targets from `WATCH:`
+lines on **"Personal: ticket watch"** (written by Discord commands and Pocket), keeps the **"Price watch: Broncos & Avs tickets
+(log)"** event current (read by the morning brief and Sunday reset), and creates "Personal: ticket drop – …" alert events.

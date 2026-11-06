@@ -14,6 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const gcal = require('./gcal');   // Bradley's calendar: TEAMS from "Personal: life settings", manual games from "Personal: ticket watch", log + alert events
 
 const DRY = process.argv.includes('--dry');
 const DEBUG = process.argv.includes('--debug') || process.env.DEBUG === '1';
@@ -204,6 +205,27 @@ async function launch() {
   const stale = FORCE_DISCOVER || !cache.updated || Date.now() - Date.parse(cache.updated) > 24 * 3600e3;
   const browser = await launch();
   const errors = [];
+  // Calendar: which teams (TEAMS line of "Personal: life settings") and any games/targets asked for ("Personal: ticket watch", WATCH: lines)
+  let watchEv = null;
+  if (gcal.ready) {
+    try {
+      const settings = await gcal.findByTitle('Personal: life settings', 'life settings', { back: 730 });
+      const teamsLine = settings && ((settings.description || '').match(/^\s*TEAMS:\s*(.+)$/m) || [])[1];
+      if (teamsLine) {
+        const names = teamsLine.split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
+        const picked = CFG.teams.filter(t => names.some(n => (t.aliases || [t.name.toLowerCase()]).some(a => n.includes(a))));
+        const unknown = names.filter(n => !CFG.teams.some(t => (t.aliases || [t.name.toLowerCase()]).some(a => n.includes(a))));
+        if (picked.length) { CFG.teams = picked; console.log(`Teams from calendar settings: ${picked.map(t => t.name).join(', ')}${unknown.length ? ' (no config yet for: ' + unknown.join(', ') + ')' : ''}`); }
+      }
+      watchEv = await gcal.findByTitle('Personal: ticket watch', 'ticket watch');
+      const d = watchEv ? watchEv.description || '' : '';
+      for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(\S+)\s+vs\.?\s+(.+?)\s*(?:\|(.*))?$/gim)) {
+        const target = {}; const t = m[4] || '';
+        const a = t.match(/all\s*\$?(\d+)/i), l = t.match(/lower\s*\$?(\d+)/i); if (a) target.all = +a[1]; if (l) target.lower = +l[1];
+        CFG.games.push({ team: m[2], opponent: m[3].trim(), date: m[1], target: Object.keys(target).length ? target : undefined });
+      }
+    } catch (e) { console.log('Calendar read failed: ' + e.message.slice(0, 120)); }
+  }
   try {
     if (stale) {
       console.log('Refreshing home-game schedule…');
@@ -252,7 +274,22 @@ async function launch() {
       const text = lines.join('\n');
       console.log('\n' + text);
       if (!DRY) await notify(text);
+      if (!DRY && gcal.ready) for (const a of alerts) {
+        try { await gcal.insert({ summary: `Personal: ticket drop – ${a.g.team} vs ${a.g.opponent} ${niceDate(a.g.date)} – ${money(a.val.price)}/ticket for ${QTY}${a.tier === 'lower' ? ' (lower bowl)' : ''}`, when: gcal.nextQuarter(),
+          description: `${money(a.val.price)}/ticket, ${money(a.val.price * QTY)} for ${QTY} (all-in) – ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site}\n${a.why}\n${a.other ? (a.tier === 'lower' ? 'Anywhere' : 'Lower bowl') + ': ' + money(a.other.price) + ' (sec ' + a.other.section + ')\n' : ''}${a.val.url}\nPrices move – confirm before buying.` }); }
+        catch (e) { console.log('Calendar alert event failed: ' + e.message.slice(0, 120)); }
+      }
     } else console.log('No drops.');
+    if (!DRY && gcal.ready && upcoming.length) {                   // the log event the morning brief / Sunday reset read
+      try {
+        const logEv = await gcal.ensureSilent('Price watch: Broncos & Avs tickets (log)', ['Ticket prices for 4 together, kept current by the game-price-watcher (GitHub Actions). All-in prices from TickPick.'], 'TICKET-WATCH-LOG');
+        const rows = upcoming.map(g => { const k = `${g.date} ${g.team} vs ${g.opponent}`, st = seen[k] || { all: {}, lower: {} }, l = st.last || {};
+          const tier = (t, v) => v ? `today ${money(v.price)} confirmed${t === 'lower' ? ' sec ' + v.section : ''} low ${money(st[t].low || v.price)} on ${st[t].lowDate || today} alerted ${st[t].alerted ? money(st[t].alerted) : 'none'}` : 'n/a';
+          return `${g.date} ${g.team} vs ${g.opponent} | ALL ${tier('all', l.all)} | LOWER ${tier('lower', l.lower)}`; });
+        const keep = (logEv.description || '').split('\n').filter(l => /^(Ticket prices|Notes:)/.test(l));
+        await gcal.patch(logEv.id, { description: [...keep, ...rows, 'TICKET-WATCH-LOG'].join('\n') });
+      } catch (e) { console.log('Calendar log failed: ' + e.message.slice(0, 120)); }
+    }
     if (REPORT && upcoming.length) {
       const REPORT_FILE = path.join(STATE_DIR, 'report.json');
       const prev = readJson(REPORT_FILE, {});

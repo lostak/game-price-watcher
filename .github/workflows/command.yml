@@ -19,6 +19,8 @@ jobs:
         env:
           TEXT: '${{ inputs.text }}'
           DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}'
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
           SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
         run: |
           set +e; node commands.js --text "$TEXT"; rc=$?; set -e

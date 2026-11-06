@@ -12,6 +12,7 @@
 // Exit code 3 = wants.json changed (the workflow commits and wakes the watcher); 4 = run a report now.
 'use strict';
 const fs = require('fs');
+const gcal = require('./gcal');   // when configured, WATCH: lines on the "Personal: ticket watch" calendar event are the source of truth
 const TZ = 'America/Denver';
 const WANTS = 'wants.json', STATE = 'state/discord.json', GAMES = 'state/games.json', SEEN = 'state/seen.json';
 const token = process.env.DISCORD_BOT_TOKEN, channel = process.env.DISCORD_CHANNEL_ID, hook = process.env.DISCORD_WEBHOOK_URL, slackHook = process.env.SLACK_WEBHOOK_URL;
@@ -65,6 +66,18 @@ const money = n => '$' + Math.round(n);
 (async () => {
   const st = readJson(STATE, {});
   const cfg = readJson(WANTS, { games: [] }); cfg.games = cfg.games || [];
+  let watchEv = null, otherLines = [];
+  if (gcal.ready) {                                                     // calendar mode: games come from WATCH: lines
+    watchEv = await gcal.findByTitle('Personal: ticket watch', 'ticket watch');
+    const d = watchEv ? watchEv.description || '' : '';
+    cfg.games = [];
+    for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(\S+)\s+vs\.?\s+(.+?)\s*(?:\|(.*))?$/gim)) {
+      const target = {}; const t = m[4] || ''; const a = t.match(/all\s*\$?(\d+)/i), l = t.match(/lower\s*\$?(\d+)/i); if (a) target.all = +a[1]; if (l) target.lower = +l[1];
+      cfg.games.push({ team: m[2], opponent: m[3].trim(), date: m[1], target: Object.keys(target).length ? target : undefined });
+    }
+    otherLines = d.split('\n').filter(l => !/^\s*(WATCH:|TICKET-WATCH)/.test(l) && l.trim());
+    if (!otherLines.length) otherLines = ['Games to watch for 4 tickets (the game-price-watcher checks TickPick every 30 minutes). Home games in the next 14 days are watched automatically; add a line to watch another or set targets.'];
+  }
   const sched = (readJson(GAMES, { games: [] }).games || []).filter(g => g.date >= today());
   const seen = readJson(SEEN, {});
   let msgs;
@@ -115,7 +128,13 @@ const money = n => '$' + Math.round(n);
   }
   fs.mkdirSync('state', { recursive: true });
   if (!TEXT) fs.writeFileSync(STATE, JSON.stringify(st));
-  if (changed) { cfg.games = cfg.games.filter(g => g.date >= today()); fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); console.log('wants.json changed'); process.exit(3); }
+  if (changed) cfg.games = cfg.games.filter(g => g.date >= today());
+  if (changed && gcal.ready) {
+    const body = [...otherLines, ...cfg.games.map(g => `WATCH: ${g.date} ${g.team} vs ${g.opponent}${g.target ? ' | ' + [g.target.all && 'all $' + g.target.all, g.target.lower && 'lower $' + g.target.lower].filter(Boolean).join(' | ') : ''}`), 'TICKET-WATCH'].join('\n');
+    if (watchEv) await gcal.patch(watchEv.id, { description: body }); else await gcal.insert({ summary: 'Personal: ticket watch', description: body, when: new Date(), popup: null });
+    console.log('calendar ticket watch updated'); process.exit(3);
+  }
+  if (changed) { fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); console.log('wants.json changed'); process.exit(3); }
   if (report) process.exit(4);
   console.log(`${msgs.length} message(s), no change.`);
 })().catch(e => { console.error(e); process.exit(1); });

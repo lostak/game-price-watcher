@@ -19,6 +19,8 @@ jobs:
           DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
           DISCORD_CHANNEL_ID: '${{ secrets.DISCORD_CHANNEL_ID }}'
           DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}'
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
         run: |
           set +e; node commands.js; rc=$?; set -e
           [ "$rc" = "3" ] && echo "changed=yes" >> "$GITHUB_OUTPUT"

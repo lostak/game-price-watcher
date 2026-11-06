@@ -2,30 +2,59 @@
   "timezone": "America/Denver",
   "quantity": 4,
   "daysAhead": 14,
-  "quietHours": { "from": 22, "to": 5 },
+  "quietHours": {
+    "from": 22,
+    "to": 5
+  },
   "dropPct": 20,
   "realertPct": 15,
   "teams": [
     {
-      "name": "Nuggets", "league": "nba", "venue": "Ball Arena",
+      "name": "Nuggets",
+      "league": "nba",
+      "venue": "Ball Arena",
       "homeSlug": "denver-nuggets",
       "tickpick": "https://www.tickpick.com/nba/denver-nuggets-tickets/",
       "seatgeek": "https://seatgeek.com/denver-nuggets-tickets",
-      "lowerBowl": { "min": 100, "max": 199 }
+      "lowerBowl": {
+        "min": 100,
+        "max": 199
+      },
+      "aliases": [
+        "nuggets",
+        "nugs"
+      ]
     },
     {
-      "name": "Avs", "league": "nhl", "venue": "Ball Arena",
+      "name": "Avs",
+      "league": "nhl",
+      "venue": "Ball Arena",
       "homeSlug": "colorado-avalanche",
       "tickpick": "https://www.tickpick.com/nhl/colorado-avalanche-tickets/",
       "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets",
-      "lowerBowl": { "min": 100, "max": 199 }
+      "lowerBowl": {
+        "min": 100,
+        "max": 199
+      },
+      "aliases": [
+        "avalanche",
+        "avs"
+      ]
     },
     {
-      "name": "Broncos", "league": "nfl", "venue": "Empower Field at Mile High",
+      "name": "Broncos",
+      "league": "nfl",
+      "venue": "Empower Field at Mile High",
       "homeSlug": "denver-broncos",
       "tickpick": "https://www.tickpick.com/nfl/denver-broncos-tickets/",
       "seatgeek": "https://seatgeek.com/denver-broncos-tickets",
-      "lowerBowl": { "min": 100, "max": 199 }
+      "lowerBowl": {
+        "min": 100,
+        "max": 199
+      },
+      "aliases": [
+        "broncos"
+      ]
     }
   ],
   "games": []
