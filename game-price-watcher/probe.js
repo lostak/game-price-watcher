@@ -1,44 +1,31 @@
-// One-off probe: which ticket sites let a GitHub runner read listings? Opens each site's Nuggets page, follows the first
-// home-game link, and logs every JSON response whose URL looks like listings. Run: xvfb-run -a node probe.js
+// Probe 2: Gametime + Vivid Seats discovery through their search pages; direct API guesses for Gametime.
 'use strict';
 const { chromium } = require('playwright');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
-const SITES = [
-  { name: 'gametime', team: 'https://gametime.co/nba-basketball/denver-nuggets-tickets/performers/nbaden', link: /gametime\.co\/.*nuggets.*tickets\/.*\/events\/|gametime\.co\/[a-z-]+\/[a-z-]+-at-denver-nuggets/i },
-  { name: 'vividseats', team: 'https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/459', link: /vividseats\.com\/.*nuggets.*\/production\/\d+/i },
-  { name: 'seatgeek', team: 'https://seatgeek.com/denver-nuggets-tickets', link: /seatgeek\.com\/.*-at-denver-nuggets-tickets\//i },
-  { name: 'stubhub', team: 'https://www.stubhub.com/denver-nuggets-tickets/performer/2704', link: /stubhub\.com\/.*nuggets.*\/event\/\d+/i },
-  { name: 'tickpick', team: 'https://www.tickpick.com/nba/denver-nuggets-tickets/', link: /tickpick\.com\/buy-denver-nuggets-vs-/i },
-];
 (async () => {
+  console.log('=== direct API guesses');
+  for (const u of ['https://mobile.gametime.co/v1/search?q=denver%20nuggets', 'https://mobile.gametime.co/v2/search?q=nuggets', 'https://mobile.gametime.co/v1/performers?slug=nbaden', 'https://mobile.gametime.co/v1/categories', 'https://api.seatgeek.com/2/events?performers.slug=denver-nuggets', 'https://www.vividseats.com/hermes/api/v1/search?searchTerm=nuggets']) {
+    try { const r = await fetch(u, { headers: { 'User-Agent': UA, Accept: 'application/json' } }); const t = await r.text(); console.log(r.status, u, '::', t.slice(0, 250).replace(/\s+/g, ' ')); } catch (e) { console.log('ERR', u, e.message); }
+  }
   const browser = await chromium.launch({ channel: 'chrome', headless: process.env.HEADFUL !== '1', args: ['--disable-blink-features=AutomationControlled'] }).catch(() => chromium.launch());
-  for (const s of SITES) {
-    console.log(`\n=== ${s.name}`);
+  for (const [name, url, linkRe] of [
+    ['gametime', 'https://gametime.co/search?q=denver%20nuggets', /nuggets/i],
+    ['gametime-home', 'https://gametime.co/', /nuggets|performers|nba/i],
+    ['vividseats', 'https://www.vividseats.com/search?searchTerm=denver%20nuggets', /nuggets/i],
+  ]) {
+    console.log(`\n=== ${name}`);
     const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1280, height: 900 }, locale: 'en-US' });
     const page = await ctx.newPage();
-    const jsons = [];
-    page.on('response', async r => {
-      const u = r.url(); if (!/listing|inventory|ticket|event|offer|price/i.test(u) || /\.(js|css|png|jpg|svg|woff2?)(\?|$)/i.test(u)) return;
-      try { const t = await r.text(); if (/^\s*[\[{]/.test(t)) jsons.push(`${r.status()} ${u.slice(0, 150)} :: ${t.slice(0, 200).replace(/\s+/g, ' ')}`); else if (r.status() >= 400) jsons.push(`${r.status()} ${u.slice(0, 150)} :: (not json)`); } catch {}
-    });
+    const seen = [];
+    page.on('response', async r => { const u = r.url(); if (/\.(js|css|png|jpg|svg|woff2?|gif)(\?|$)/i.test(u) || /google|facebook|hightouch|segment|sentry|datadog|applovin|stackadapt|sardine|doubleclick|bing|tiktok|cookielaw|onetrust/i.test(u)) return; let t = ''; try { t = (await r.text()).slice(0, 160).replace(/\s+/g, ' '); } catch {} seen.push(`${r.status()} ${u.slice(0, 140)} :: ${t}`); });
     try {
-      await page.goto(s.team, { waitUntil: 'domcontentloaded', timeout: 45000 }); await sleep(5000);
-      for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 3000); await sleep(600); }
-      console.log('team page title:', await page.title());
-      const hrefs = [...new Set(await page.$$eval('a[href]', as => as.map(a => a.href)))];
-      const ev = hrefs.filter(h => s.link.test(h));
-      console.log('event links:', ev.length, ev.slice(0, 3));
-      console.log('team-page JSON:', jsons.slice(0, 6));
-      jsons.length = 0;
-      if (ev[0]) {
-        const url = ev[0] + (ev[0].includes('?') ? '&' : '?') + 'quantity=4';
-        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 }); await sleep(12000);
-        console.log('event page title:', await page.title());
-        console.log('event-page JSON responses:'); for (const j of jsons.slice(0, 12)) console.log('  ', j);
-        const text = await page.evaluate(() => document.body.innerText.slice(0, 600).replace(/\n+/g, ' | '));
-        console.log('event page text:', text);
-      }
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 }); await sleep(8000);
+      console.log('title:', await page.title());
+      const hrefs = [...new Set(await page.$$eval('a[href]', as => as.map(a => a.href)))].filter(h => linkRe.test(h));
+      console.log('links:', hrefs.length, hrefs.slice(0, 8));
+      console.log('responses:'); for (const s of seen.slice(0, 25)) console.log('  ', s);
+      console.log('text:', await page.evaluate(() => document.body.innerText.slice(0, 400).replace(/\n+/g, ' | ')));
     } catch (e) { console.log('error:', e.message.split('\n')[0]); }
     await ctx.close();
   }
