@@ -36,15 +36,16 @@ function money(n) { return '$' + Math.round(n); }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ---------- schedule discovery (home games from the public team pages) ----------
-// TickPick event URLs look like /buy-phoenix-suns-at-denver-nuggets-tickets-ball-arena-11-20-26-7pm/6512345/
+// TickPick event URLs look like /buy-denver-nuggets-vs-phoenix-suns-tickets-ball-arena-11-20-26-7pm/6512345/ (home team first)
 // SeatGeek event URLs look like /phoenix-suns-at-denver-nuggets-tickets/11-20-2026-denver-co-ball-arena/nba/17123456
 function parseTickPick(href, team) {
-  const m = href.match(/\/buy-(.+?)-at-(.+?)-tickets-.*?-(\d{1,2})-(\d{1,2})-(\d{2})-(\d{1,2})(\d{2})?(am|pm)[^/]*\/(\d+)\/?/i);
+  const m = href.match(/\/buy-(.+?)-vs-(.+?)-tickets-.*?-(\d{1,2})-(\d{1,2})-(\d{2})-(\d{1,2})(\d{2})?(am|pm)[^/]*\/(\d+)\/?/i);
   if (!m) return null;
-  if (!m[2].startsWith(team.homeSlug)) return null;                               // only home games ("X at HOME")
+  if (!m[1].startsWith(team.homeSlug)) return null;                               // only home games (home team is listed first)
   const date = `20${m[5]}-${m[3].padStart(2, '0')}-${m[4].padStart(2, '0')}`;
   let h = +m[6] % 12; if (m[8].toLowerCase() === 'pm') h += 12;
-  return { opponent: m[1].split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' '), date, time: `${String(h).padStart(2, '0')}:${m[7] || '00'}`, tickpick: href };
+  const opp = m[2].split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+  return { opponent: opp, date, time: `${String(h).padStart(2, '0')}:${m[7] || '00'}`, tickpick: href.replace(/\?.*$/, '') };
 }
 function parseSeatGeek(href, team) {
   const m = href.match(/\/(.+?)-at-(.+?)-tickets\/(\d{1,2})-(\d{1,2})-(\d{4})-[^/]+\/[^/]+\/(\d+)/i);
@@ -57,7 +58,7 @@ async function discoverTeam(browser, team) {
   const games = {};                                                                // date -> game
   const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1280, height: 900 } });
   const page = await ctx.newPage();
-  for (const [site, parse] of [['tickpick', parseTickPick], ['seatgeek', parseSeatGeek]]) {
+  for (const [site, parse] of [['tickpick', parseTickPick]]) {           // SeatGeek's team pages don't render for bots; skipped
     const url = team[site]; if (!url) continue;
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
@@ -65,7 +66,7 @@ async function discoverTeam(browser, team) {
       for (let i = 0; i < 3; i++) { await page.mouse.wheel(0, 3000); await sleep(800); }   // lazy-loaded lists
       const hrefs = await page.$$eval('a[href]', as => as.map(a => a.href));
       const uniq = [...new Set(hrefs)];
-      dbg(site, team.name, 'anchors:', uniq.length, 'sample:', uniq.filter(h => /-at-/.test(h)).slice(0, 4));
+      dbg(site, team.name, 'anchors:', uniq.length, 'sample:', uniq.filter(h => /\/buy-/.test(h)).slice(0, 4));
       let n = 0;
       for (const h of uniq) {
         const g = parse(h, team); if (!g) continue;
