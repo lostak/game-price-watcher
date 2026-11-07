@@ -13,7 +13,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-06T23:40:33.120Z",
+      "at": "2026-11-07T01:18:36.148Z",
       "all": {
         "price": 129,
         "section": "318",
@@ -38,18 +38,18 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-06T23:40:33.120Z",
+      "at": "2026-11-07T01:18:36.148Z",
       "all": {
-        "price": 15,
+        "price": 14,
         "section": "372",
         "row": "8",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       },
       "lower": {
-        "price": 90,
-        "section": "120",
-        "row": "12",
+        "price": 77,
+        "section": "132",
+        "row": "14",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       }
@@ -69,7 +69,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-06T23:40:33.120Z",
+      "at": "2026-11-07T01:18:36.148Z",
       "all": {
         "price": 31,
         "section": "366",
@@ -78,9 +78,9 @@
         "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
       },
       "lower": {
-        "price": 86,
+        "price": 97,
         "section": "136",
-        "row": "16",
+        "row": "14",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
       }
@@ -100,7 +100,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-06T23:40:33.120Z",
+      "at": "2026-11-07T01:18:36.148Z",
       "all": {
         "price": 55,
         "section": "360",
@@ -125,7 +125,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-06T23:40:33.120Z",
+      "at": "2026-11-07T01:18:36.148Z",
       "all": {
         "price": 37,
         "section": "354",
