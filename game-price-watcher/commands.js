@@ -94,8 +94,10 @@ const money = n => '$' + Math.round(n);
   const describe = g => { const k = `${g.date} ${g.team} vs ${g.opponent}`, l = (seen[k] || {}).last || {}; return `${nice(g.date)} ${g.team} vs ${g.opponent}${l.all ? ' – ' + money(l.all.price) + ' anywhere' : ''}${l.lower ? ' / ' + money(l.lower.price) + ' lower' : ''}${g.target ? ' (target ' + [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(', ') + ')' : ''}`; };
   for (const msg of msgs) {
     st.last = msg.id;
-    if (msg.author?.bot || msg.webhook_id) continue;
-    const text = (msg.content || '').trim(); if (!text) continue;
+    // a /slash command: the Cloudflare helper answers Discord with "⏳ `<command>` …"; that reply carries the command text
+    const slash = (msg.interaction_metadata || msg.interaction) && /^⏳ `([^`]+)`/.exec(msg.content || '');
+    if (!slash && (msg.author?.bot || msg.webhook_id)) continue;
+    const text = (slash ? slash[1] : msg.content || '').trim(); if (!text) continue;
     const t = text.toLowerCase();
     console.log('message:', text);
     if (/^(price )?(graph|chart)s?\b/.test(t)) {      // "price graph Nuggets vs Suns" → sparkline(s) posted by the next price check

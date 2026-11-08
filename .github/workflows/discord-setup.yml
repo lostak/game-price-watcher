@@ -1,0 +1,23 @@
+name: discord slash commands
+# info: prints the bot's public key and the server id (both public) for the Cloudflare helper.
+# register: installs the slash commands in discord-worker/commands.json on the server (run after the helper is live).
+on:
+  workflow_dispatch:
+    inputs:
+      action: { description: 'info or register', type: choice, options: [info, register], default: info }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env: { TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}', CHANNEL: '${{ secrets.DISCORD_CHANNEL_ID }}', ACTION: '${{ inputs.action }}' }
+        run: |
+          api() { curl -sS -H "Authorization: Bot $TOKEN" -H "Content-Type: application/json" "$@"; }
+          app=$(api https://discord.com/api/v10/oauth2/applications/@me)
+          app_id=$(echo "$app" | jq -r .id); key=$(echo "$app" | jq -r .verify_key)
+          guild=$(api https://discord.com/api/v10/channels/$CHANNEL | jq -r .guild_id)
+          echo "APP_ID=$app_id"; echo "PUBLIC_KEY=$key"; echo "GUILD_ID=$guild"
+          echo "INTERACTIONS_URL=$(echo "$app" | jq -r '.interactions_endpoint_url // "not set"')"
+          if [ "$ACTION" = register ]; then
+            api -X PUT "https://discord.com/api/v10/applications/$app_id/guilds/$guild/commands" --data @discord-worker/commands.json | jq -r 'if type=="array" then "registered: " + ([.[].name]|join(", ")) else . end'
+          fi
