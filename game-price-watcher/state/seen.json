@@ -13,7 +13,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:15:17.880Z",
+      "at": "2026-11-08T02:20:28.599Z",
       "all": {
         "price": 168,
         "section": "369",
@@ -38,7 +38,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:15:17.880Z",
+      "at": "2026-11-08T02:20:28.599Z",
       "all": {
         "price": 17,
         "section": "358",
@@ -69,7 +69,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:15:17.880Z",
+      "at": "2026-11-08T02:20:28.599Z",
       "all": {
         "price": 33,
         "section": "356",
@@ -100,7 +100,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:15:17.880Z",
+      "at": "2026-11-08T02:20:28.599Z",
       "all": {
         "price": 57,
         "section": "324",
@@ -120,12 +120,12 @@
     },
     "lower": {
       "first": 116,
-      "low": 116,
-      "lowDate": "2026-11-06",
+      "low": 108,
+      "lowDate": "2026-11-07",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:15:17.880Z",
+      "at": "2026-11-08T02:20:28.599Z",
       "all": {
         "price": 37,
         "section": "362",
@@ -134,9 +134,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 116,
-        "section": "114",
-        "row": "10",
+        "price": 108,
+        "section": "138",
+        "row": "12",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       }
