@@ -4,7 +4,7 @@ name: discord slash commands
 on:
   workflow_dispatch:
     inputs:
-      action: { description: 'info or register', type: choice, options: [info, register], default: info }
+      action: { description: 'info or register', type: choice, options: [info, check, register], default: info }
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -18,6 +18,9 @@ jobs:
           guild=$(api https://discord.com/api/v10/channels/$CHANNEL | jq -r .guild_id)
           echo "APP_ID=$app_id"; echo "PUBLIC_KEY=$key"; echo "GUILD_ID=$guild"
           echo "INTERACTIONS_URL=$(echo "$app" | jq -r '.interactions_endpoint_url // "not set"')"
+          if [ "$ACTION" = check ]; then   # can the bot install commands here? (installs none)
+            api -X PUT "https://discord.com/api/v10/applications/$app_id/guilds/$guild/commands" --data '[]' | jq -c .
+          fi
           if [ "$ACTION" = register ]; then
             api -X PUT "https://discord.com/api/v10/applications/$app_id/guilds/$guild/commands" --data @discord-worker/commands.json | jq -r 'if type=="array" then "registered: " + ([.[].name]|join(", ")) else . end'
           fi

@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "name": "tickets", "description": "Game ticket prices (use in #game-prices)",
+    "options": [
+      { "type": 1, "name": "watch", "description": "Watch a game's ticket prices (any NBA, NFL or NHL team)", "options": [
+        { "type": 3, "name": "team", "description": "Team", "required": true, "autocomplete": true },
+        { "type": 3, "name": "opponent", "description": "Opponent (optional)", "autocomplete": true },
+        { "type": 3, "name": "date", "description": "Date, like 12/25 or Sat (optional: next game)" },
+        { "type": 4, "name": "under", "description": "Alert when the cheapest seat anywhere is at or under this $ per ticket", "min_value": 1 },
+        { "type": 4, "name": "lower_under", "description": "Alert when the cheapest lower-bowl seat is at or under this $ per ticket", "min_value": 1 } ] },
+      { "type": 1, "name": "stop", "description": "Stop watching a game", "options": [
+        { "type": 3, "name": "game", "description": "Like \"Nuggets 11/20\", or \"all\"", "required": true } ] },
+      { "type": 1, "name": "list", "description": "Every game being watched, with the latest prices" },
+      { "type": 1, "name": "graph", "description": "Price-history graph for a tracked game", "options": [
+        { "type": 3, "name": "game", "description": "Team, matchup or date, like \"Nuggets vs Suns\" (blank = all)" } ] },
+      { "type": 1, "name": "report", "description": "Post the full price board now" }
+    ]
+  },
+  {
+    "name": "golf", "description": "Tee-time watcher (use in #golf)",
+    "options": [
+      { "type": 1, "name": "watch", "description": "Watch for open tee times", "options": [
+        { "type": 3, "name": "day", "description": "Sat, Sun, 11/14, or \"Sat and Sun\"", "required": true },
+        { "type": 3, "name": "times", "description": "Like 7-11 or morning" },
+        { "type": 4, "name": "players", "description": "Players", "min_value": 1, "max_value": 4 },
+        { "type": 3, "name": "course", "description": "Only this course (optional: all)", "autocomplete": true } ] },
+      { "type": 1, "name": "stop", "description": "Stop watching a day", "options": [
+        { "type": 3, "name": "day", "description": "Sat, 11/14, or \"all\"", "required": true } ] },
+      { "type": 1, "name": "list", "description": "Days and courses being watched" },
+      { "type": 1, "name": "report", "description": "Earliest tee times today, tomorrow and this weekend" },
+      { "type": 1, "name": "remove_course", "description": "Stop watching a course", "options": [
+        { "type": 3, "name": "course", "description": "Course", "required": true, "autocomplete": true } ] }
+    ]
+  },
+  { "name": "help", "description": "What the bot can do here" }
+]
