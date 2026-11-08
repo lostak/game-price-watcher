@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-07T18:39:07.390Z",
+  "updated": "2026-11-08T18:43:42.442Z",
   "games": [
     {
       "team": "Nuggets",
@@ -372,17 +372,6 @@
       "gametimeId": "6a7e5e9e537767111e527ad7",
       "gametime": "https://gametime.co/nba-basketball/thunder-at-nuggets-tickets/4-11-2027-denver-co-ball-arena/events/6a7e5e9e537767111e527ad7",
       "name": "Oklahoma City Thunder at Denver Nuggets"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Detroit Red Wings",
-      "date": "2026-11-07",
-      "time": "19:00",
-      "gametimeId": "6a5965fb3d28279a364e018f",
-      "gametime": "https://gametime.co/nhl-hockey/red-wings-at-avalanche-tickets/11-7-2026-denver-co-ball-arena/events/6a5965fb3d28279a364e018f",
-      "name": "Detroit Red Wings at Colorado Avalanche",
-      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-detroit-red-wings-tickets-ball-arena-11-7-26-7pm/8139119/"
     },
     {
       "team": "Avs",
