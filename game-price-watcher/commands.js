@@ -7,7 +7,7 @@
 //   watch Avs Sat                                            → the Avs home game that Saturday
 //   watch Broncos vs Raiders                                 → next home game against them (from the cached schedule)
 //   stop Nuggets Nov 20   /   stop all                       → drop manual watches (auto-watching of the next 14 days continues)
-//   list                                                     → what's being watched, with current prices
+//   watch list  (or list)                                    → every game being watched, with the latest prices and targets
 //   report                                                   → post the price report now
 // Exit code 3 = wants.json changed (the workflow commits and wakes the watcher); 4 = run a report now.
 'use strict';
@@ -95,11 +95,13 @@ const money = n => '$' + Math.round(n);
     const text = (msg.content || '').trim(); if (!text) continue;
     const t = text.toLowerCase();
     console.log('message:', text);
-    if (/^(list|status|what.*watch|prices?)\b/.test(t)) {
-      const auto = sched.filter(g => g.date <= addDays(today(), 14));
-      const lines = [];
-      if (cfg.games.length) lines.push('Watching with targets: ' + cfg.games.map(describe).join(' · '));
-      lines.push(auto.length ? `Auto-watching (next 14 days): ${auto.map(describe).join(' · ')}` : 'No home games in the next 14 days.');
+    if (/^(watch ?list|watching|list|status|what.*watch|prices?)\b/.test(t)) {
+      const mine = cfg.games.filter(g => g.date >= today()).sort((a, b) => a.date.localeCompare(b.date));
+      const auto = sched.filter(g => g.date <= addDays(today(), 14) && !mine.some(m => m.team === g.team && m.date === g.date)).sort((a, b) => a.date.localeCompare(b.date));
+      const lines = ['🎟️ **Watch list** (4 tickets together)'];
+      lines.push('**Your watches**', ...(mine.length ? mine.map(g => '• ' + describe(g)) : ['• none – add one with "watch Nuggets vs Suns Nov 20 under 80"']));
+      lines.push('**Automatic (home games in the next 14 days)**', ...(auto.length ? auto.map(g => '• ' + describe(g)) : ['• no home games in the next 14 days']));
+      lines.push('Prices are the latest check. "stop [team] [date]" drops a watch, "report" posts the full board.');
       await reply(lines.join('\n'));
       continue;
     }
@@ -110,10 +112,10 @@ const money = n => '$' + Math.round(n);
       if (/\ball\b|everything/.test(t)) cfg.games = [];
       else cfg.games = cfg.games.filter(g => !((!team || g.team === team) && (!date || g.date === date) && (!opp || sameOpp(g.opponent, opp))));
       changed = changed || cfg.games.length !== before;
-      await reply(cfg.games.length !== before ? `Dropped. Still watching: ${cfg.games.map(describe).join(' · ') || 'nothing beyond the automatic 14-day window'}.` : 'Nothing matched that. "list" shows what is being watched.');
+      await reply(cfg.games.length !== before ? `Dropped. Still watching: ${cfg.games.map(describe).join(' · ') || 'nothing beyond the automatic 14-day window'}.` : 'Nothing matched that. "watch list" shows what is being watched.');
       continue;
     }
-    if (!team) { await reply(`Didn't catch a team in "${text.slice(0, 60)}". Try "watch Nuggets vs Suns Nov 20 under 80", "list", "report" or "stop all".`); continue; }
+    if (!team) { await reply(`Didn't catch a team in "${text.slice(0, 60)}". Try "watch Nuggets vs Suns Nov 20 under 80", "watch list", "report" or "stop all".`); continue; }
     // find the game: by date, else by opponent, else the next home game
     let game = sched.find(g => g.team === team && date && g.date === date)
       || (opp && sched.find(g => g.team === team && sameOpp(g.opponent, opp)))

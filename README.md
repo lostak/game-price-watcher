@@ -18,7 +18,7 @@ Nothing is ever bought and nobody signs in.
 ## Discord commands and daily report
 Post in the Discord game-prices channel (a bot reads it every 5 minutes):
 `watch Nuggets vs Suns Nov 20 under 80 lower under 150` · `watch Avs Sat` · `watch Broncos vs Raiders` · `stop Nuggets Nov 20` ·
-`stop all` · `list` · `report`. Home games in the next 14 days are watched automatically; a "watch" adds a game further out or
+`stop all` · `watch list` · `report`. Home games in the next 14 days are watched automatically; a "watch" adds a game further out or
 sets targets. Every morning at 7:15 a price report lists every upcoming game (anywhere / lower bowl, arrows vs yesterday).
 Secrets for this: `DISCORD_BOT_TOKEN`, `DISCORD_CHANNEL_ID` (the game-prices channel), `DISCORD_WEBHOOK_URL`.
 
