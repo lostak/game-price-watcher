@@ -39,7 +39,7 @@ async function findGame(team, { date, opp, oppText, today } = {}) {
   const g = games.filter(x => (!date || x.date === date) && isOpp(x)).sort((a, b) => a.date.localeCompare(b.date))[0];
   if (!g) return null;
   const mineHome = has(g.home, team);
-  return { team: team.name, opponent: mineHome ? g.away : g.home, date: g.date, time: g.time, venue: g.venue, home: mineHome,
+  return { team: team.label || team.name, opponent: mineHome ? g.away : g.home, date: g.date, time: g.time, venue: g.venue, home: mineHome,
     gametimeId: g.gametimeId, gametime: g.gametime, league: team.league };
 }
 module.exports = { teamGames, findGame };

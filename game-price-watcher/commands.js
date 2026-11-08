@@ -111,7 +111,7 @@ const money = n => '$' + Math.round(n);
     const hits = Teams.parse(text), first = hits[0], second = hits[1];
     if (first && first.teams.length > 1) { await reply(`Which ${first.alias}? ${first.teams.map(x => x.full + ' (' + x.league.toUpperCase() + ')').join(' or ')} – say "${first.teams[0].league.toUpperCase()} ${first.alias}" or the city.`); continue; }
     const teamObj = first && first.teams[0], oppObj = second && second.teams.length === 1 ? second.teams[0] : null;
-    const team = teamObj && teamObj.name, date = parseDate(text), opp = oppObj ? oppObj.full : parseOpponent(text), targets = parseTargets(text);
+    const team = teamObj && teamObj.label, date = parseDate(text), opp = oppObj ? oppObj.full : parseOpponent(text), targets = parseTargets(text);
     if (/^(stop|cancel|remove|clear|drop)\b/.test(t)) {
       const before = cfg.games.length;
       if (/\ball\b|everything/.test(t)) cfg.games = [];
