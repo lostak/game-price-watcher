@@ -68,6 +68,14 @@
       "target": {
         "all": 80
       }
+    },
+    {
+      "team": "Seahawks",
+      "opponent": "New York Giants",
+      "date": "2026-12-13",
+      "target": {
+        "all": 200
+      }
     }
   ]
 }
