@@ -13,14 +13,8 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:30:35.154Z",
-      "all": {
-        "price": 292,
-        "section": "234",
-        "row": "3",
-        "site": "gametime",
-        "url": "https://gametime.co/nhl-hockey/red-wings-at-avalanche-tickets/11-7-2026-denver-co-ball-arena/events/6a5965fb3d28279a364e018f"
-      },
+      "at": "2026-11-08T02:35:43.620Z",
+      "all": null,
       "lower": null
     }
   },
@@ -38,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:30:35.154Z",
+      "at": "2026-11-08T02:35:43.620Z",
       "all": {
         "price": 17,
         "section": "358",
@@ -47,9 +41,9 @@
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       },
       "lower": {
-        "price": 59,
-        "section": "112",
-        "row": "13",
+        "price": 70,
+        "section": "132",
+        "row": "20",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       }
@@ -69,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:30:35.154Z",
+      "at": "2026-11-08T02:35:43.620Z",
       "all": {
         "price": 33,
         "section": "356",
@@ -100,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:30:35.154Z",
+      "at": "2026-11-08T02:35:43.620Z",
       "all": {
         "price": 57,
         "section": "324",
@@ -125,7 +119,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-08T02:30:35.154Z",
+      "at": "2026-11-08T02:35:43.620Z",
       "all": {
         "price": 37,
         "section": "362",
