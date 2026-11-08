@@ -62,6 +62,14 @@
   ],
   "games": [
     {
+      "team": "Nuggets",
+      "opponent": "Boston Celtics",
+      "date": "2026-11-18",
+      "target": {
+        "all": 25
+      }
+    },
+    {
       "team": "Broncos",
       "opponent": "Las Vegas Raiders",
       "date": "2026-11-22",

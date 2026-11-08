@@ -132,6 +132,10 @@ const money = n => '$' + Math.round(n);
     const team = teamObj && teamObj.label, date = parseDate(text), opp = oppObj ? oppObj.full : parseOpponent(text), targets = parseTargets(text);
     if (/^(stop|cancel|remove|clear|drop)\b/.test(t)) {
       const before = cfg.games.length;
+      if (!/\ball\b|everything/.test(t) && !team && !date && !opp) {      // a bare "stop" never wipes everything – ask which
+        await reply(cfg.games.length ? `Which one? Say "stop [team] [date]" or "stop all". Watching: ${cfg.games.map(describe).join(' · ')}.` : 'Nothing extra is being watched – only the automatic home games in the next 14 days.');
+        continue;
+      }
       if (/\ball\b|everything/.test(t)) cfg.games = [];
       else cfg.games = cfg.games.filter(g => !((!team || g.team === team) && (!date || g.date === date) && (!opp || sameOpp(g.opponent, opp))));
       changed = changed || cfg.games.length !== before;
