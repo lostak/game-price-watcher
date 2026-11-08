@@ -248,7 +248,8 @@ const asked = g => !!(g.manual || g.watched);      // games he asked for get gra
 /** One embed per game: its text plus a sparkline (sparklines only render when there is a browser). */
 async function gameEmbeds(browser, items, hist) {
   let pngs = [];
-  try { pngs = await renderCharts(browser, items.map(it => ({ points: hist[gameKey(it.g)] || [], target: it.g.target || {}, name: chartName(it.g) }))); }
+  try { pngs = await renderCharts(browser, items.map(it => ({ points: hist[gameKey(it.g)] || [], target: it.g.target || {}, name: chartName(it.g),
+    title: `${it.g.team} vs ${it.g.opponent} – ${it.g.date.slice(5, 7)}/${it.g.date.slice(8, 10)}` }))); }
   catch (e) { console.log('Chart render failed: ' + e.message.slice(0, 160)); }
   return items.map((it, i) => ({ text: it.text, name: chartName(it.g), png: pngs[i] && pngs[i].png }));
 }
@@ -438,7 +439,8 @@ async function launch() {
       });
       const embeds = await gameEmbeds(browser, items, hist);
       console.log(`Graph request(s): ${keys.join(', ')}`);
-      if (!DRY) { await notify('📈 *Price graphs*', embeds); for (const f of reqs) fs.unlinkSync(path.join(GR_DIR, f)); } else saveCharts(embeds);
+      const note = reqs.map(f => readJson(path.join(GR_DIR, f), {}).note).find(Boolean);   // optional custom header
+      if (!DRY) { await notify(note || '📈 *Price graphs*', embeds); for (const f of reqs) fs.unlinkSync(path.join(GR_DIR, f)); } else saveCharts(embeds);
     }
     if (errors.length) console.log('errors: ' + errors.join('; '));
     if (!DRY) {
