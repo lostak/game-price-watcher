@@ -1,5 +1,6 @@
 name: tick
 # Heartbeat, every ~5 minutes around the clock. Each run: reads new Discord commands in the game-prices channel,
+# posts the day's picks lineup to #general once between 7 and 11 AM (picks.js),
 # starts the price check every 5 minutes (5 AM–10 PM, while a home game is within 14 days) and the price board on the
 # first tick after 7:15 AM, then waits out the rest of its 5 minutes and starts the next tick. GitHub's own cron is
 # unreliable (often hours late), so cron here only restarts the chain if it ever stops.
@@ -32,10 +33,25 @@ jobs:
           [ "$rc" = "3" ] && echo "changed=yes" >> "$GITHUB_OUTPUT"
           [ "$rc" = "4" ] && echo "report=yes" >> "$GITHUB_OUTPUT"
           [ "$rc" = "0" ] || [ "$rc" = "3" ] || [ "$rc" = "4" ] || [ "$rc" = "5" ] || echo "::warning::commands.js exited $rc"
+      - name: Picks for #general (7–11 AM Denver, once a day)
+        env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+          DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
+          DISCORD_WEBHOOK_PICKS: '${{ secrets.DISCORD_WEBHOOK_PICKS }}'
+        run: |
+          h=$((10#$(TZ=America/Denver date +%H))); today=$(TZ=America/Denver date +%F)
+          done=$(node -e "try{console.log(require('./state/picks.json').date||'')}catch{console.log('')}")
+          if [ "$h" -ge 7 ] && [ "$h" -lt 11 ] && [ "$done" != "$today" ]; then
+            set +e; node picks.js; rc=$?; set -e
+            [ "$rc" = "2" ] && echo "::warning::Picks can't be posted: the calendar isn't connected (GCAL_SA_KEY)."
+            [ "$rc" = "1" ] && echo "::warning::Picks post failed – see log."
+          fi
+          true
       - name: Save cursor / wants
         run: |
           git config user.name game-price-watcher && git config user.email game-price-watcher@users.noreply.github.com
-          git add state/discord.json wants.json 2>/dev/null; git add state/graph-requests 2>/dev/null; git diff --cached --quiet || (git commit -q -m "tick: discord state" && git pull --rebase -q -X theirs && git push -q) || true
+          git add state/discord.json wants.json 2>/dev/null; git add state/graph-requests state/picks.json 2>/dev/null; git diff --cached --quiet || (git commit -q -m "tick: discord state" && git pull --rebase -q -X theirs && git push -q) || true
       - name: Start what's due
         env: { GH_TOKEN: '${{ github.token }}' }
         run: |
