@@ -26,12 +26,13 @@ jobs:
           set +e; node commands.js --text "$TEXT"; rc=$?; set -e
           [ "$rc" = "3" ] && echo "changed=yes" >> "$GITHUB_OUTPUT"
           [ "$rc" = "4" ] && echo "report=yes" >> "$GITHUB_OUTPUT"
-          [ "$rc" = "0" ] || [ "$rc" = "3" ] || [ "$rc" = "4" ]
+          [ "$rc" = "5" ] && echo "graphs=yes" >> "$GITHUB_OUTPUT"
+          [ "$rc" = "0" ] || [ "$rc" = "3" ] || [ "$rc" = "4" ] || [ "$rc" = "5" ]
       - env: { GH_TOKEN: '${{ github.token }}' }
         run: |
           git config user.name game-price-watcher && git config user.email game-price-watcher@users.noreply.github.com
-          git add wants.json && (git diff --cached --quiet || (git commit -m "command: wants updated" && git pull --rebase -q -X theirs && git push))
-          if [ "${{ steps.cmd.outputs.changed }}" = "yes" ] || [ "${{ steps.cmd.outputs.report }}" = "yes" ]; then
+          git add wants.json; git add state/graph-requests 2>/dev/null; (git diff --cached --quiet || (git commit -m "command: wants updated" && git pull --rebase -q -X theirs && git push))
+          if [ "${{ steps.cmd.outputs.changed }}" = "yes" ] || [ "${{ steps.cmd.outputs.report }}" = "yes" ] || [ "${{ steps.cmd.outputs.graphs }}" = "yes" ]; then
             gh workflow enable game-prices.yml -R "$GITHUB_REPOSITORY" || true
             gh workflow run game-prices.yml -R "$GITHUB_REPOSITORY" --ref main -f report=${{ steps.cmd.outputs.report == 'yes' }}
           fi

@@ -11,6 +11,7 @@
 //   stop Nuggets Nov 20   /   stop all                       → drop manual watches (auto-watching of the next 14 days continues)
 //   watch list  (or list)                                    → every game being watched, with the latest prices and targets
 //   report                                                   → post the price report now
+//   price graph Nuggets vs Suns  (or graph Lakers, graph all)  → price-history sparklines for any tracked game
 // Exit code 3 = wants.json changed (the workflow commits and wakes the watcher); 4 = run a report now.
 'use strict';
 const fs = require('fs');
@@ -89,7 +90,7 @@ const money = n => '$' + Math.round(n);
     st.last = msgs[0] ? msgs[0].id : '0'; msgs = [];
     console.log('First run – cursor set, nothing processed.');
   } else msgs = (await discord(`/channels/${channel}/messages?after=${st.last}&limit=50`)).reverse();
-  let changed = false, report = false;
+  let changed = false, report = false, graphs = false;
   const describe = g => { const k = `${g.date} ${g.team} vs ${g.opponent}`, l = (seen[k] || {}).last || {}; return `${nice(g.date)} ${g.team} vs ${g.opponent}${l.all ? ' – ' + money(l.all.price) + ' anywhere' : ''}${l.lower ? ' / ' + money(l.lower.price) + ' lower' : ''}${g.target ? ' (target ' + [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(', ') + ')' : ''}`; };
   for (const msg of msgs) {
     st.last = msg.id;
@@ -97,6 +98,21 @@ const money = n => '$' + Math.round(n);
     const text = (msg.content || '').trim(); if (!text) continue;
     const t = text.toLowerCase();
     console.log('message:', text);
+    if (/^(price )?(graph|chart)s?\b/.test(t)) {      // "price graph Nuggets vs Suns" → sparkline(s) posted by the next price check
+      const q = t.replace(/^(price )?(graph|chart)s?\s*(for|of)?\s*/, '').trim();
+      const keys = Object.keys(readJson('state/history.json', {})).filter(k => k.slice(0, 10) >= today()).sort();
+      let pick = keys;
+      if (q && !/^(all|everything)\b/.test(q)) {
+        const hits = Teams.parse(q).map(h => h.teams), d = parseDate(q);
+        const named = (kl, t) => kl.includes(' ' + t.label.toLowerCase() + ' ') || kl.includes(t.full.toLowerCase()) || kl.endsWith(' ' + t.name.toLowerCase());
+        pick = keys.filter(k => { const kl = k.toLowerCase(); return (!d || k.startsWith(d)) && hits.every(c => c.some(t => named(kl, t))) && (hits.length || d || kl.includes(q)); });
+      }
+      if (!pick.length) { await reply(`No price history for "${q || 'anything'}" yet. "watch list" shows what's being tracked.`); continue; }
+      fs.mkdirSync('state/graph-requests', { recursive: true });
+      fs.writeFileSync(`state/graph-requests/${Date.now()}-${Math.random().toString(36).slice(2, 6)}.json`, JSON.stringify({ keys: pick.slice(0, 10), q }) + '\n');
+      await reply(`📈 ${pick.length === 1 ? 'Graph' : pick.length + ' graphs'} coming up in a few minutes${pick.length > 10 ? ' (first 10)' : ''}.`);
+      graphs = true; continue;
+    }
     if (/^(watch ?list|watching|list|status|what.*watch|prices?)\b/.test(t)) {
       const mine = cfg.games.filter(g => g.date >= today()).sort((a, b) => a.date.localeCompare(b.date));
       const auto = sched.filter(g => g.date <= addDays(today(), 14) && !mine.some(m => m.team === g.team && m.date === g.date)).sort((a, b) => a.date.localeCompare(b.date));
@@ -145,5 +161,6 @@ const money = n => '$' + Math.round(n);
   }
   if (changed) { fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); console.log('wants.json changed'); process.exit(3); }
   if (report) process.exit(4);
+  if (graphs) process.exit(5);
   console.log(`${msgs.length} message(s), no change.`);
 })().catch(e => { console.error(e); process.exit(1); });

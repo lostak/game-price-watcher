@@ -222,28 +222,37 @@ async function readSite(ctx, site, game, team) {
 }
 
 // ---------- alerts ----------
-// files: [{ name, png }] – price charts, attached on Discord (10 per message; Slack gets the text only)
-async function notify(text, files = []) {
+// embeds: [{ text, name, png }] – a game's lines with its price sparkline inside the same Discord embed (10 per message).
+// Slack gets everything as plain text.
+const discordMd = t => t.replace(/\*([^*\n]+)\*/g, '**$1**');
+async function notify(text, embeds = []) {
   const slack = process.env.SLACK_WEBHOOK_URL, discord = process.env.DISCORD_WEBHOOK_URL;
   if (!slack && !discord) throw new Error('SLACK_WEBHOOK_URL / DISCORD_WEBHOOK_URL not set');
   const post = async (url, body, name) => { if (!url) return; const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); if (!r.ok) throw new Error(name + ' post failed ' + r.status); };
-  await post(slack, { text }, 'Slack');
+  await post(slack, { text: [text, ...embeds.map(x => x.text)].filter(Boolean).join('\n') }, 'Slack');
   if (!discord) return;
-  const content = text.replace(/\*([^*\n]+)\*/g, '**$1**').slice(0, 1990);
-  if (!files.length) return post(discord, { content }, 'Discord');
-  for (let i = 0; i < files.length; i += 10) {
-    const fd = new FormData(), batch = files.slice(i, i + 10);
-    fd.append('payload_json', JSON.stringify({ content: i ? '' : content, attachments: batch.map((f, j) => ({ id: j, filename: f.name })) }));
-    batch.forEach((f, j) => fd.append(`files[${j}]`, new Blob([f.png], { type: 'image/png' }), f.name));
+  const content = discordMd(text).slice(0, 1990);
+  if (!embeds.length) return post(discord, { content }, 'Discord');
+  for (let i = 0; i < embeds.length; i += 10) {
+    const batch = embeds.slice(i, i + 10), withImg = batch.filter(x => x.png), fd = new FormData();
+    fd.append('payload_json', JSON.stringify({ content: i ? '' : content, embeds: batch.map(x => ({ description: discordMd(x.text).slice(0, 4000), color: 0x3987e5, ...(x.png ? { image: { url: 'attachment://' + x.name } } : {}) })),
+      attachments: withImg.map((x, j) => ({ id: j, filename: x.name })) }));
+    withImg.forEach((x, j) => fd.append(`files[${j}]`, new Blob([x.png], { type: 'image/png' }), x.name));
     const r = await fetch(discord, { method: 'POST', body: fd });
-    if (!r.ok) { console.log('Discord image post failed ' + r.status + ' ' + (await r.text()).slice(0, 200)); if (!i) await post(discord, { content }, 'Discord'); return; }
+    if (!r.ok) { console.log('Discord embed post failed ' + r.status + ' ' + (await r.text()).slice(0, 200)); if (!i) await post(discord, { content: discordMd([text, ...embeds.map(x => x.text)].join('\n')).slice(0, 1990) }, 'Discord'); return; }
   }
 }
+const gameKey = g => `${g.date} ${g.team} vs ${g.opponent}`;
 const chartName = g => `${g.date}-${g.team}-vs-${g.opponent}`.toLowerCase().replace(/[^a-z0-9-]+/g, '-').slice(0, 80) + '.png';
-async function charts(browser, games, hist) {
-  try { return await renderCharts(browser, games.map(g => ({ game: g, points: hist[`${g.date} ${g.team} vs ${g.opponent}`] || [], name: chartName(g) }))); }
-  catch (e) { console.log('Chart render failed: ' + e.message.slice(0, 160)); return []; }
+const asked = g => !!(g.manual || g.watched);      // games he asked for get graphs; the automatic home games don't (unless he asks with "graph …")
+/** One embed per game: its text plus a sparkline (sparklines only render when there is a browser). */
+async function gameEmbeds(browser, items, hist) {
+  let pngs = [];
+  try { pngs = await renderCharts(browser, items.map(it => ({ points: hist[gameKey(it.g)] || [], target: it.g.target || {}, name: chartName(it.g) }))); }
+  catch (e) { console.log('Chart render failed: ' + e.message.slice(0, 160)); }
+  return items.map((it, i) => ({ text: it.text, name: chartName(it.g), png: pngs[i] && pngs[i].png }));
 }
+function saveCharts(embeds) { for (const x of embeds) if (x.png) { fs.mkdirSync('charts', { recursive: true }); fs.writeFileSync(path.join('charts', x.name), x.png); } }
 function judge(tier, price, target, now) {
   // tier = state for this tier: { first, low, lowDate, alerted }
   const drop = (CFG.dropPct || 20) / 100, re = (CFG.realertPct || 15) / 100;
@@ -351,20 +360,20 @@ async function launch() {
     }
     await ctx.close();
     if (alerts.length) {
-      const lines = ['🚨 *TICKET DROP*'];
+      const lines = ['🚨 *TICKET DROP*'], mine = [];
       for (const a of alerts) {
         const when = `${niceDate(a.g.date)}${a.g.time ? ' ' + a.g.time : ''}`;
-        lines.push(`*${a.g.team} vs ${a.g.opponent} ${when} – ${money(a.val.price)}/ticket for ${QTY} (${money(a.val.price * QTY)}) ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} – sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site === 'tickpick' ? 'TickPick (all-in)' : a.val.site === 'gametime' ? 'Gametime (all-in)' : a.val.site}*`);
-        lines.push(a.val.url);
-        lines.push(`${a.why}${a.other ? `; ${a.tier === 'lower' ? 'anywhere' : 'lower bowl'} ${money(a.other.price)} (${a.other.site} sec ${a.other.section})` : ''}`);
+        const block = [];
+        block.push(`*${a.g.team} vs ${a.g.opponent} ${when} – ${money(a.val.price)}/ticket for ${QTY} (${money(a.val.price * QTY)}) ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} – sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site === 'tickpick' ? 'TickPick (all-in)' : a.val.site === 'gametime' ? 'Gametime (all-in)' : a.val.site}*`);
+        block.push(a.val.url);
+        block.push(`${a.why}${a.other ? `; ${a.tier === 'lower' ? 'anywhere' : 'lower bowl'} ${money(a.other.price)} (${a.other.site} sec ${a.other.section})` : ''}`);
+        if (asked(a.g)) mine.push({ g: a.g, text: block.join('\n') }); else lines.push(...block);
       }
       lines.push('Prices move – confirm before buying.');
+      const embeds = await gameEmbeds(browser, mine, hist);
       const text = lines.join('\n');
-      console.log('\n' + text);
-      const alertGames = alerts.map(a => a.g).filter((g, i, arr) => arr.indexOf(g) === i);
-      const alertCharts = await charts(browser, alertGames, hist);
-      if (!DRY) await notify(text, alertCharts);
-      else alertCharts.forEach(c => { fs.mkdirSync('charts', { recursive: true }); fs.writeFileSync(path.join('charts', c.name), c.png); });
+      console.log('\n' + text + (mine.length ? '\n' + mine.map(m => m.text).join('\n') : ''));
+      if (!DRY) await notify(text, embeds); else saveCharts(embeds);
       if (!DRY && gcal.ready) for (const a of alerts) {
         try { await gcal.insert({ summary: `Personal: ticket drop – ${a.g.team} vs ${a.g.opponent} ${niceDate(a.g.date)} – ${money(a.val.price)}/ticket for ${QTY}${a.tier === 'lower' ? ' (lower bowl)' : ''}`, when: gcal.nextQuarter(),
           description: `${money(a.val.price)}/ticket, ${money(a.val.price * QTY)} for ${QTY} (all-in) – ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site}\n${a.why}\n${a.other ? (a.tier === 'lower' ? 'Anywhere' : 'Lower bowl') + ': ' + money(a.other.price) + ' (sec ' + a.other.section + ')\n' : ''}${a.val.url}\nPrices move – confirm before buying.` }); }
@@ -390,21 +399,46 @@ async function launch() {
       const lines = [`🎟 *Ticket prices – ${niceDate(today)}* (${QTY} together, all-in prices)`];
       const cur = {};
       let bestAll = null, bestLower = null;
+      const mine = [];
       for (const g of upcoming) {
         const key = `${g.date} ${g.team} vs ${g.opponent}`, st = seen[key] || {}, l = st.last || {};
         const p = prev[key] || {};
         cur[key] = { all: l.all && l.all.price, lower: l.lower && l.lower.price };
-        lines.push(`${niceDate(g.date)} ${g.team} vs ${g.opponent} – ${l.all ? money(l.all.price) + ' anywhere (sec ' + l.all.section + ')' + arrow(l.all.price, p.all) : 'n/a'} · ${l.lower ? money(l.lower.price) + ' lower bowl (sec ' + l.lower.section + ')' + arrow(l.lower.price, p.lower) : 'lower bowl n/a'}${g.target ? ' · target ' + [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(' / ') : ''}`);
+        const anyTxt = l.all ? money(l.all.price) + ' anywhere (sec ' + l.all.section + ')' + arrow(l.all.price, p.all) : 'n/a';
+        const lowTxt = l.lower ? money(l.lower.price) + ' lower bowl (sec ' + l.lower.section + ')' + arrow(l.lower.price, p.lower) : 'lower bowl n/a';
+        const tgtTxt = g.target ? [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(' / ') : '';
+        if (asked(g)) mine.push({ g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`, '🔵 ' + anyTxt, '🟠 ' + lowTxt, tgtTxt && '🎯 target ' + tgtTxt].filter(Boolean).join('\n') });
+        else lines.push(`${niceDate(g.date)} ${g.team} vs ${g.opponent} – ${anyTxt} · ${lowTxt}${tgtTxt ? ' · target ' + tgtTxt : ''}`);
         if (l.all && (!bestAll || l.all.price < bestAll.price)) bestAll = { ...l.all, g };
         if (l.lower && (!bestLower || l.lower.price < bestLower.price)) bestLower = { ...l.lower, g };
       }
       if (bestAll) lines.push(`BEST VALUE: ${bestAll.g.team} vs ${bestAll.g.opponent} ${niceDate(bestAll.g.date)} ${money(bestAll.price)}` + (bestLower ? ` · lower bowl: ${bestLower.g.team} vs ${bestLower.g.opponent} ${niceDate(bestLower.g.date)} ${money(bestLower.price)}` : ''));
       lines.push('Set a target here: "watch Nuggets vs Suns Nov 20 under 80 lower under 150". Alerts fire on 20%+ drops anyway.');
+      if (mine.length) lines.push('*Your watches:*');
+      const embeds = await gameEmbeds(browser, mine, hist);
       const text = lines.join('\n');
-      console.log('\n' + text);
-      const boardCharts = await charts(browser, upcoming, hist);
-      if (!DRY) { await notify(text, boardCharts); writeJson(REPORT_FILE, { ...cur, _date: today }); }
-      else boardCharts.forEach(c => { fs.mkdirSync('charts', { recursive: true }); fs.writeFileSync(path.join('charts', c.name), c.png); });
+      console.log('\n' + text + (mine.length ? '\n' + mine.map(m => m.text).join('\n') : ''));
+      if (!DRY) { await notify(text, embeds); writeJson(REPORT_FILE, { ...cur, _date: today }); } else saveCharts(embeds);
+    }
+    // "price graph …" requests from Discord/Pocket (files written by commands.js): sparklines for any tracked game, asked for or not
+    const GR_DIR = path.join(STATE_DIR, 'graph-requests');
+    const reqs = fs.existsSync(GR_DIR) ? fs.readdirSync(GR_DIR).filter(f => f.endsWith('.json')) : [];
+    if (reqs.length) {
+      const keys = [...new Set(reqs.flatMap(f => readJson(path.join(GR_DIR, f), {}).keys || []))].slice(0, 20);
+      const items = keys.map(k => {
+        const m = k.match(/^(\d{4}-\d{2}-\d{2}) (.+?) vs (.+)$/) || [];
+        const g = cache.games.find(x => gameKey(x) === k) || { date: m[1], team: m[2], opponent: m[3] };
+        const l = (seen[k] || {}).last || {}, h = hist[k] || [];
+        const low = i => { const v = h.map(p => p[i]).filter(x => x != null); return v.length ? money(Math.min(...v)) : null; };
+        const since = h.length ? new Date(h[0][0] * 1000).toLocaleDateString('en-US', { timeZone: TZ, month: 'short', day: 'numeric' }) : null;
+        return { g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`,
+          `🔵 ${l.all ? money(l.all.price) + ' anywhere' : 'anywhere n/a'}${low(1) ? ' · low ' + low(1) : ''}`,
+          `🟠 ${l.lower ? money(l.lower.price) + ' lower bowl' : 'lower bowl n/a'}${low(2) ? ' · low ' + low(2) : ''}`,
+          since ? `since ${since}` : ''].filter(Boolean).join('\n') };
+      });
+      const embeds = await gameEmbeds(browser, items, hist);
+      console.log(`Graph request(s): ${keys.join(', ')}`);
+      if (!DRY) { await notify('📈 *Price graphs*', embeds); for (const f of reqs) fs.unlinkSync(path.join(GR_DIR, f)); } else saveCharts(embeds);
     }
     if (errors.length) console.log('errors: ' + errors.join('; '));
     if (!DRY) {
