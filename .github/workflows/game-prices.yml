@@ -48,6 +48,9 @@ jobs:
       - if: steps.gate.outputs.run == 'yes'
         run: xvfb-run -a node watch.js ${{ inputs.dry && '--dry' || '' }} ${{ inputs.debug && '--debug' || '' }} ${{ inputs.discover && '--discover' || '' }} ${{ inputs.report && '--report' || '' }} ${{ inputs.daily && '--daily' || '' }}
         env: { HEADFUL: '1', SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}', DISCORD_WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}', GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}', GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}' }
+      - if: steps.gate.outputs.run == 'yes' && inputs.dry
+        uses: actions/upload-artifact@v4
+        with: { name: charts, path: game-price-watcher/charts/, if-no-files-found: ignore }
       - name: Save state
         if: steps.gate.outputs.run == 'yes' && inputs.dry != true
         run: |

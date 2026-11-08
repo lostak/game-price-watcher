@@ -16,6 +16,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 const Teams = require('./teams');   // every NBA/NFL/NHL team: manual watches can be any game, home or away
 const { findGame } = require('./gt');
+const { renderCharts } = require('./charts');   // price-history PNGs attached to Discord posts
 const gcal = require('./gcal');   // Bradley's calendar: TEAMS from "Personal: life settings", manual games from "Personal: ticket watch", log + alert events
 
 const DRY = process.argv.includes('--dry');
@@ -26,6 +27,7 @@ const REPORT = process.argv.includes('--report') || DAILY;   // also post the da
 const CFG = JSON.parse(fs.readFileSync(path.join(__dirname, 'wants.json'), 'utf8'));
 const STATE_DIR = path.join(__dirname, 'state');
 const SEEN_FILE = path.join(STATE_DIR, 'seen.json');
+const HIST_FILE = path.join(STATE_DIR, 'history.json');   // { 'date team vs opp': [[unixSec, anywhere|null, lower|null], ...] } since watching started
 const GAMES_FILE = path.join(STATE_DIR, 'games.json');
 const TZ = CFG.timezone || 'America/Denver';
 const QTY = CFG.quantity || 4;
@@ -220,12 +222,27 @@ async function readSite(ctx, site, game, team) {
 }
 
 // ---------- alerts ----------
-async function notify(text) {
+// files: [{ name, png }] – price charts, attached on Discord (10 per message; Slack gets the text only)
+async function notify(text, files = []) {
   const slack = process.env.SLACK_WEBHOOK_URL, discord = process.env.DISCORD_WEBHOOK_URL;
   if (!slack && !discord) throw new Error('SLACK_WEBHOOK_URL / DISCORD_WEBHOOK_URL not set');
   const post = async (url, body, name) => { if (!url) return; const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); if (!r.ok) throw new Error(name + ' post failed ' + r.status); };
   await post(slack, { text }, 'Slack');
-  await post(discord, { content: text.replace(/\*([^*\n]+)\*/g, '**$1**').slice(0, 1990) }, 'Discord');
+  if (!discord) return;
+  const content = text.replace(/\*([^*\n]+)\*/g, '**$1**').slice(0, 1990);
+  if (!files.length) return post(discord, { content }, 'Discord');
+  for (let i = 0; i < files.length; i += 10) {
+    const fd = new FormData(), batch = files.slice(i, i + 10);
+    fd.append('payload_json', JSON.stringify({ content: i ? '' : content, attachments: batch.map((f, j) => ({ id: j, filename: f.name })) }));
+    batch.forEach((f, j) => fd.append(`files[${j}]`, new Blob([f.png], { type: 'image/png' }), f.name));
+    const r = await fetch(discord, { method: 'POST', body: fd });
+    if (!r.ok) { console.log('Discord image post failed ' + r.status + ' ' + (await r.text()).slice(0, 200)); if (!i) await post(discord, { content }, 'Discord'); return; }
+  }
+}
+const chartName = g => `${g.date}-${g.team}-vs-${g.opponent}`.toLowerCase().replace(/[^a-z0-9-]+/g, '-').slice(0, 80) + '.png';
+async function charts(browser, games, hist) {
+  try { return await renderCharts(browser, games.map(g => ({ game: g, points: hist[`${g.date} ${g.team} vs ${g.opponent}`] || [], name: chartName(g) }))); }
+  catch (e) { console.log('Chart render failed: ' + e.message.slice(0, 160)); return []; }
 }
 function judge(tier, price, target, now) {
   // tier = state for this tier: { first, low, lowDate, alerted }
@@ -249,6 +266,8 @@ async function launch() {
 (async () => {
   const today = localDate(), until = addDays(today, CFG.daysAhead || 14), nowIso = new Date().toISOString();
   const seen = readJson(SEEN_FILE, {});
+  const hist = readJson(HIST_FILE, {});
+  for (const k of Object.keys(hist)) if (k.slice(0, 10) < localDate()) delete hist[k];   // games that are over
   let cache = readJson(GAMES_FILE, { updated: null, games: [] });
   const stale = FORCE_DISCOVER || !cache.updated || Date.now() - Date.parse(cache.updated) > 24 * 3600e3;
   const browser = await launch();
@@ -317,7 +336,13 @@ async function launch() {
       const all = best('all'), lower = best('lower');
       console.log(`  ${key}: all ${all ? money(all.price) + ' ' + all.site + ' sec ' + all.section : 'n/a'} | lower ${lower ? money(lower.price) + ' ' + lower.site + ' sec ' + lower.section : 'n/a'}` + (okRes.length ? '' : '  (no data)'));
       const st = seen[key] || (seen[key] = { all: {}, lower: {} });
+      if (!hist[key] && st.last && st.last.at && (st.last.all || st.last.lower))   // start the chart from the last reading before charts existed
+        hist[key] = [[Math.floor(Date.parse(st.last.at) / 1000), st.last.all ? Math.round(st.last.all.price) : null, st.last.lower ? Math.round(st.last.lower.price) : null]];
       st.last = { at: nowIso, all, lower };
+      if (all || lower) {                                           // price history for the charts: keep a point on every change, else one every 30 min
+        const h = hist[key] || (hist[key] = []), pt = [Math.floor(Date.now() / 1000), all ? Math.round(all.price) : null, lower ? Math.round(lower.price) : null], prev = h[h.length - 1];
+        if (!prev || prev[1] !== pt[1] || prev[2] !== pt[2] || pt[0] - prev[0] >= 1800) h.push(pt);
+      }
       for (const [tier, val] of [['all', all], ['lower', lower]]) {
         if (!val) continue;
         const why = judge(st[tier], val.price, g.target && g.target[tier], today);
@@ -336,7 +361,10 @@ async function launch() {
       lines.push('Prices move – confirm before buying.');
       const text = lines.join('\n');
       console.log('\n' + text);
-      if (!DRY) await notify(text);
+      const alertGames = alerts.map(a => a.g).filter((g, i, arr) => arr.indexOf(g) === i);
+      const alertCharts = await charts(browser, alertGames, hist);
+      if (!DRY) await notify(text, alertCharts);
+      else alertCharts.forEach(c => { fs.mkdirSync('charts', { recursive: true }); fs.writeFileSync(path.join('charts', c.name), c.png); });
       if (!DRY && gcal.ready) for (const a of alerts) {
         try { await gcal.insert({ summary: `Personal: ticket drop – ${a.g.team} vs ${a.g.opponent} ${niceDate(a.g.date)} – ${money(a.val.price)}/ticket for ${QTY}${a.tier === 'lower' ? ' (lower bowl)' : ''}`, when: gcal.nextQuarter(),
           description: `${money(a.val.price)}/ticket, ${money(a.val.price * QTY)} for ${QTY} (all-in) – ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site}\n${a.why}\n${a.other ? (a.tier === 'lower' ? 'Anywhere' : 'Lower bowl') + ': ' + money(a.other.price) + ' (sec ' + a.other.section + ')\n' : ''}${a.val.url}\nPrices move – confirm before buying.` }); }
@@ -374,7 +402,9 @@ async function launch() {
       lines.push('Set a target here: "watch Nuggets vs Suns Nov 20 under 80 lower under 150". Alerts fire on 20%+ drops anyway.');
       const text = lines.join('\n');
       console.log('\n' + text);
-      if (!DRY) { await notify(text); writeJson(REPORT_FILE, { ...cur, _date: today }); }
+      const boardCharts = await charts(browser, upcoming, hist);
+      if (!DRY) { await notify(text, boardCharts); writeJson(REPORT_FILE, { ...cur, _date: today }); }
+      else boardCharts.forEach(c => { fs.mkdirSync('charts', { recursive: true }); fs.writeFileSync(path.join('charts', c.name), c.png); });
     }
     if (errors.length) console.log('errors: ' + errors.join('; '));
     if (!DRY) {
@@ -384,7 +414,7 @@ async function launch() {
         seen._failNotified = nowIso;
         await notify('⚠️ Game price watcher could not read any ticket listings: ' + errors.slice(0, 4).join('; '));
       }
-      writeJson(SEEN_FILE, seen); writeJson(GAMES_FILE, { ...cache, games: cache.games.filter(g => !g.manual).map(({ target, watched, ...g }) => g) });
+      writeJson(SEEN_FILE, seen); writeJson(HIST_FILE, hist); writeJson(GAMES_FILE, { ...cache, games: cache.games.filter(g => !g.manual).map(({ target, watched, ...g }) => g) });
     }
     console.log(`\nDone: ${upcoming.length} game(s) checked, ${alerts.length} alert(s); errors: ${errors.length ? errors.length : 'none'}`);
   } finally { await browser.close(); }
