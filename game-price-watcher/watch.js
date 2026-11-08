@@ -254,17 +254,27 @@ async function gameEmbeds(browser, items, hist) {
   return items.map((it, i) => ({ text: it.text, name: chartName(it.g), png: pngs[i] && pngs[i].png }));
 }
 function saveCharts(embeds) { for (const x of embeds) if (x.png) { fs.mkdirSync('charts', { recursive: true }); fs.writeFileSync(path.join('charts', x.name), x.png); } }
+// After the first drop alert for a game/tier, it follows that price: a new message only when the price actually
+// moves (3%+ either way, so cents-level wobble is ignored), nothing while it holds steady.
+const FOLLOW = 0.03;
 function judge(tier, price, target, now) {
-  // tier = state for this tier: { first, low, lowDate, alerted }
-  const drop = (CFG.dropPct || 20) / 100, re = (CFG.realertPct || 15) / 100;
+  // tier = state for this tier: { first, low, lowDate, alerted, sent }
+  const drop = (CFG.dropPct || 20) / 100;
   if (!tier.first) { Object.assign(tier, { first: price, low: price, lowDate: now, alerted: null }); return null; }
+  const prevLow = tier.low;
+  if (price < tier.low) { tier.low = price; tier.lowDate = now; }
+  if (tier.alerted) {                                                               // already alerted: follow it
+    const last = tier.sent || tier.alerted;
+    if (Math.abs(price - last) / last < FOLLOW) return null;                        // same price – stay quiet
+    tier.sent = price;
+    return { kind: 'update', why: `${price < last ? 'down' : 'up'} from $${Math.round(last)}${target && price <= target ? ` – at or under your $${target} target` : ''}` };
+  }
   let why = null;
   if (target && price <= target) why = `at or under your $${target} target`;
-  else if (price <= tier.low * (1 - drop)) why = `${Math.round((1 - price / tier.low) * 100)}% below the $${Math.round(tier.low)} low`;
-  if (why && tier.alerted && price > tier.alerted * (1 - re)) why = null;          // already told him about this price
-  if (price < tier.low) { tier.low = price; tier.lowDate = now; }
-  if (why) tier.alerted = price;
-  return why;
+  else if (price <= prevLow * (1 - drop)) why = `${Math.round((1 - price / prevLow) * 100)}% below the $${Math.round(prevLow)} low`;
+  if (!why) return null;
+  tier.alerted = price; tier.sent = price;
+  return { kind: 'drop', why };
 }
 async function launch() {
   const args = ['--disable-blink-features=AutomationControlled'];
@@ -355,13 +365,13 @@ async function launch() {
       }
       for (const [tier, val] of [['all', all], ['lower', lower]]) {
         if (!val) continue;
-        const why = judge(st[tier], val.price, g.target && g.target[tier], today);
-        if (why) alerts.push({ g, tier, val, why, other: tier === 'all' ? lower : all });
+        const j = judge(st[tier], val.price, g.target && g.target[tier], today);
+        if (j) alerts.push({ g, tier, val, why: j.why, kind: j.kind, other: tier === 'all' ? lower : all });
       }
     }
     await ctx.close();
     if (alerts.length) {
-      const lines = ['🚨 *TICKET DROP*'], mine = [];
+      const lines = [alerts.some(a => a.kind === 'drop') ? '🚨 *TICKET DROP*' : '🎟 *Ticket price update*'], mine = [];
       for (const a of alerts) {
         const when = `${niceDate(a.g.date)}${a.g.time ? ' ' + a.g.time : ''}`;
         const block = [];
@@ -375,7 +385,7 @@ async function launch() {
       const text = lines.join('\n');
       console.log('\n' + text + (mine.length ? '\n' + mine.map(m => m.text).join('\n') : ''));
       if (!DRY) await notify(text, embeds); else saveCharts(embeds);
-      if (!DRY && gcal.ready) for (const a of alerts) {
+      if (!DRY && gcal.ready) for (const a of alerts.filter(x => x.kind === 'drop')) {   // calendar gets the drop, not every follow-up
         try { await gcal.insert({ summary: `Personal: ticket drop – ${a.g.team} vs ${a.g.opponent} ${niceDate(a.g.date)} – ${money(a.val.price)}/ticket for ${QTY}${a.tier === 'lower' ? ' (lower bowl)' : ''}`, when: gcal.nextQuarter(),
           description: `${money(a.val.price)}/ticket, ${money(a.val.price * QTY)} for ${QTY} (all-in) – ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site}\n${a.why}\n${a.other ? (a.tier === 'lower' ? 'Anywhere' : 'Lower bowl') + ': ' + money(a.other.price) + ' (sec ' + a.other.section + ')\n' : ''}${a.val.url}\nPrices move – confirm before buying.` }); }
         catch (e) { console.log('Calendar alert event failed: ' + e.message.slice(0, 120)); }
