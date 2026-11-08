@@ -133,7 +133,7 @@ const money = n => '$' + Math.round(n);
     cfg.games = cfg.games.filter(g => !(g.team === entry.team && g.date === entry.date));
     cfg.games.push(entry); cfg.games.sort((a, b) => a.date.localeCompare(b.date));
     changed = true;
-    await reply(`Got it – watching ${describe(entry)}${game.venue && !game.home && !/ball arena|empower/i.test(game.venue) ? ' at ' + game.venue : ''}. Checking every 30 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
+    await reply(`Got it – watching ${describe(entry)}${game.venue && !game.home && !/ball arena|empower/i.test(game.venue) ? ' at ' + game.venue : ''}. Checking every 5 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
   }
   fs.mkdirSync('state', { recursive: true });
   if (!TEXT) fs.writeFileSync(STATE, JSON.stringify(st));
