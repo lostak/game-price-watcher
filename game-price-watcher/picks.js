@@ -1,6 +1,6 @@
 // Daily picks lineup for the shared Discord "general" channel – generic, units only, nothing personal.
 // Reads Bradley's own "Personal: betting slate – Sat Nov 7" calendar event (dollars, bankroll, books), strips it down
-// to picks + units, and posts it once per morning (7–11 AM Denver). Run from tick.yml, the 5-minute loop, because
+// to picks + units, and posts it once per morning (from 6:30 AM Denver). Run from tick.yml, the 5-minute loop, because
 // GitHub's own schedule runs hours late (the my-life picks.yml schedule missed every morning slot).
 // Posts with DISCORD_WEBHOOK_PICKS when that secret is here, else as the bot (DISCORD_BOT_TOKEN) to the general channel.
 'use strict';
