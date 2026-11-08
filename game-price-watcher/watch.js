@@ -1,5 +1,5 @@
-// game-price-watcher: watches resale ticket prices (4 seats together) for Bradley's teams' home games
-// and posts to Slack + Discord when a price drops. Runs on GitHub Actions every 5 minutes while there is a
+// game-price-watcher: watches resale ticket prices (4 seats together) for Bradley's teams' home games, plus any
+// NBA, NFL or NHL game he asks for (home or away, any team), and posts to Slack + Discord when a price drops. Runs on GitHub Actions every 5 minutes while there is a
 // home game within `daysAhead`; pauses itself otherwise (see .github/workflows/game-prices.yml).
 //
 // Sources: TickPick (all-in prices, no fees) and SeatGeek (with fees shown). Both are read by opening the
@@ -14,6 +14,8 @@
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const Teams = require('./teams');   // every NBA/NFL/NHL team: manual watches can be any game, home or away
+const { findGame } = require('./gt');
 const gcal = require('./gcal');   // Bradley's calendar: TEAMS from "Personal: life settings", manual games from "Personal: ticket watch", log + alert events
 
 const DRY = process.argv.includes('--dry');
@@ -97,10 +99,11 @@ async function gtHomeGames(team) {
     const venues = Object.fromEntries((j.venues || []).map(v => [v.id, v]));
     for (const e of j.events || []) {
       const x = e.event || e, venue = (e.venue && e.venue.name) || (venues[x.venue_id] || {}).name || '';
-      const home = team.venue && venue && venue.toLowerCase().includes(team.venue.toLowerCase().split(' ')[0]);
+      const m = (x.name || '').match(/^(?:.*?:\s*|.*? - )?(.+?) at (.+)$/i);
+      const full = (team.full || '').toLowerCase();
+      const home = m && full ? m[2].toLowerCase().includes(full) : team.venue && venue && venue.toLowerCase().includes(team.venue.toLowerCase().split(' ')[0]);
       if (!home) continue;
-      const m = (x.name || '').match(/^(?:.*? - )?(.+?) at (.+)$/i);
-      const opponent = m ? m[1].trim() : (x.name || '').replace(/denver nuggets|colorado avalanche|denver broncos/i, '').replace(/\b(at|vs\.?)\b/i, '').trim();
+      const opponent = m ? m[1].trim() : (x.name || '').replace(new RegExp(team.full || 'denver nuggets|colorado avalanche|denver broncos', 'i'), '').replace(/\b(at|vs\.?)\b/i, '').trim();
       out.push({ team: team.name, venue, opponent, date: x.datetime_local.slice(0, 10), time: x.datetime_local.slice(11, 16), gametimeId: x.id, gametime: x.seo_url, name: x.name });
     }
     if (!j.more) break;
@@ -258,13 +261,19 @@ async function launch() {
       const teamsLine = settings && ((settings.description || '').match(/^\s*TEAMS:\s*(.+)$/m) || [])[1];
       if (teamsLine) {
         const names = teamsLine.split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
-        const picked = CFG.teams.filter(t => names.some(n => (t.aliases || [t.name.toLowerCase()]).some(a => n.includes(a))));
-        const unknown = names.filter(n => !CFG.teams.some(t => (t.aliases || [t.name.toLowerCase()]).some(a => n.includes(a))));
+        // any NBA/NFL/NHL team on the TEAMS line gets its home games auto-watched; the Denver teams keep their extra config from wants.json
+        const picked = [], unknown = [];
+        for (const n of names) {
+          const local = CFG.teams.find(t => (t.aliases || [t.name.toLowerCase()]).some(a => n.includes(a)));
+          const hit = Teams.parse(n)[0], any = hit && hit.teams.length === 1 ? hit.teams[0] : null;
+          const t = local ? { ...(any || {}), ...local, gametime: local.gametime || (any && any.slug) } : any ? { name: any.name, full: any.full, league: any.league, gametime: any.slug, aliases: any.aliases } : null;
+          if (t && !picked.some(p => p.name === t.name)) picked.push(t); else if (!t) unknown.push(n);
+        }
         if (picked.length) { CFG.teams = picked; console.log(`Teams from calendar settings: ${picked.map(t => t.name).join(', ')}${unknown.length ? ' (no config yet for: ' + unknown.join(', ') + ')' : ''}`); }
       }
       watchEv = await gcal.findByTitle('Personal: ticket watch', 'ticket watch');
       const d = watchEv ? watchEv.description || '' : '';
-      for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(\S+)\s+vs\.?\s+(.+?)\s*(?:\|(.*))?$/gim)) {
+      for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(.+?)\s+(?:vs\.?|@|at)\s+(.+?)\s*(?:\|(.*))?$/gim)) {
         const target = {}; const t = m[4] || '';
         const a = t.match(/all\s*\$?(\d+)/i), l = t.match(/lower\s*\$?(\d+)/i); if (a) target.all = +a[1]; if (l) target.lower = +l[1];
         CFG.games.push({ team: m[2], opponent: m[3].trim(), date: m[1], target: Object.keys(target).length ? target : undefined });
@@ -278,22 +287,30 @@ async function launch() {
       for (const team of CFG.teams) games.push(...await discoverTeam(browser, team));
       if (games.length) cache = { updated: nowIso, games }; else errors.push('schedule discovery found no games');
     }
-    // manual games from wants.json (targets, or games discovery missed)
+    // manual games (calendar WATCH lines / wants.json): any NBA/NFL/NHL team, home or away – found on that team's Gametime schedule
+    cache.games = cache.games.filter(g => !g.manual).map(({ target, watched, ...g }) => g);   // manual watches are rebuilt every run, so a "stop" sticks
     for (const g of CFG.games || []) {
       const hit = cache.games.find(x => x.team === g.team && x.date === g.date);
-      if (hit) Object.assign(hit, { target: g.target || hit.target, opponent: g.opponent || hit.opponent });
-      else cache.games.push(Object.assign({ venue: (CFG.teams.find(t => t.name === g.team) || {}).venue, manual: true }, g));
+      if (hit) { Object.assign(hit, { target: g.target, opponent: g.opponent && g.opponent !== 'TBD' ? g.opponent : hit.opponent, watched: true }); continue; }
+      const entry = Object.assign({ venue: (CFG.teams.find(t => t.name === g.team) || {}).venue, manual: true }, g);
+      const t = Teams.byName(g.team) || ((Teams.parse(g.team)[0] || {}).teams || [])[0];
+      if (t) try {
+        const found = await findGame(t, { date: g.date, oppText: g.opponent && g.opponent !== 'TBD' ? g.opponent : null });
+        if (found) Object.assign(entry, { time: found.time, venue: found.venue, gametimeId: found.gametimeId, gametime: found.gametime, opponent: g.opponent && g.opponent !== 'TBD' ? g.opponent : found.opponent, away: !found.home });
+        else console.log(`  no Gametime listing yet for ${g.team} on ${g.date}`);
+      } catch (e) { errors.push(`${g.team} schedule: ${e.message.slice(0, 80)}`); }
+      cache.games.push(entry);
     }
-    const upcoming = cache.games.filter(g => g.date >= today && (g.date <= until || g.manual)).sort((a, b) => a.date.localeCompare(b.date));
+    const upcoming = cache.games.filter(g => g.date >= today && (g.date <= until || g.manual || g.watched)).sort((a, b) => a.date.localeCompare(b.date));
     console.log(`${cache.games.filter(g => g.date >= today).length} home game(s) known, ${upcoming.length} within ${CFG.daysAhead || 14} days.`);
     const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1280, height: 900 }, locale: 'en-US' });
     const alerts = [];
     for (const g of upcoming) {
-      const team = CFG.teams.find(t => t.name === g.team) || {};
+      const team = CFG.teams.find(t => t.name === g.team) || Teams.byName(g.team) || {};
       const key = `${g.date} ${g.team} vs ${g.opponent}`;
       const results = [];
       const gt = await readGametime(g, team); if (gt) results.push(gt);
-      if (!gt || gt.error || !gt.all) for (const site of ['tickpick']) { const r = await readSite(ctx, site, g, team); if (r) results.push(r); }
+      if ((!gt || gt.error || !gt.all) && team.tickpick) for (const site of ['tickpick']) { const r = await readSite(ctx, site, g, team); if (r) results.push(r); }
       const okRes = results.filter(r => !r.error);
       results.filter(r => r.error).forEach(r => errors.push(`${key} ${r.site}: ${r.error}`));
       const best = tier => okRes.filter(r => r[tier]).map(r => ({ ...r[tier], site: r.site, url: r.url })).sort((a, b) => a.price - b.price)[0] || null;
@@ -367,7 +384,7 @@ async function launch() {
         seen._failNotified = nowIso;
         await notify('⚠️ Game price watcher could not read any ticket listings: ' + errors.slice(0, 4).join('; '));
       }
-      writeJson(SEEN_FILE, seen); writeJson(GAMES_FILE, cache);
+      writeJson(SEEN_FILE, seen); writeJson(GAMES_FILE, { ...cache, games: cache.games.filter(g => !g.manual).map(({ target, watched, ...g }) => g) });
     }
     console.log(`\nDone: ${upcoming.length} game(s) checked, ${alerts.length} alert(s); errors: ${errors.length ? errors.length : 'none'}`);
   } finally { await browser.close(); }

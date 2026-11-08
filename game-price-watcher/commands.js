@@ -2,10 +2,12 @@
 // Runs every 5 minutes on GitHub Actions (.github/workflows/commands.yml). Needs DISCORD_BOT_TOKEN (a bot in the
 // server with Read Message History + the Message Content intent), DISCORD_CHANNEL_ID, and DISCORD_WEBHOOK_URL for replies.
 //
-// Things Bradley can post:
+// Things Bradley can post (any NBA, NFL or NHL team, home or away):
 //   watch Nuggets vs Suns Nov 20 under 80 lower under 150   → watch that game (even if it's more than 14 days out) with targets
-//   watch Avs Sat                                            → the Avs home game that Saturday
-//   watch Broncos vs Raiders                                 → next home game against them (from the cached schedule)
+//   watch Avs Sat                                            → the Avs game that Saturday
+//   watch Broncos vs Raiders                                 → next game against them
+//   watch Lakers vs Celtics Dec 25   /   watch Broncos @ Chiefs   /   watch Maple Leafs   → any team's game, anywhere
+//   (shared nicknames: "NHL Kings" or "LA Kings", "NFL Jets" or "Winnipeg Jets")
 //   stop Nuggets Nov 20   /   stop all                       → drop manual watches (auto-watching of the next 14 days continues)
 //   watch list  (or list)                                    → every game being watched, with the latest prices and targets
 //   report                                                   → post the price report now
@@ -13,6 +15,8 @@
 'use strict';
 const fs = require('fs');
 const gcal = require('./gcal');   // when configured, WATCH: lines on the "Personal: ticket watch" calendar event are the source of truth
+const Teams = require('./teams');   // every NBA/NFL/NHL team + Gametime slug
+const { findGame } = require('./gt');
 const TZ = 'America/Denver';
 const WANTS = 'wants.json', STATE = 'state/discord.json', GAMES = 'state/games.json', SEEN = 'state/seen.json';
 const token = process.env.DISCORD_BOT_TOKEN, channel = process.env.DISCORD_CHANNEL_ID, hook = process.env.DISCORD_WEBHOOK_URL, slackHook = process.env.SLACK_WEBHOOK_URL;
@@ -25,7 +29,6 @@ const dow = d => new Date(d + 'T12:00:00Z').getUTCDay();
 const nice = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
 const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-const TEAMS = { nuggets: 'Nuggets', nugs: 'Nuggets', avs: 'Avs', avalanche: 'Avs', broncos: 'Broncos' };
 
 function parseDate(text) {
   const t = today();
@@ -40,7 +43,6 @@ function parseDate(text) {
   if (m[6]) return nextOf(+m[6], +m[7]);
   return nextOf(MONTHS.indexOf(m[8].toLowerCase()) + 1, +m[9]);
 }
-function parseTeam(text) { const m = text.toLowerCase().match(/\b(nuggets|nugs|avs|avalanche|broncos)\b/); return m ? TEAMS[m[1]] : null; }
 function parseOpponent(text) { const m = text.match(/\b(?:vs\.?|v|against|@)\s+([A-Za-z][A-Za-z .'-]*?)(?=\s+(?:on|at|under|lower|today|tomorrow|sun|mon|tue|wed|thu|fri|sat|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d)|\s*$)/i); return m ? m[1].trim() : null; }
 function parseTargets(text) {
   const t = text.toLowerCase(), out = {};
@@ -71,7 +73,7 @@ const money = n => '$' + Math.round(n);
     watchEv = await gcal.findByTitle('Personal: ticket watch', 'ticket watch');
     const d = watchEv ? watchEv.description || '' : '';
     cfg.games = [];
-    for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(\S+)\s+vs\.?\s+(.+?)\s*(?:\|(.*))?$/gim)) {
+    for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(.+?)\s+(?:vs\.?|@|at)\s+(.+?)\s*(?:\|(.*))?$/gim)) {
       const target = {}; const t = m[4] || ''; const a = t.match(/all\s*\$?(\d+)/i), l = t.match(/lower\s*\$?(\d+)/i); if (a) target.all = +a[1]; if (l) target.lower = +l[1];
       cfg.games.push({ team: m[2], opponent: m[3].trim(), date: m[1], target: Object.keys(target).length ? target : undefined });
     }
@@ -106,7 +108,10 @@ const money = n => '$' + Math.round(n);
       continue;
     }
     if (/^report\b/.test(t)) { report = true; await reply('Posting the price report in a few minutes.'); continue; }
-    const team = parseTeam(text), date = parseDate(text), opp = parseOpponent(text), targets = parseTargets(text);
+    const hits = Teams.parse(text), first = hits[0], second = hits[1];
+    if (first && first.teams.length > 1) { await reply(`Which ${first.alias}? ${first.teams.map(x => x.full + ' (' + x.league.toUpperCase() + ')').join(' or ')} – say "${first.teams[0].league.toUpperCase()} ${first.alias}" or the city.`); continue; }
+    const teamObj = first && first.teams[0], oppObj = second && second.teams.length === 1 ? second.teams[0] : null;
+    const team = teamObj && teamObj.name, date = parseDate(text), opp = oppObj ? oppObj.full : parseOpponent(text), targets = parseTargets(text);
     if (/^(stop|cancel|remove|clear|drop)\b/.test(t)) {
       const before = cfg.games.length;
       if (/\ball\b|everything/.test(t)) cfg.games = [];
@@ -115,18 +120,20 @@ const money = n => '$' + Math.round(n);
       await reply(cfg.games.length !== before ? `Dropped. Still watching: ${cfg.games.map(describe).join(' · ') || 'nothing beyond the automatic 14-day window'}.` : 'Nothing matched that. "watch list" shows what is being watched.');
       continue;
     }
-    if (!team) { await reply(`Didn't catch a team in "${text.slice(0, 60)}". Try "watch Nuggets vs Suns Nov 20 under 80", "watch list", "report" or "stop all".`); continue; }
-    // find the game: by date, else by opponent, else the next home game
+    if (!team) { await reply(`Didn't catch a team in "${text.slice(0, 60)}". Any NBA, NFL or NHL team works: "watch Nuggets vs Suns Nov 20 under 80", "watch Lakers vs Celtics Dec 25", "watch list", "report" or "stop all".`); continue; }
+    // find the game: the cached Denver home schedule first, then the team's full Gametime schedule (home and away, any team)
     let game = sched.find(g => g.team === team && date && g.date === date)
-      || (opp && sched.find(g => g.team === team && sameOpp(g.opponent, opp)))
+      || (opp && !date && sched.find(g => g.team === team && sameOpp(g.opponent, opp)))
       || (!date && !opp && sched.find(g => g.team === team));
+    if (!game) game = await findGame(teamObj, { date, opp: oppObj, oppText: oppObj ? null : opp, today: today() }).catch(e => { console.log('gametime lookup failed:', e.message); return null; })
+      || (oppObj && await findGame(oppObj, { date, opp: teamObj, today: today() }).then(g => g && { ...g, team, opponent: oppObj.full }).catch(() => null));
     if (!game && date) game = { team, opponent: opp || 'TBD', date };
-    if (!game) { await reply(`Couldn't find a ${team} home game${opp ? ' vs ' + opp : ''} in the schedule. Add the date: "watch ${team} vs ${opp || 'Suns'} Nov 20".`); continue; }
+    if (!game) { await reply(`Couldn't find a ${teamObj.full} game${opp ? ' vs ' + opp : ''} on Gametime yet. Add the date: "watch ${team} vs ${opp || 'Suns'} Nov 20".`); continue; }
     const entry = { team: game.team, opponent: game.opponent, date: game.date }; if (targets) entry.target = targets;
     cfg.games = cfg.games.filter(g => !(g.team === entry.team && g.date === entry.date));
     cfg.games.push(entry); cfg.games.sort((a, b) => a.date.localeCompare(b.date));
     changed = true;
-    await reply(`Got it – watching ${describe(entry)}. Checking every 5 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
+    await reply(`Got it – watching ${describe(entry)}${game.venue && !game.home && !/ball arena|empower/i.test(game.venue) ? ' at ' + game.venue : ''}. Checking every 30 minutes, 5 AM–10 PM; I'll post here when it drops${targets ? ' or hits your target' : ''}.`);
   }
   fs.mkdirSync('state', { recursive: true });
   if (!TEXT) fs.writeFileSync(STATE, JSON.stringify(st));
@@ -134,7 +141,7 @@ const money = n => '$' + Math.round(n);
   if (changed && gcal.ready) {
     const body = [...otherLines, ...cfg.games.map(g => `WATCH: ${g.date} ${g.team} vs ${g.opponent}${g.target ? ' | ' + [g.target.all && 'all $' + g.target.all, g.target.lower && 'lower $' + g.target.lower].filter(Boolean).join(' | ') : ''}`), 'TICKET-WATCH'].join('\n');
     if (watchEv) await gcal.patch(watchEv.id, { description: body }); else await gcal.insert({ summary: 'Personal: ticket watch', description: body, when: new Date(), popup: null });
-    console.log('calendar ticket watch updated'); process.exit(3);
+    console.log('calendar ticket watch updated'); fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); process.exit(3);
   }
   if (changed) { fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); console.log('wants.json changed'); process.exit(3); }
   if (report) process.exit(4);

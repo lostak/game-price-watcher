@@ -7,4 +7,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
-      - run: node game-price-watcher/probe-teams.js
+      - run: |
+          cp -r game-price-watcher /tmp/t && cd /tmp/t && npm install --no-audit --no-fund >/dev/null
+          for c in "watch Lakers vs Celtics" "watch Broncos @ Chiefs" "watch Jets" "watch NHL Kings Sat under 60" "watch Maple Leafs vs Habs" "watch Nuggets vs Suns Nov 16 under 20" "watch list"; do
+            echo "=== $c"; node commands.js --text "$c" 2>&1 | grep -v "^message:" ; echo "exit $?"
+          done
+          echo "=== wants.json games"; node -e "console.log(JSON.stringify(require('./wants.json').games))"
+          echo "=== dry price check"; xvfb-run -a node watch.js --dry 2>&1 | grep -E "^\s+20|game\(s\)|no Gametime|Done|errors" | head -30
