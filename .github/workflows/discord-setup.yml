@@ -18,6 +18,8 @@ jobs:
           guild=$(api https://discord.com/api/v10/channels/$CHANNEL | jq -r .guild_id)
           echo "APP_ID=$app_id"; echo "PUBLIC_KEY=$key"; echo "GUILD_ID=$guild"
           echo "INTERACTIONS_URL=$(echo "$app" | jq -r '.interactions_endpoint_url // "not set"')"
+          # personal-looking posts still sitting in the shared #general channel (the old welcome post)
+          api "https://discord.com/api/v10/channels/1568311701701398641/messages?limit=50" | jq -r '.[] | select((.content // "") | test("welcome|morning brief|bills|Slack|golf|powder"; "i")) | "GENERAL_OLD_POST \(.timestamp[0:10]) \(.author.username): \(.content[0:80] | gsub("\n"; " "))"' || true
           if [ "$ACTION" = check ]; then   # can the bot install commands here? (installs none)
             api -X PUT "https://discord.com/api/v10/applications/$app_id/guilds/$guild/commands" --data '[]' | jq -c .
           fi
