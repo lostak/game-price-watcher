@@ -12,4 +12,4 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm install --no-audit --no-fund
-      - run: xvfb-run -a node probe2.js
+      - run: xvfb-run -a node probe3.js
