@@ -1,6 +1,8 @@
 name: probe
-# One-off: test which ticket sites answer from a GitHub runner (plain HTTP and real Chrome). Manual only.
-on: { workflow_dispatch: {} }
+# Manual tests: 'sites' = which ticket sites answer from a GitHub runner; 'elsewhere' = the hourly from-price scrape (prints, writes nothing).
+on:
+  workflow_dispatch:
+    inputs: { what: { type: choice, options: [elsewhere, sites], default: elsewhere } }
 permissions: {}
 jobs:
   probe:
@@ -12,4 +14,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm install --no-audit --no-fund
-      - run: xvfb-run -a node probe.js && xvfb-run -a node probe.js --events
+      - if: inputs.what == 'sites'
+        run: xvfb-run -a node probe.js && xvfb-run -a node probe.js --events
+      - if: inputs.what == 'elsewhere'
+        run: xvfb-run -a node elsewhere.js --test
