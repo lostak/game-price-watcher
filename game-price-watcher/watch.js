@@ -17,6 +17,7 @@ const { chromium } = require('playwright');
 const Teams = require('./teams');   // every NBA/NFL/NHL team: manual watches can be any game, home or away
 const { findGame } = require('./gt');
 const { renderCharts } = require('./charts');   // price-history PNGs attached to Discord posts
+const Elsewhere = require('./elsewhere');   // hourly "from" prices on TickPick/SeatGeek/Vivid (single tickets) for comparison + charts
 const gcal = require('./gcal');   // Bradley's calendar: TEAMS from "Personal: life settings", manual games from "Personal: ticket watch", log + alert events
 
 const DRY = process.argv.includes('--dry');
@@ -27,7 +28,7 @@ const REPORT = process.argv.includes('--report') || DAILY;   // also post the da
 const CFG = JSON.parse(fs.readFileSync(path.join(__dirname, 'wants.json'), 'utf8'));
 const STATE_DIR = path.join(__dirname, 'state');
 const SEEN_FILE = path.join(STATE_DIR, 'seen.json');
-const HIST_FILE = path.join(STATE_DIR, 'history.json');   // { 'date team vs opp': [[unixSec, anywhere|null, lower|null], ...] } since watching started
+const HIST_FILE = path.join(STATE_DIR, 'history.json');   // { 'date team vs opp': [[unixSec, anywhere|null, lower|null, cheapest single elsewhere|null], ...] } since watching started
 const GAMES_FILE = path.join(STATE_DIR, 'games.json');
 const TZ = CFG.timezone || 'America/Denver';
 const QTY = CFG.quantity || 4;
@@ -339,6 +340,9 @@ async function launch() {
     }
     const upcoming = cache.games.filter(g => g.date >= today && (g.date <= until || g.manual || g.watched)).sort((a, b) => a.date.localeCompare(b.date));
     console.log(`${cache.games.filter(g => g.date >= today).length} home game(s) known, ${upcoming.length} within ${CFG.daysAhead || 14} days.`);
+    let EW = { games: {} };
+    try { EW = await Elsewhere.refresh(browser, upcoming); } catch (e) { console.log('Elsewhere failed: ' + e.message.slice(0, 120)); }
+    const ewLine = g => Elsewhere.line(EW.games[gameKey(g)]);
     const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1280, height: 900 }, locale: 'en-US' });
     const alerts = [];
     for (const g of upcoming) {
@@ -356,9 +360,10 @@ async function launch() {
       if (!hist[key] && st.last && st.last.at && (st.last.all || st.last.lower))   // start the chart from the last reading before charts existed
         hist[key] = [[Math.floor(Date.parse(st.last.at) / 1000), st.last.all ? Math.round(st.last.all.price) : null, st.last.lower ? Math.round(st.last.lower.price) : null]];
       st.last = { at: nowIso, all, lower };
-      if (all || lower) {                                           // price history for the charts: keep a point on every change, else one every 30 min
-        const h = hist[key] || (hist[key] = []), pt = [Math.floor(Date.now() / 1000), all ? Math.round(all.price) : null, lower ? Math.round(lower.price) : null], prev = h[h.length - 1];
-        if (!prev || prev[1] !== pt[1] || prev[2] !== pt[2] || pt[0] - prev[0] >= 1800) h.push(pt);
+      const ew = Elsewhere.lowest(EW.games[key]);
+      if (all || lower || ew != null) {                             // price history for the charts: keep a point on every change, else one every 30 min
+        const h = hist[key] || (hist[key] = []), pt = [Math.floor(Date.now() / 1000), all ? Math.round(all.price) : null, lower ? Math.round(lower.price) : null, ew], prev = h[h.length - 1];
+        if (!prev || prev[1] !== pt[1] || prev[2] !== pt[2] || (prev[3] ?? null) !== pt[3] || pt[0] - prev[0] >= 1800) h.push(pt);
       }
       for (const [tier, val] of [['all', all], ['lower', lower]]) {
         if (!val) continue;
@@ -374,6 +379,7 @@ async function launch() {
         const block = [];
         block.push(`*${a.g.team} vs ${a.g.opponent} ${when} – ${money(a.val.price)}/ticket for ${QTY} (${money(a.val.price * QTY)}) ${a.tier === 'lower' ? 'lower bowl' : 'anywhere'} – sec ${a.val.section}${a.val.row ? ' row ' + a.val.row : ''} on ${a.val.site === 'tickpick' ? 'TickPick (all-in)' : a.val.site === 'gametime' ? 'Gametime (all-in)' : a.val.site}*`);
         block.push(a.val.url);
+        if (ewLine(a.g)) block.push(ewLine(a.g));
         block.push(`${a.why}${a.other ? `; ${a.tier === 'lower' ? 'anywhere' : 'lower bowl'} ${money(a.other.price)} (${a.other.site} sec ${a.other.section})` : ''}`);
         if (asked(a.g)) mine.push({ g: a.g, text: block.join('\n') }); else lines.push(...block);
       }
@@ -415,8 +421,9 @@ async function launch() {
         const anyTxt = l.all ? money(l.all.price) + ' anywhere (sec ' + l.all.section + ')' + arrow(l.all.price, p.all) : 'n/a';
         const lowTxt = l.lower ? money(l.lower.price) + ' lower bowl (sec ' + l.lower.section + ')' + arrow(l.lower.price, p.lower) : 'lower bowl n/a';
         const tgtTxt = g.target ? [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(' / ') : '';
-        if (asked(g)) mine.push({ g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`, '🔵 ' + anyTxt, '🟠 ' + lowTxt, tgtTxt && '🎯 target ' + tgtTxt].filter(Boolean).join('\n') });
-        else lines.push(`${niceDate(g.date)} ${g.team} vs ${g.opponent} – ${anyTxt} · ${lowTxt}${tgtTxt ? ' · target ' + tgtTxt : ''}`);
+        const ewMin = Elsewhere.lowest(EW.games[key]);
+        if (asked(g)) mine.push({ g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`, '🔵 ' + anyTxt, '🟠 ' + lowTxt, ewLine(g) && '⚪ ' + ewLine(g), tgtTxt && '🎯 target ' + tgtTxt].filter(Boolean).join('\n') });
+        else lines.push(`${niceDate(g.date)} ${g.team} vs ${g.opponent} – ${anyTxt} · ${lowTxt}${ewMin != null ? ' · 1 ticket elsewhere from ' + money(ewMin) : ''}${tgtTxt ? ' · target ' + tgtTxt : ''}`);
         if (l.all && (!bestAll || l.all.price < bestAll.price)) bestAll = { ...l.all, g };
         if (l.lower && (!bestLower || l.lower.price < bestLower.price)) bestLower = { ...l.lower, g };
       }
@@ -442,6 +449,7 @@ async function launch() {
         return { g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`,
           `🔵 ${l.all ? money(l.all.price) + ' anywhere' : 'anywhere n/a'}${low(1) ? ' · low ' + low(1) : ''}`,
           `🟠 ${l.lower ? money(l.lower.price) + ' lower bowl' : 'lower bowl n/a'}${low(2) ? ' · low ' + low(2) : ''}`,
+          ewLine(g) && `⚪ ${ewLine(g)}${low(3) ? ' · low ' + low(3) : ''}`,
           since ? `since ${since}` : ''].filter(Boolean).join('\n') };
       });
       const embeds = await gameEmbeds(browser, items, hist);
@@ -457,7 +465,7 @@ async function launch() {
         seen._failNotified = nowIso;
         await notify('⚠️ Game price watcher could not read any ticket listings: ' + errors.slice(0, 4).join('; '));
       }
-      writeJson(SEEN_FILE, seen); writeJson(HIST_FILE, hist); writeJson(GAMES_FILE, { ...cache, games: cache.games.filter(g => !g.manual).map(({ target, watched, ...g }) => g) });
+      writeJson(SEEN_FILE, seen); writeJson(HIST_FILE, hist); if (EW.at) Elsewhere.write(EW); writeJson(GAMES_FILE, { ...cache, games: cache.games.filter(g => !g.manual).map(({ target, watched, ...g }) => g) });
     }
     console.log(`\nDone: ${upcoming.length} game(s) checked, ${alerts.length} alert(s); errors: ${errors.length ? errors.length : 'none'}`);
   } finally { await browser.close(); }

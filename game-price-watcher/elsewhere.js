@@ -48,15 +48,19 @@ function scan(reSrc) {
   return out;
 }
 
-async function load(ctx, url, reSrc) {
-  const page = await ctx.newPage();
+const DEBUG = process.argv.includes('--test');
+const fresh = browser => browser.newContext({ userAgent: UA, viewport: { width: 1366, height: 900 }, locale: 'en-US', timezoneId: 'America/Denver' });
+// each page load gets its own fresh profile (SeatGeek walls a second visit that carries the first visit's cookies)
+async function load(browser, url, reSrc) {
+  const ctx = await fresh(browser), page = await ctx.newPage();
   try {
     const r = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
     await page.waitForTimeout(6000);
     for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 2500); await page.waitForTimeout(900); }   // lazy-loaded lists
     const found = await page.evaluate(scan, reSrc);
+    if (DEBUG) console.log(`  ${url}\n` + Object.entries(found).map(([h, p]) => `    ${p == null ? '  -' : '$' + p} ${h.replace(/^https:\/\/(www\.)?/, '')}`).join('\n'));
     return { status: r && r.status(), found };
-  } finally { await page.close(); }
+  } finally { await ctx.close(); }
 }
 
 async function vividUrl(ctx, team, state) {
@@ -78,7 +82,7 @@ async function refresh(browser, games, { force = false, log = console.log } = {}
   const state = read();
   state.vivid = state.vivid || {};
   if (!force && state.at && Date.now() - Date.parse(state.at) < EVERY) return state;
-  const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1366, height: 900 }, locale: 'en-US', timezoneId: 'America/Denver' });
+  const ctx = await fresh(browser);
   const next = {}, notes = [];
   try {
     for (const name of [...new Set(games.map(g => g.team))]) {
@@ -89,7 +93,8 @@ async function refresh(browser, games, { force = false, log = console.log } = {}
       for (const site of SITES) {
         if (!pages[site]) { notes.push(`${name} ${site}: no performer page`); continue; }
         try {
-          const { status, found } = await load(ctx, pages[site], LINK[site].re);
+          const { status, found } = await load(browser, pages[site], LINK[site].re);
+          await new Promise(r => setTimeout(r, 2000 + Math.random() * 3000));
           const byDate = {};
           for (const [href, price] of Object.entries(found)) {
             const d = LINK[site].date(href); if (!d) continue;
