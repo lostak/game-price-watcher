@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T17:18:13.350Z",
+      "at": "2026-11-09T17:23:21.875Z",
       "all": {
         "price": 17,
         "section": "366",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T17:18:13.350Z",
+      "at": "2026-11-09T17:23:21.875Z",
       "all": {
         "price": 36,
         "section": "366",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T17:18:13.350Z",
+      "at": "2026-11-09T17:23:21.875Z",
       "all": {
         "price": 57,
         "section": "330",
@@ -119,7 +119,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T17:18:13.350Z",
+      "at": "2026-11-09T17:23:21.875Z",
       "all": {
         "price": 38,
         "section": "320",
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T17:18:13.350Z",
+      "at": "2026-11-09T17:23:21.875Z",
       "all": {
         "price": 308,
         "section": "520",
@@ -170,8 +170,8 @@
   "2026-12-13 Seahawks vs New York Giants": {
     "all": {
       "first": 257,
-      "low": 257,
-      "lowDate": "2026-11-08",
+      "low": 253,
+      "lowDate": "2026-11-09",
       "alerted": null
     },
     "lower": {
@@ -181,9 +181,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T17:18:13.350Z",
+      "at": "2026-11-09T17:23:21.875Z",
       "all": {
-        "price": 258,
+        "price": 253,
         "section": "316",
         "row": "Y",
         "site": "gametime",
