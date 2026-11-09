@@ -42,7 +42,7 @@ jobs:
         run: node forward.js || echo "::warning::Calendar → Discord DM forward failed – see log."
       - name: Watchdog (golf + powder loops, and the morning betting slate)
         env:
-          GITHUB_TOKEN: '${{ github.token }}'
+          GH_API_TOKEN: '${{ github.token }}'
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
           GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
           DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
