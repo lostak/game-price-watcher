@@ -17,7 +17,7 @@ function build(desc, label) {
   const out = [], label_ = /^[A-Z][A-Z /&-]{2,}:/;
   let inPicks = false, parlay = null, record = null;
   for (const l of lines) {
-    if (/^RECORD:/.test(l)) record = noMoney(l.replace(/^RECORD:\s*/, '').split('|')[0]).replace(/,\s*$/, '');
+    if (/^RECORD:/.test(l)) record = noMoney(l.replace(/^RECORD:\s*(picks\s+)?/i, '').split('|')[0]).replace(/,\s*$/, '');
     if (/^PICKS:/.test(l)) { inPicks = true; continue; }
     if (/^PARLAY:/.test(l)) { inPicks = false; const p = l.replace(/^PARLAY:\s*/, '').split(' – '); parlay = `Parlay: ${p[0].replace(/\s*@\s*(DraftKings|DK|FanDuel|FD|bet365|BetMGM|Caesars|ESPN ?Bet|Fanatics|BetRivers|Hard Rock)\b/i, '')} – ${noMoney(p[1] || '')}`; continue; }
     if (label_.test(l)) inPicks = false;
