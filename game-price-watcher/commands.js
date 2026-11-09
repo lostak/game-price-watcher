@@ -20,7 +20,9 @@ const Teams = require('./teams');   // every NBA/NFL/NHL team + Gametime slug
 const { findGame } = require('./gt');
 const TZ = 'America/Denver';
 const WANTS = 'wants.json', STATE = 'state/discord.json', GAMES = 'state/games.json', SEEN = 'state/seen.json';
-const token = process.env.DISCORD_BOT_TOKEN, channel = process.env.DISCORD_CHANNEL_ID, hook = process.env.DISCORD_WEBHOOK_URL, slackHook = process.env.SLACK_WEBHOOK_URL;
+// secrets pasted from a clipboard can carry a line break or a second copy – keep the first word only
+const one = v => String(v || '').split(/\s+/).filter(Boolean)[0] || '';
+const token = one(process.env.DISCORD_BOT_TOKEN), channel = one(process.env.DISCORD_CHANNEL_ID), hook = one(process.env.DISCORD_WEBHOOK_URL), slackHook = one(process.env.SLACK_WEBHOOK_URL);
 const TEXT = (() => { const i = process.argv.indexOf('--text'); return i > -1 ? process.argv[i + 1] : null; })();   // one command passed in (from Pocket via Claude) instead of reading Discord
 if (!TEXT && (!token || !channel)) { console.log('DISCORD_BOT_TOKEN / DISCORD_CHANNEL_ID not set – skipping.'); process.exit(0); }
 const readJson = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return d; } };

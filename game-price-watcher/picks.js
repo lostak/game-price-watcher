@@ -7,6 +7,7 @@
 const fs = require('fs');
 const gcal = require('./gcal');
 const STATE = 'state/picks.json', GENERAL = '1568311701701398641';
+const one = v => String(v || '').split(/\s+/).filter(Boolean)[0] || '';   // pasted secrets can carry a line break
 const DRY = process.argv.includes('--dry'), FORCE = process.argv.includes('--force');
 const BOOKS = /\s*@\s*(DraftKings|DK|FanDuel|FD|bet365|BetMGM|Caesars|ESPN ?Bet|Fanatics|BetRivers|Hard Rock)\b.*$/i;
 const noMoney = s => s.replace(/\s*\([^)]*\$[^)]*\)/g, '').replace(/,?\s*[-+]?\$\s?[\d,.]+/g, '').replace(/\s{2,}/g, ' ').trim();
@@ -35,7 +36,7 @@ function build(desc, label) {
 
 
 async function alreadyInChannel(label) {             // safety net against a double post (state lost, or posted by hand)
-  const token = process.env.DISCORD_BOT_TOKEN; if (!token) return false;
+  const token = one(process.env.DISCORD_BOT_TOKEN); if (!token) return false;
   try {
     const r = await fetch(`https://discord.com/api/v10/channels/${GENERAL}/messages?limit=30`, { headers: { Authorization: 'Bot ' + token } });
     if (!r.ok) return false;
@@ -56,7 +57,7 @@ async function alreadyInChannel(label) {             // safety net against a dou
   if (DRY) return;
   const save = () => { fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify({ date: today, posted: new Date().toISOString() }) + '\n'); };
   if (!FORCE && await alreadyInChannel(label)) { console.log('Already in the channel – marking posted.'); save(); return; }
-  const hook = process.env.DISCORD_WEBHOOK_PICKS, token = process.env.DISCORD_BOT_TOKEN;
+  const hook = one(process.env.DISCORD_WEBHOOK_PICKS), token = one(process.env.DISCORD_BOT_TOKEN);
   const r = hook ? await fetch(hook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: text.slice(0, 1990) }) })
     : await fetch(`https://discord.com/api/v10/channels/${GENERAL}/messages`, { method: 'POST', headers: { Authorization: 'Bot ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ content: text.slice(0, 1990) }) });
   if (!r.ok) throw new Error('Discord ' + r.status + ' ' + (await r.text()).slice(0, 200));
