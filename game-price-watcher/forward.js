@@ -71,7 +71,11 @@ async function handleReplies(st, dmId, owner) {
         const ev = await cal.get(refEvent);
         if (/^✅/.test(ev.summary || '')) { await reply(dmId, m.id, 'Already checked off.'); continue; }
         await cal.patch(refEvent, { summary: '✅ ' + ev.summary, description: `DONE ${cal.todayLocal()} – via Discord\n${ev.description || ''}`, reminders: { useDefault: false, overrides: [] } });
-        await reply(dmId, m.id, '✅ Checked off: ' + ev.summary.replace(/^Personal:\s*/i, ''));
+        // a done rotation session also gets logged (the Pocket processor advances the rotation)
+        const log = /ski workout/i.test(ev.summary) ? 'did ski workout' : /pool focus/i.test(ev.summary) ? 'practiced pool' : /betting lesson/i.test(ev.summary) ? 'did betting lesson' : null;
+        const extra = text.replace(/^(done|did it|finished|complete|✅|👍)[\s,.:-]*/i, '');
+        if (log) await cal.insert({ summary: `Claude: personal ${log}${extra ? ' – ' + extra.slice(0, 150) : ''}`, description: `From Bradley's Discord reply (${cal.nowLocal()}).`, when: new Date(), popup: null });
+        await reply(dmId, m.id, '✅ Checked off: ' + ev.summary.replace(/^Personal:\s*/i, '') + (log ? ' – logged for the rotation (within the hour).' : ''));
       } else if (/^placed\b/i.test(text)) {
         const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
         if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }

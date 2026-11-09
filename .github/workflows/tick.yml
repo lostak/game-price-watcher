@@ -40,6 +40,14 @@ jobs:
           DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
           DISCORD_CHANNEL_ID: '${{ secrets.DISCORD_CHANNEL_ID }}'
         run: node forward.js || echo "::warning::Calendar → Discord DM forward failed – see log."
+      - name: Pool focus (from 4:37 PM) and ski workout (from 7:37 PM), once a day each
+        env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+        run: |
+          hm=$((10#$(TZ=America/Denver date +%H%M)))
+          if [ "$hm" -ge 1637 ] && [ "$hm" -lt 2100 ]; then node rotations.js pool || echo "::warning::pool focus failed – see log"; fi
+          if [ "$hm" -ge 1937 ] && [ "$hm" -lt 2200 ]; then node rotations.js ski || echo "::warning::ski workout failed – see log"; fi
       - name: Picks for #general (from 6:30 AM Denver, once a day)
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
