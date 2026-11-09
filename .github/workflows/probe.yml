@@ -1,0 +1,15 @@
+name: probe
+# One-off: test which ticket sites answer from a GitHub runner (plain HTTP and real Chrome). Manual only.
+on: { workflow_dispatch: {} }
+permissions: {}
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults: { run: { working-directory: game-price-watcher } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install --no-audit --no-fund
+      - run: xvfb-run -a node probe.js
