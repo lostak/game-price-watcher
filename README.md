@@ -10,7 +10,7 @@ game is within `daysAhead` (default 14 days), 5 AM–10 PM Denver; pauses itself
 - `game-price-watcher/watch.js` – reads each game's listings from Gametime's public API (TickPick page as fallback), finds the cheapest 4-together price anywhere and in the lower bowl, and alerts when a price is
   20%+ below the lowest seen (or at/under a target), not re-alerting within 15% of the last alert.
 - `state/games.json` – cached home-game schedule (refreshed daily); `state/seen.json` – prices seen and alerts sent.
-- `.github/workflows/notify.yml` – relay used by Claude's scheduled tasks to post to Discord. `forward.js` (run by tick.yml) DMs Bradley new "Personal:" calendar alerts on Discord.
+- `.github/workflows/notify.yml` – relay used by Claude's scheduled tasks to post to Discord. `forward.js` (run by tick.yml) DMs Bradley new "Personal:" calendar alerts on Discord and reads his replies: "done" (as a reply) checks an alert off, "placed all|parlay|<team>" marks today's picks placed, anything else becomes a "Claude: personal …" note for the Pocket processor.
 
 Secrets: `DISCORD_WEBHOOK_URL` (the game-prices channel webhook).
 Nothing is ever bought and nobody signs in.
