@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T21:30:22.683Z",
+      "at": "2026-11-09T21:35:33.446Z",
       "all": {
         "price": 19,
         "section": "356",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T21:30:22.683Z",
+      "at": "2026-11-09T21:35:33.446Z",
       "all": {
         "price": 37,
         "section": "370",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T21:30:22.683Z",
+      "at": "2026-11-09T21:35:33.446Z",
       "all": {
         "price": 55,
         "section": "318",
@@ -119,11 +119,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T21:30:22.683Z",
+      "at": "2026-11-09T21:35:33.446Z",
       "all": {
-        "price": 37,
-        "section": "320",
-        "row": "8",
+        "price": 36,
+        "section": "352",
+        "row": "7",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T21:30:22.683Z",
+      "at": "2026-11-09T21:35:33.446Z",
       "all": {
         "price": 312,
         "section": "526",
@@ -170,7 +170,7 @@
   "2026-12-13 Seahawks vs New York Giants": {
     "all": {
       "first": 257,
-      "low": 253,
+      "low": 247,
       "lowDate": "2026-11-09",
       "alerted": null
     },
@@ -181,9 +181,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T21:30:22.683Z",
+      "at": "2026-11-09T21:35:33.446Z",
       "all": {
-        "price": 253,
+        "price": 247,
         "section": "316",
         "row": "Y",
         "site": "gametime",
