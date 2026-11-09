@@ -12,7 +12,9 @@ jobs:
       - uses: actions/checkout@v4
       - env: { TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}', CHANNEL: '${{ secrets.DISCORD_CHANNEL_ID }}', ACTION: '${{ inputs.action }}' }
         run: |
-          TOKEN=$(printf '%s' "$TOKEN" | awk 'NF{print $1; exit}'); CHANNEL=$(printf '%s' "$CHANNEL" | awk 'NF{print $1; exit}')
+          # the token secret may hold extra lines from the clipboard: use the first word Discord accepts
+          n=0; good=""; for w in $(printf '%s' "$TOKEN"); do n=$((n+1)); c=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bot $w" https://discord.com/api/v10/users/@me); echo "token word $n (length ${#w}): HTTP $c"; [ "$c" = 200 ] && [ -z "$good" ] && good=$w; done
+          TOKEN=${good:-$TOKEN}; CHANNEL=$(printf '%s' "$CHANNEL" | awk 'NF{print $1; exit}')
           api() { curl -sS -H "Authorization: Bot $TOKEN" -H "Content-Type: application/json" "$@"; }
           app=$(api https://discord.com/api/v10/oauth2/applications/@me)
           app_id=$(echo "$app" | jq -r .id); key=$(echo "$app" | jq -r .verify_key)
