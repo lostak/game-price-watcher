@@ -62,6 +62,12 @@ jobs:
         run: |
           hm=$((10#$(TZ=America/Denver date +%H%M)))
           if [ "$hm" -ge 1200 ] || [ "$hm" -lt 610 ]; then node grade.js || echo "::warning::grading failed – see log"; fi
+      - name: Weekly betting recap (Sundays from 7 PM)
+        env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+        run: |
+          if [ "$(TZ=America/Denver date +%u)" = 7 ] && [ "$((10#$(TZ=America/Denver date +%H%M)))" -ge 1900 ]; then node recap.js || echo "::warning::recap failed – see log"; fi
       - name: Pool focus (from 4:37 PM) and ski workout (from 7:37 PM), once a day each
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
