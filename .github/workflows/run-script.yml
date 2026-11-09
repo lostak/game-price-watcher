@@ -19,7 +19,6 @@ jobs:
       - env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
           GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
-          ODDS_API_KEY: '${{ secrets.ODDS_API_KEY }}'
           S: '${{ inputs.script }}'
           A: '${{ inputs.args }}'
         run: |

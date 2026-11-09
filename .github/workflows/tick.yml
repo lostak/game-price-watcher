@@ -55,6 +55,13 @@ jobs:
         run: |
           hm=$((10#$(TZ=America/Denver date +%H%M)))
           if [ "$hm" -ge 645 ] && [ "$hm" -lt 1100 ]; then node brief.js || echo "::warning::morning brief failed – see log"; fi
+      - name: Auto-grade finished picks from ESPN (noon to 6:10 AM)
+        env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+        run: |
+          hm=$((10#$(TZ=America/Denver date +%H%M)))
+          if [ "$hm" -ge 1200 ] || [ "$hm" -lt 610 ]; then node grade.js || echo "::warning::grading failed – see log"; fi
       - name: Pool focus (from 4:37 PM) and ski workout (from 7:37 PM), once a day each
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
