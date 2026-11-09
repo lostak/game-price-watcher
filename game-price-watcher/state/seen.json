@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T16:47:22.408Z",
+      "at": "2026-11-09T16:52:29.866Z",
       "all": {
         "price": 17,
         "section": "366",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T16:47:22.408Z",
+      "at": "2026-11-09T16:52:29.866Z",
       "all": {
         "price": 36,
         "section": "366",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T16:47:22.408Z",
+      "at": "2026-11-09T16:52:29.866Z",
       "all": {
         "price": 57,
         "section": "330",
@@ -119,7 +119,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T16:47:22.408Z",
+      "at": "2026-11-09T16:52:29.866Z",
       "all": {
         "price": 38,
         "section": "320",
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T16:47:22.408Z",
+      "at": "2026-11-09T16:52:29.866Z",
       "all": {
         "price": 308,
         "section": "520",
@@ -181,11 +181,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-09T16:47:22.408Z",
+      "at": "2026-11-09T16:52:29.866Z",
       "all": {
-        "price": 257,
-        "section": "325",
-        "row": "CC",
+        "price": 258,
+        "section": "316",
+        "row": "Y",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       },
