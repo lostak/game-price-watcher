@@ -21,6 +21,14 @@ const gameKey = g => `${g.date} ${g.team} vs ${g.opponent}`;
 const slug = s => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const pad = n => String(n).padStart(2, '0');
 const iso = (m, d, y) => `${y.length === 2 ? '20' + y : y}-${pad(m)}-${pad(d)}`;
+const MON = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+// "Sun · Nov 22 · 2:05 PM" → the next such date from today (cards rarely show the year)
+function textDate(t) {
+  const m = (t || '').match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})\b/i); if (!m) return null;
+  const now = new Date(), mo = MON.indexOf(m[1].toLowerCase()) + 1;
+  let y = now.getFullYear(); if (mo < now.getMonth() + 1 - 1) y++;
+  return iso(mo, m[2], String(y));
+}
 
 // event links on each performer page, and how to read the game date out of the link
 const LINK = {
@@ -36,14 +44,15 @@ function scan(reSrc) {
   const out = {};
   for (const a of links) {
     const href = base(a.href);
-    let el = a, price = null;
+    let el = a, price = null, text = '';
     for (let i = 0; i < 7 && el; i++, el = el.parentElement) {
       if ([...el.querySelectorAll('a[href]')].some(x => re.test(x.href) && base(x.href) !== href)) break;
-      const m = (el.innerText || '').match(/\$\s?\d[\d,]*(?:\.\d\d)?/g);
-      if (m) { price = Math.min(...m.map(s => +s.replace(/[$,\s]/g, ''))); break; }
+      text = (el.innerText || '').replace(/\s+/g, ' ');   // the game's card (its date line; Vivid's NFL links carry placeholder dates)
+      const m = text.match(/\$\s?\d[\d,]*(?:\.\d\d)?/g);
+      if (m && price == null) price = Math.min(...m.map(s => +s.replace(/[$,\s]/g, '')));
+      if (price != null && /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{1,2}\b/i.test(text)) break;
     }
-    if (price != null && price > 0 && (!out[href] || price < out[href])) out[href] = price;
-    else if (!(href in out)) out[href] = null;
+    if (!out[href] || (price != null && (out[href].price == null || price < out[href].price))) out[href] = { price: price > 0 ? price : null, text: text.slice(0, 160) };
   }
   return out;
 }
@@ -58,7 +67,7 @@ async function load(browser, url, reSrc) {
     await page.waitForTimeout(6000);
     for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 2500); await page.waitForTimeout(900); }   // lazy-loaded lists
     const found = await page.evaluate(scan, reSrc);
-    if (DEBUG) console.log(`  ${url}\n` + Object.entries(found).map(([h, p]) => `    ${p == null ? '  -' : '$' + p} ${h.replace(/^https:\/\/(www\.)?/, '')}`).join('\n'));
+    if (DEBUG) console.log(`  ${url}\n` + Object.entries(found).map(([h, v]) => `    ${v.price == null ? '  -' : '$' + v.price} ${h.replace(/^https:\/\/(www\.)?/, '').slice(0, 90)} | ${v.text.slice(0, 70)}`).join('\n'));
     return { status: r && r.status(), found };
   } finally { await ctx.close(); }
 }
@@ -96,14 +105,14 @@ async function refresh(browser, games, { force = false, log = console.log } = {}
           const { status, found } = await load(browser, pages[site], LINK[site].re);
           await new Promise(r => setTimeout(r, 2000 + Math.random() * 3000));
           const byDate = {};
-          for (const [href, price] of Object.entries(found)) {
-            const d = LINK[site].date(href); if (!d) continue;
+          for (const [href, { price, text }] of Object.entries(found)) {
+            const d = site === 'vivid' ? textDate(text) || LINK[site].date(href) : LINK[site].date(href) || textDate(text); if (!d) continue;
             if (!byDate[d] || (price != null && (byDate[d].price == null || price < byDate[d].price))) byDate[d] = { href, price };
           }
           let n = 0;
           for (const g of mine) {
             const tpId = site === 'tickpick' && g.tickpick && (g.tickpick.match(/\/(\d+)\/?$/) || [])[1];
-            const hit = (tpId && Object.entries(found).map(([href, price]) => ({ href, price })).find(x => x.href.includes('/' + tpId))) || byDate[g.date];
+            const hit = (tpId && Object.entries(found).map(([href, v]) => ({ href, price: v.price })).find(x => x.href.includes('/' + tpId))) || byDate[g.date];
             if (!hit || hit.price == null) continue;
             const e = next[gameKey(g)] || (next[gameKey(g)] = { urls: {} });
             e[site] = Math.round(hit.price); e.urls[site] = hit.href; n++;
