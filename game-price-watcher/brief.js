@@ -108,8 +108,8 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
     try {
       for (const g of (await teamGames(t.slug)).filter(g => g.date === today)) {
         const home = (t.full && g.home.toLowerCase().includes(t.name.toLowerCase())), opp = home ? g.away : g.home;
-        const when = localAt(+g.time.slice(0, 2), +g.time.slice(3, 5)), h = /empower|coors|dick's/i.test(g.venue) ? hourAt(W.hourly, when) : null;
-        games.push(`- ${t.label || t.name} ${home ? 'vs' : '@'} ${opp} – ${fmtT(when)}${g.venue ? ' at ' + g.venue : ''}${h ? ` – ${h.temperature}°F, ${h.shortForecast.toLowerCase()}` : ''}`);
+        const when = g.utc ? new Date(/Z$|[+-]\d\d:?\d\d$/.test(g.utc) ? g.utc : g.utc + 'Z') : localAt(+g.time.slice(0, 2), +g.time.slice(3, 5)), h = /empower|coors|dick's/i.test(g.venue) ? hourAt(W.hourly, when) : null;
+        games.push(`- ${t.label || t.name} ${home ? 'vs' : '@'} ${opp} – ${fmtT(when)}${!g.utc && !home ? ' (local time)' : ''}${g.venue ? ' at ' + g.venue : ''}${h ? ` – ${h.temperature}°F, ${h.shortForecast.toLowerCase()}` : ''}`);
       }
     } catch (e) { console.log('games:', t.name, e.message); }
   }

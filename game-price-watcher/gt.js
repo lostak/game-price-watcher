@@ -20,7 +20,7 @@ async function teamGames(slug) {
       const m = name.match(/^(?:.*?:\s*|.*? - )?(.+?)\s+(?:at|@)\s+(.+?)$/i) || name.match(/^(?:.*?:\s*)?(.+?)\s+vs\.?\s+(.+?)$/i);
       if (!m || !x.datetime_local) continue;                                        // skip parking passes, packages, etc.
       if (/parking|package|suite|hospitality|tailgate/i.test(name)) continue;
-      games.push({ date: x.datetime_local.slice(0, 10), time: x.datetime_local.slice(11, 16), gametimeId: x.id, gametime: x.seo_url || `https://gametime.co/events/${x.id}`,
+      games.push({ date: x.datetime_local.slice(0, 10), time: x.datetime_local.slice(11, 16), utc: x.datetime_utc || null, gametimeId: x.id, gametime: x.seo_url || `https://gametime.co/events/${x.id}`,
         name, venue: (e.venue && e.venue.name) || (venues[x.venue_id] || {}).name || '', away: m[1].trim(), home: m[2].trim() });
     }
     if (!j.more) break;
