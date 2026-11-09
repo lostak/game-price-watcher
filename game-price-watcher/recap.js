@@ -29,7 +29,7 @@ function parse(desc) {
       stakeU: st ? +st[1] : 1, stake$: st ? +st[2] : 0, dollars: dm ? (dm[1] === '-' ? -1 : 1) * +dm[2] : null, placed, mine: placed === 'yes',
       sport: ((p[1].match(/\((CFB|NFL|NHL|NBA|TT)\b/i) || [])[1] || (/^PARLAY:/i.test(p[1]) ? 'Parlay' : 'Other')).toUpperCase(),
       conf: ((p.find(x => /^(Low|Medium|High)/i.test(x)) || '').match(/^(Low|Medium|High)/i) || [''])[0],
-      clv: /beat close/i.test(l) ? true : /(did not|didn't|missed) (beat )?(the )?close/i.test(l) ? false : null });
+      clv: /(did not|didn't|missed|worse than) (beat )?(the )?close/i.test(l) ? false : /beat (the )?close/i.test(l) ? true : null });
   }
   return rows;
 }
