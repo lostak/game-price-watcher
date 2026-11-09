@@ -74,4 +74,4 @@ async function ensureSilent(title, firstLines, marker) {
 const todayLocal = () => new Date().toLocaleDateString('en-CA', { timeZone: TZ });
 const nowLocal = () => new Date().toLocaleString('en-US', { timeZone: TZ, weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 
-module.exports = { ready, search, findByTitle, get, patch, insert, nextQuarter, replaceLines, ensureSilent, todayLocal, nowLocal, TZ };
+module.exports = { ready, api, search, findByTitle, get, patch, insert, nextQuarter, replaceLines, ensureSilent, todayLocal, nowLocal, TZ };

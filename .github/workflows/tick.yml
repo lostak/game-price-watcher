@@ -33,6 +33,13 @@ jobs:
           [ "$rc" = "3" ] && echo "changed=yes" >> "$GITHUB_OUTPUT"
           [ "$rc" = "4" ] && echo "report=yes" >> "$GITHUB_OUTPUT"
           [ "$rc" = "0" ] || [ "$rc" = "3" ] || [ "$rc" = "4" ] || [ "$rc" = "5" ] || echo "::warning::commands.js exited $rc"
+      - name: Forward new calendar alerts to Bradley's Discord DMs
+        env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+          DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
+          DISCORD_CHANNEL_ID: '${{ secrets.DISCORD_CHANNEL_ID }}'
+        run: node forward.js || echo "::warning::Calendar → Discord DM forward failed – see log."
       - name: Picks for #general (from 6:30 AM Denver, once a day)
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'

@@ -1,5 +1,5 @@
 // game-price-watcher: watches resale ticket prices (4 seats together) for Bradley's teams' home games, plus any
-// NBA, NFL or NHL game he asks for (home or away, any team), and posts to Slack + Discord when a price drops. Runs on GitHub Actions every 5 minutes while there is a
+// NBA, NFL or NHL game he asks for (home or away, any team), and posts to Discord when a price drops. Runs on GitHub Actions every 5 minutes while there is a
 // home game within `daysAhead`; pauses itself otherwise (see .github/workflows/game-prices.yml).
 //
 // Sources: TickPick (all-in prices, no fees) and SeatGeek (with fees shown). Both are read by opening the
@@ -223,14 +223,11 @@ async function readSite(ctx, site, game, team) {
 
 // ---------- alerts ----------
 // embeds: [{ text, name, png }] – a game's lines with its price sparkline inside the same Discord embed (10 per message).
-// Slack gets everything as plain text.
 const discordMd = t => t.replace(/\*([^*\n]+)\*/g, '**$1**');
 async function notify(text, embeds = []) {
-  const slack = process.env.SLACK_WEBHOOK_URL, discord = process.env.DISCORD_WEBHOOK_URL;
-  if (!slack && !discord) throw new Error('SLACK_WEBHOOK_URL / DISCORD_WEBHOOK_URL not set');
+  const discord = process.env.DISCORD_WEBHOOK_URL;
+  if (!discord) throw new Error('DISCORD_WEBHOOK_URL not set');
   const post = async (url, body, name) => { if (!url) return; const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); if (!r.ok) throw new Error(name + ' post failed ' + r.status); };
-  await post(slack, { text: [text, ...embeds.map(x => x.text)].filter(Boolean).join('\n') }, 'Slack');
-  if (!discord) return;
   const content = discordMd(text).slice(0, 1990);
   if (!embeds.length) return post(discord, { content }, 'Discord');
   for (let i = 0; i < embeds.length; i += 10) {
