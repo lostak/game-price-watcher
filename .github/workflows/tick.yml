@@ -40,6 +40,14 @@ jobs:
           DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
           DISCORD_CHANNEL_ID: '${{ secrets.DISCORD_CHANNEL_ID }}'
         run: node forward.js || echo "::warning::Calendar → Discord DM forward failed – see log."
+      - name: Watchdog (golf + powder loops, and the morning betting slate)
+        env:
+          GITHUB_TOKEN: '${{ github.token }}'
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+          DISCORD_BOT_TOKEN: '${{ secrets.DISCORD_BOT_TOKEN }}'
+          DISCORD_CHANNEL_ID: '${{ secrets.DISCORD_CHANNEL_ID }}'
+        run: node watchdog.js "lostak/golf-watcher:tick.yml,lostak/powder-report:powder-report.yml" --slate || echo "::warning::watchdog failed"
       - name: Pool focus (from 4:37 PM) and ski workout (from 7:37 PM), once a day each
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
