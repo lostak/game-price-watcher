@@ -1,6 +1,403 @@
 {
-  "updated": "2026-11-08T18:43:42.442Z",
+  "updated": "2026-11-09T18:46:05.992Z",
   "games": [
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "Las Vegas Raiders",
+      "date": "2026-11-22",
+      "time": "14:00",
+      "gametimeId": "695c95eb04735c7d3049efc7",
+      "gametime": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7",
+      "name": "Las Vegas Raiders at Denver Broncos",
+      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-las-vegas-raiders-tickets-empower-field-at-mile-high-11-22-26-2pm/7730172/"
+    },
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "Miami Dolphins",
+      "date": "2026-12-06",
+      "time": "14:00",
+      "gametimeId": "695c95eefab8a68da2286756",
+      "gametime": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756",
+      "name": "Miami Dolphins at Denver Broncos",
+      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-miami-dolphins-tickets-empower-field-at-mile-high-12-6-26-2pm/7730178/"
+    },
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "Buffalo Bills",
+      "date": "2026-12-25",
+      "time": "14:00",
+      "gametimeId": "695c95f0e45849c147385977",
+      "gametime": "https://gametime.co/nfl-football/bills-at-broncos-tickets/12-25-2026-denver-co-empower-field-at-mile-high/events/695c95f0e45849c147385977",
+      "name": "Buffalo Bills at Denver Broncos",
+      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-buffalo-bills-tickets-empower-field-at-mile-high-12-25-26-2pm/7730174/"
+    },
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "Los Angeles Chargers",
+      "date": "2027-01-09",
+      "time": "03:00",
+      "gametimeId": "695c95ea64593d38f302b69f",
+      "gametime": "https://gametime.co/nfl-football/chargers-at-broncos-tickets/1-9-2027-denver-co-empower-field-at-mile-high/events/695c95ea64593d38f302b69f",
+      "name": "Los Angeles Chargers at Denver Broncos (Date TBD)",
+      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-los-angeles-chargers-(date-tbd)-tickets-empower-field-at-mile-high-1-9-27-3am/7730173/"
+    },
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "TBD",
+      "date": "2027-01-17",
+      "time": "00:00",
+      "gametimeId": "69cdb6765123712e98b80c50",
+      "gametime": "https://gametime.co/nfl-football/afc-wild-card-tbd-at-broncos-date-tbd-if-necessary-tickets/1-17-2027-denver-co-empower-field-at-mile-high/events/69cdb6765123712e98b80c50",
+      "name": "AFC Wild Card - TBD at Denver Broncos (Date TBD) (If Necessary)"
+    },
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "TBD",
+      "date": "2027-01-24",
+      "time": "00:00",
+      "gametimeId": "69cdb676095af647d1b3693a",
+      "gametime": "https://gametime.co/nfl-football/afc-divisional-round-tbd-at-broncos-date-tbd-if-necessary-tickets/1-24-2027-denver-co-empower-field-at-mile-high/events/69cdb676095af647d1b3693a",
+      "name": "AFC Divisional Round - TBD at Denver Broncos (Date TBD) (If Necessary)"
+    },
+    {
+      "team": "Broncos",
+      "venue": "Empower Field at Mile High",
+      "opponent": "TBD",
+      "date": "2027-01-31",
+      "time": "00:00",
+      "gametimeId": "69cdb67798c0ef2c501d423f",
+      "gametime": "https://gametime.co/nfl-football/afc-conference-championship-tbd-at-broncos-date-tbd-if-necessary-tickets/1-31-2027-denver-co-empower-field-at-mile-high/events/69cdb67798c0ef2c501d423f",
+      "name": "AFC Conference Championship - TBD at Denver Broncos (Date TBD) (If Necessary)"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Anaheim Ducks",
+      "date": "2026-11-19",
+      "time": "19:00",
+      "gametimeId": "6a5965fc2da5c11be1387f48",
+      "gametime": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48",
+      "name": "Anaheim Ducks at Colorado Avalanche",
+      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-anaheim-ducks-tickets-ball-arena-11-19-26-7pm/8139124/"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Montreal Canadiens",
+      "date": "2026-11-25",
+      "time": "19:00",
+      "gametimeId": "6a5965fce343825a1361f6ed",
+      "gametime": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed",
+      "name": "Montreal Canadiens at Colorado Avalanche",
+      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-montreal-canadiens-tickets-ball-arena-11-25-26-7pm/8139129/"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "San Jose Sharks",
+      "date": "2026-11-28",
+      "time": "19:00",
+      "gametimeId": "6a5965fcd2eefd87bd3d7e79",
+      "gametime": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79",
+      "name": "San Jose Sharks at Colorado Avalanche",
+      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-san-jose-sharks-tickets-ball-arena-11-28-26-7pm/8139144/"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Washington Capitals",
+      "date": "2026-12-12",
+      "time": "19:00",
+      "gametimeId": "6a5965fcbe0211fffb590c29",
+      "gametime": "https://gametime.co/nhl-hockey/capitals-at-avalanche-tickets/12-12-2026-denver-co-ball-arena/events/6a5965fcbe0211fffb590c29",
+      "name": "Washington Capitals at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Utah Mammoth",
+      "date": "2026-12-14",
+      "time": "19:00",
+      "gametimeId": "6a5965fb703f529a49c580a6",
+      "gametime": "https://gametime.co/nhl-hockey/utah-mammoth-at-avalanche-tickets/12-14-2026-denver-co-ball-arena/events/6a5965fb703f529a49c580a6",
+      "name": "Utah Mammoth at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "New York Islanders",
+      "date": "2026-12-16",
+      "time": "19:00",
+      "gametimeId": "6a5965fbd265d45d7d30f911",
+      "gametime": "https://gametime.co/nhl-hockey/islanders-at-avalanche-tickets/12-16-2026-denver-co-ball-arena/events/6a5965fbd265d45d7d30f911",
+      "name": "New York Islanders at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Carolina Hurricanes",
+      "date": "2026-12-18",
+      "time": "19:00",
+      "gametimeId": "6a5965fb0a5557225e5cb246",
+      "gametime": "https://gametime.co/nhl-hockey/hurricanes-at-avalanche-tickets/12-18-2026-denver-co-ball-arena/events/6a5965fb0a5557225e5cb246",
+      "name": "Carolina Hurricanes at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Seattle Kraken",
+      "date": "2026-12-20",
+      "time": "18:00",
+      "gametimeId": "6a5965fcc40d169ac9eb4b38",
+      "gametime": "https://gametime.co/nhl-hockey/kraken-at-avalanche-tickets/12-20-2026-denver-co-ball-arena/events/6a5965fcc40d169ac9eb4b38",
+      "name": "Seattle Kraken at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "St. Louis Blues",
+      "date": "2026-12-29",
+      "time": "19:00",
+      "gametimeId": "6a5965fcd2eefd87bd3d7e7a",
+      "gametime": "https://gametime.co/nhl-hockey/blues-at-avalanche-tickets/12-29-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e7a",
+      "name": "St. Louis Blues at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Vegas Golden Knights",
+      "date": "2027-01-04",
+      "time": "19:00",
+      "gametimeId": "6a5965fcde7afe12fa9174e6",
+      "gametime": "https://gametime.co/nhl-hockey/golden-knights-at-avalanche-tickets/1-4-2027-denver-co-ball-arena/events/6a5965fcde7afe12fa9174e6",
+      "name": "Vegas Golden Knights at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Ottawa Senators",
+      "date": "2027-01-06",
+      "time": "19:30",
+      "gametimeId": "6a5965fcbe0211fffb590c2a",
+      "gametime": "https://gametime.co/nhl-hockey/senators-at-avalanche-tickets/1-6-2027-denver-co-ball-arena/events/6a5965fcbe0211fffb590c2a",
+      "name": "Ottawa Senators at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Seattle Kraken",
+      "date": "2027-01-08",
+      "time": "19:00",
+      "gametimeId": "6a5965fceba3ce1a7e72b8ca",
+      "gametime": "https://gametime.co/nhl-hockey/kraken-at-avalanche-tickets/1-8-2027-denver-co-ball-arena/events/6a5965fceba3ce1a7e72b8ca",
+      "name": "Seattle Kraken at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Nashville Predators",
+      "date": "2027-01-10",
+      "time": "18:00",
+      "gametimeId": "6a5965fc5c9b940271f71530",
+      "gametime": "https://gametime.co/nhl-hockey/predators-at-avalanche-tickets/1-10-2027-denver-co-ball-arena/events/6a5965fc5c9b940271f71530",
+      "name": "Nashville Predators at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Vancouver Canucks",
+      "date": "2027-01-18",
+      "time": "13:00",
+      "gametimeId": "6a5965fbcffcd4b5cab5694a",
+      "gametime": "https://gametime.co/nhl-hockey/canucks-at-avalanche-tickets/1-18-2027-denver-co-ball-arena/events/6a5965fbcffcd4b5cab5694a",
+      "name": "Vancouver Canucks at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Boston Bruins",
+      "date": "2027-01-20",
+      "time": "19:00",
+      "gametimeId": "6a5965fcd265d45d7d30f913",
+      "gametime": "https://gametime.co/nhl-hockey/bruins-at-avalanche-tickets/1-20-2027-denver-co-ball-arena/events/6a5965fcd265d45d7d30f913",
+      "name": "Boston Bruins at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Dallas Stars",
+      "date": "2027-01-24",
+      "time": "15:00",
+      "gametimeId": "6a5965fcbc2fda67d8946d8e",
+      "gametime": "https://gametime.co/nhl-hockey/stars-at-avalanche-tickets/1-24-2027-denver-co-ball-arena/events/6a5965fcbc2fda67d8946d8e",
+      "name": "Dallas Stars at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Edmonton Oilers",
+      "date": "2027-01-26",
+      "time": "19:00",
+      "gametimeId": "6a5965fc4fb76aed0ed86d67",
+      "gametime": "https://gametime.co/nhl-hockey/oilers-at-avalanche-tickets/1-26-2027-denver-co-ball-arena/events/6a5965fc4fb76aed0ed86d67",
+      "name": "Edmonton Oilers at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Buffalo Sabres",
+      "date": "2027-01-30",
+      "time": "15:00",
+      "gametimeId": "6a5965fbcb0834c7dcb73b01",
+      "gametime": "https://gametime.co/nhl-hockey/sabres-at-avalanche-tickets/1-30-2027-denver-co-ball-arena/events/6a5965fbcb0834c7dcb73b01",
+      "name": "Buffalo Sabres at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Columbus Blue Jackets",
+      "date": "2027-02-15",
+      "time": "13:00",
+      "gametimeId": "6a5965fcde7afe12fa9174e7",
+      "gametime": "https://gametime.co/nhl-hockey/blue-jackets-at-avalanche-tickets/2-15-2027-denver-co-ball-arena/events/6a5965fcde7afe12fa9174e7",
+      "name": "Columbus Blue Jackets at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Vegas Golden Knights",
+      "date": "2027-02-22",
+      "time": "19:00",
+      "gametimeId": "6a5965fcef04d129d5d51fb9",
+      "gametime": "https://gametime.co/nhl-hockey/golden-knights-at-avalanche-tickets/2-22-2027-denver-co-ball-arena/events/6a5965fcef04d129d5d51fb9",
+      "name": "Vegas Golden Knights at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Winnipeg Jets",
+      "date": "2027-02-25",
+      "time": "19:00",
+      "gametimeId": "6a5965fc7702f23c4144a036",
+      "gametime": "https://gametime.co/nhl-hockey/jets-at-avalanche-tickets/2-25-2027-denver-co-ball-arena/events/6a5965fc7702f23c4144a036",
+      "name": "Winnipeg Jets at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Florida Panthers",
+      "date": "2027-02-27",
+      "time": "17:00",
+      "gametimeId": "6a5965fc0a5557225e5cb247",
+      "gametime": "https://gametime.co/nhl-hockey/panthers-at-avalanche-tickets/2-27-2027-denver-co-ball-arena/events/6a5965fc0a5557225e5cb247",
+      "name": "Florida Panthers at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Philadelphia Flyers",
+      "date": "2027-03-09",
+      "time": "19:00",
+      "gametimeId": "6a5965fcd9794f67dc81a6e0",
+      "gametime": "https://gametime.co/nhl-hockey/flyers-at-avalanche-tickets/3-9-2027-denver-co-ball-arena/events/6a5965fcd9794f67dc81a6e0",
+      "name": "Philadelphia Flyers at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "New York Rangers",
+      "date": "2027-03-11",
+      "time": "19:00",
+      "gametimeId": "6a5965fc5c9b940271f7152f",
+      "gametime": "https://gametime.co/nhl-hockey/rangers-at-avalanche-tickets/3-11-2027-denver-co-ball-arena/events/6a5965fc5c9b940271f7152f",
+      "name": "New York Rangers at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Chicago Blackhawks",
+      "date": "2027-03-13",
+      "time": "16:00",
+      "gametimeId": "6a5965fc4fb76aed0ed86d66",
+      "gametime": "https://gametime.co/nhl-hockey/blackhawks-at-avalanche-tickets/3-13-2027-denver-co-ball-arena/events/6a5965fc4fb76aed0ed86d66",
+      "name": "Chicago Blackhawks at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Edmonton Oilers",
+      "date": "2027-03-15",
+      "time": "19:30",
+      "gametimeId": "6a5965fc179ff4e271589f83",
+      "gametime": "https://gametime.co/nhl-hockey/oilers-at-avalanche-tickets/3-15-2027-denver-co-ball-arena/events/6a5965fc179ff4e271589f83",
+      "name": "Edmonton Oilers at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Minnesota Wild",
+      "date": "2027-03-17",
+      "time": "18:30",
+      "gametimeId": "6a5965fc95f54023e08bdd5c",
+      "gametime": "https://gametime.co/nhl-hockey/wild-at-avalanche-tickets/3-17-2027-denver-co-ball-arena/events/6a5965fc95f54023e08bdd5c",
+      "name": "Minnesota Wild at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Chicago Blackhawks",
+      "date": "2027-03-21",
+      "time": "15:00",
+      "gametimeId": "6a5965fc95f54023e08bdd5d",
+      "gametime": "https://gametime.co/nhl-hockey/blackhawks-at-avalanche-tickets/3-21-2027-denver-co-ball-arena/events/6a5965fc95f54023e08bdd5d",
+      "name": "Chicago Blackhawks at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Utah Mammoth",
+      "date": "2027-03-23",
+      "time": "19:30",
+      "gametimeId": "6a5965fcd265d45d7d30f912",
+      "gametime": "https://gametime.co/nhl-hockey/utah-mammoth-at-avalanche-tickets/3-23-2027-denver-co-ball-arena/events/6a5965fcd265d45d7d30f912",
+      "name": "Utah Mammoth at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Winnipeg Jets",
+      "date": "2027-03-27",
+      "time": "17:00",
+      "gametimeId": "6a5965fb71271028db9d418b",
+      "gametime": "https://gametime.co/nhl-hockey/jets-at-avalanche-tickets/3-27-2027-denver-co-ball-arena/events/6a5965fb71271028db9d418b",
+      "name": "Winnipeg Jets at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Los Angeles Kings",
+      "date": "2027-04-02",
+      "time": "19:00",
+      "gametimeId": "6a5965fbd2eefd87bd3d7e78",
+      "gametime": "https://gametime.co/nhl-hockey/kings-at-avalanche-tickets/4-2-2027-denver-co-ball-arena/events/6a5965fbd2eefd87bd3d7e78",
+      "name": "Los Angeles Kings at Colorado Avalanche"
+    },
+    {
+      "team": "Avs",
+      "venue": "Ball Arena",
+      "opponent": "Minnesota Wild",
+      "date": "2027-04-10",
+      "time": "13:00",
+      "gametimeId": "6a5965fbe8a357f03f178e98",
+      "gametime": "https://gametime.co/nhl-hockey/wild-at-avalanche-tickets/4-10-2027-denver-co-ball-arena/events/6a5965fbe8a357f03f178e98",
+      "name": "Minnesota Wild at Colorado Avalanche"
+    },
     {
       "team": "Nuggets",
       "venue": "Ball Arena",
@@ -372,403 +769,6 @@
       "gametimeId": "6a7e5e9e537767111e527ad7",
       "gametime": "https://gametime.co/nba-basketball/thunder-at-nuggets-tickets/4-11-2027-denver-co-ball-arena/events/6a7e5e9e537767111e527ad7",
       "name": "Oklahoma City Thunder at Denver Nuggets"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Anaheim Ducks",
-      "date": "2026-11-19",
-      "time": "19:00",
-      "gametimeId": "6a5965fc2da5c11be1387f48",
-      "gametime": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48",
-      "name": "Anaheim Ducks at Colorado Avalanche",
-      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-anaheim-ducks-tickets-ball-arena-11-19-26-7pm/8139124/"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Montreal Canadiens",
-      "date": "2026-11-25",
-      "time": "19:00",
-      "gametimeId": "6a5965fce343825a1361f6ed",
-      "gametime": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed",
-      "name": "Montreal Canadiens at Colorado Avalanche",
-      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-montreal-canadiens-tickets-ball-arena-11-25-26-7pm/8139129/"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "San Jose Sharks",
-      "date": "2026-11-28",
-      "time": "19:00",
-      "gametimeId": "6a5965fcd2eefd87bd3d7e79",
-      "gametime": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79",
-      "name": "San Jose Sharks at Colorado Avalanche",
-      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-san-jose-sharks-tickets-ball-arena-11-28-26-7pm/8139144/"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Washington Capitals",
-      "date": "2026-12-12",
-      "time": "19:00",
-      "gametimeId": "6a5965fcbe0211fffb590c29",
-      "gametime": "https://gametime.co/nhl-hockey/capitals-at-avalanche-tickets/12-12-2026-denver-co-ball-arena/events/6a5965fcbe0211fffb590c29",
-      "name": "Washington Capitals at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Utah Mammoth",
-      "date": "2026-12-14",
-      "time": "19:00",
-      "gametimeId": "6a5965fb703f529a49c580a6",
-      "gametime": "https://gametime.co/nhl-hockey/utah-mammoth-at-avalanche-tickets/12-14-2026-denver-co-ball-arena/events/6a5965fb703f529a49c580a6",
-      "name": "Utah Mammoth at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "New York Islanders",
-      "date": "2026-12-16",
-      "time": "19:00",
-      "gametimeId": "6a5965fbd265d45d7d30f911",
-      "gametime": "https://gametime.co/nhl-hockey/islanders-at-avalanche-tickets/12-16-2026-denver-co-ball-arena/events/6a5965fbd265d45d7d30f911",
-      "name": "New York Islanders at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Carolina Hurricanes",
-      "date": "2026-12-18",
-      "time": "19:00",
-      "gametimeId": "6a5965fb0a5557225e5cb246",
-      "gametime": "https://gametime.co/nhl-hockey/hurricanes-at-avalanche-tickets/12-18-2026-denver-co-ball-arena/events/6a5965fb0a5557225e5cb246",
-      "name": "Carolina Hurricanes at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Seattle Kraken",
-      "date": "2026-12-20",
-      "time": "18:00",
-      "gametimeId": "6a5965fcc40d169ac9eb4b38",
-      "gametime": "https://gametime.co/nhl-hockey/kraken-at-avalanche-tickets/12-20-2026-denver-co-ball-arena/events/6a5965fcc40d169ac9eb4b38",
-      "name": "Seattle Kraken at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "St. Louis Blues",
-      "date": "2026-12-29",
-      "time": "19:00",
-      "gametimeId": "6a5965fcd2eefd87bd3d7e7a",
-      "gametime": "https://gametime.co/nhl-hockey/blues-at-avalanche-tickets/12-29-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e7a",
-      "name": "St. Louis Blues at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Vegas Golden Knights",
-      "date": "2027-01-04",
-      "time": "19:00",
-      "gametimeId": "6a5965fcde7afe12fa9174e6",
-      "gametime": "https://gametime.co/nhl-hockey/golden-knights-at-avalanche-tickets/1-4-2027-denver-co-ball-arena/events/6a5965fcde7afe12fa9174e6",
-      "name": "Vegas Golden Knights at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Ottawa Senators",
-      "date": "2027-01-06",
-      "time": "19:30",
-      "gametimeId": "6a5965fcbe0211fffb590c2a",
-      "gametime": "https://gametime.co/nhl-hockey/senators-at-avalanche-tickets/1-6-2027-denver-co-ball-arena/events/6a5965fcbe0211fffb590c2a",
-      "name": "Ottawa Senators at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Seattle Kraken",
-      "date": "2027-01-08",
-      "time": "19:00",
-      "gametimeId": "6a5965fceba3ce1a7e72b8ca",
-      "gametime": "https://gametime.co/nhl-hockey/kraken-at-avalanche-tickets/1-8-2027-denver-co-ball-arena/events/6a5965fceba3ce1a7e72b8ca",
-      "name": "Seattle Kraken at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Nashville Predators",
-      "date": "2027-01-10",
-      "time": "18:00",
-      "gametimeId": "6a5965fc5c9b940271f71530",
-      "gametime": "https://gametime.co/nhl-hockey/predators-at-avalanche-tickets/1-10-2027-denver-co-ball-arena/events/6a5965fc5c9b940271f71530",
-      "name": "Nashville Predators at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Vancouver Canucks",
-      "date": "2027-01-18",
-      "time": "13:00",
-      "gametimeId": "6a5965fbcffcd4b5cab5694a",
-      "gametime": "https://gametime.co/nhl-hockey/canucks-at-avalanche-tickets/1-18-2027-denver-co-ball-arena/events/6a5965fbcffcd4b5cab5694a",
-      "name": "Vancouver Canucks at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Boston Bruins",
-      "date": "2027-01-20",
-      "time": "19:00",
-      "gametimeId": "6a5965fcd265d45d7d30f913",
-      "gametime": "https://gametime.co/nhl-hockey/bruins-at-avalanche-tickets/1-20-2027-denver-co-ball-arena/events/6a5965fcd265d45d7d30f913",
-      "name": "Boston Bruins at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Dallas Stars",
-      "date": "2027-01-24",
-      "time": "15:00",
-      "gametimeId": "6a5965fcbc2fda67d8946d8e",
-      "gametime": "https://gametime.co/nhl-hockey/stars-at-avalanche-tickets/1-24-2027-denver-co-ball-arena/events/6a5965fcbc2fda67d8946d8e",
-      "name": "Dallas Stars at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Edmonton Oilers",
-      "date": "2027-01-26",
-      "time": "19:00",
-      "gametimeId": "6a5965fc4fb76aed0ed86d67",
-      "gametime": "https://gametime.co/nhl-hockey/oilers-at-avalanche-tickets/1-26-2027-denver-co-ball-arena/events/6a5965fc4fb76aed0ed86d67",
-      "name": "Edmonton Oilers at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Buffalo Sabres",
-      "date": "2027-01-30",
-      "time": "15:00",
-      "gametimeId": "6a5965fbcb0834c7dcb73b01",
-      "gametime": "https://gametime.co/nhl-hockey/sabres-at-avalanche-tickets/1-30-2027-denver-co-ball-arena/events/6a5965fbcb0834c7dcb73b01",
-      "name": "Buffalo Sabres at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Columbus Blue Jackets",
-      "date": "2027-02-15",
-      "time": "13:00",
-      "gametimeId": "6a5965fcde7afe12fa9174e7",
-      "gametime": "https://gametime.co/nhl-hockey/blue-jackets-at-avalanche-tickets/2-15-2027-denver-co-ball-arena/events/6a5965fcde7afe12fa9174e7",
-      "name": "Columbus Blue Jackets at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Vegas Golden Knights",
-      "date": "2027-02-22",
-      "time": "19:00",
-      "gametimeId": "6a5965fcef04d129d5d51fb9",
-      "gametime": "https://gametime.co/nhl-hockey/golden-knights-at-avalanche-tickets/2-22-2027-denver-co-ball-arena/events/6a5965fcef04d129d5d51fb9",
-      "name": "Vegas Golden Knights at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Winnipeg Jets",
-      "date": "2027-02-25",
-      "time": "19:00",
-      "gametimeId": "6a5965fc7702f23c4144a036",
-      "gametime": "https://gametime.co/nhl-hockey/jets-at-avalanche-tickets/2-25-2027-denver-co-ball-arena/events/6a5965fc7702f23c4144a036",
-      "name": "Winnipeg Jets at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Florida Panthers",
-      "date": "2027-02-27",
-      "time": "17:00",
-      "gametimeId": "6a5965fc0a5557225e5cb247",
-      "gametime": "https://gametime.co/nhl-hockey/panthers-at-avalanche-tickets/2-27-2027-denver-co-ball-arena/events/6a5965fc0a5557225e5cb247",
-      "name": "Florida Panthers at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Philadelphia Flyers",
-      "date": "2027-03-09",
-      "time": "19:00",
-      "gametimeId": "6a5965fcd9794f67dc81a6e0",
-      "gametime": "https://gametime.co/nhl-hockey/flyers-at-avalanche-tickets/3-9-2027-denver-co-ball-arena/events/6a5965fcd9794f67dc81a6e0",
-      "name": "Philadelphia Flyers at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "New York Rangers",
-      "date": "2027-03-11",
-      "time": "19:00",
-      "gametimeId": "6a5965fc5c9b940271f7152f",
-      "gametime": "https://gametime.co/nhl-hockey/rangers-at-avalanche-tickets/3-11-2027-denver-co-ball-arena/events/6a5965fc5c9b940271f7152f",
-      "name": "New York Rangers at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Chicago Blackhawks",
-      "date": "2027-03-13",
-      "time": "16:00",
-      "gametimeId": "6a5965fc4fb76aed0ed86d66",
-      "gametime": "https://gametime.co/nhl-hockey/blackhawks-at-avalanche-tickets/3-13-2027-denver-co-ball-arena/events/6a5965fc4fb76aed0ed86d66",
-      "name": "Chicago Blackhawks at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Edmonton Oilers",
-      "date": "2027-03-15",
-      "time": "19:30",
-      "gametimeId": "6a5965fc179ff4e271589f83",
-      "gametime": "https://gametime.co/nhl-hockey/oilers-at-avalanche-tickets/3-15-2027-denver-co-ball-arena/events/6a5965fc179ff4e271589f83",
-      "name": "Edmonton Oilers at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Minnesota Wild",
-      "date": "2027-03-17",
-      "time": "18:30",
-      "gametimeId": "6a5965fc95f54023e08bdd5c",
-      "gametime": "https://gametime.co/nhl-hockey/wild-at-avalanche-tickets/3-17-2027-denver-co-ball-arena/events/6a5965fc95f54023e08bdd5c",
-      "name": "Minnesota Wild at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Chicago Blackhawks",
-      "date": "2027-03-21",
-      "time": "15:00",
-      "gametimeId": "6a5965fc95f54023e08bdd5d",
-      "gametime": "https://gametime.co/nhl-hockey/blackhawks-at-avalanche-tickets/3-21-2027-denver-co-ball-arena/events/6a5965fc95f54023e08bdd5d",
-      "name": "Chicago Blackhawks at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Utah Mammoth",
-      "date": "2027-03-23",
-      "time": "19:30",
-      "gametimeId": "6a5965fcd265d45d7d30f912",
-      "gametime": "https://gametime.co/nhl-hockey/utah-mammoth-at-avalanche-tickets/3-23-2027-denver-co-ball-arena/events/6a5965fcd265d45d7d30f912",
-      "name": "Utah Mammoth at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Winnipeg Jets",
-      "date": "2027-03-27",
-      "time": "17:00",
-      "gametimeId": "6a5965fb71271028db9d418b",
-      "gametime": "https://gametime.co/nhl-hockey/jets-at-avalanche-tickets/3-27-2027-denver-co-ball-arena/events/6a5965fb71271028db9d418b",
-      "name": "Winnipeg Jets at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Los Angeles Kings",
-      "date": "2027-04-02",
-      "time": "19:00",
-      "gametimeId": "6a5965fbd2eefd87bd3d7e78",
-      "gametime": "https://gametime.co/nhl-hockey/kings-at-avalanche-tickets/4-2-2027-denver-co-ball-arena/events/6a5965fbd2eefd87bd3d7e78",
-      "name": "Los Angeles Kings at Colorado Avalanche"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
-      "opponent": "Minnesota Wild",
-      "date": "2027-04-10",
-      "time": "13:00",
-      "gametimeId": "6a5965fbe8a357f03f178e98",
-      "gametime": "https://gametime.co/nhl-hockey/wild-at-avalanche-tickets/4-10-2027-denver-co-ball-arena/events/6a5965fbe8a357f03f178e98",
-      "name": "Minnesota Wild at Colorado Avalanche"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "Las Vegas Raiders",
-      "date": "2026-11-22",
-      "time": "14:00",
-      "gametimeId": "695c95eb04735c7d3049efc7",
-      "gametime": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7",
-      "name": "Las Vegas Raiders at Denver Broncos",
-      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-las-vegas-raiders-tickets-empower-field-at-mile-high-11-22-26-2pm/7730172/"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "Miami Dolphins",
-      "date": "2026-12-06",
-      "time": "14:00",
-      "gametimeId": "695c95eefab8a68da2286756",
-      "gametime": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756",
-      "name": "Miami Dolphins at Denver Broncos",
-      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-miami-dolphins-tickets-empower-field-at-mile-high-12-6-26-2pm/7730178/"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "Buffalo Bills",
-      "date": "2026-12-25",
-      "time": "14:00",
-      "gametimeId": "695c95f0e45849c147385977",
-      "gametime": "https://gametime.co/nfl-football/bills-at-broncos-tickets/12-25-2026-denver-co-empower-field-at-mile-high/events/695c95f0e45849c147385977",
-      "name": "Buffalo Bills at Denver Broncos",
-      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-buffalo-bills-tickets-empower-field-at-mile-high-12-25-26-2pm/7730174/"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "Los Angeles Chargers",
-      "date": "2027-01-09",
-      "time": "03:00",
-      "gametimeId": "695c95ea64593d38f302b69f",
-      "gametime": "https://gametime.co/nfl-football/chargers-at-broncos-tickets/1-9-2027-denver-co-empower-field-at-mile-high/events/695c95ea64593d38f302b69f",
-      "name": "Los Angeles Chargers at Denver Broncos (Date TBD)",
-      "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-los-angeles-chargers-(date-tbd)-tickets-empower-field-at-mile-high-1-9-27-3am/7730173/"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "TBD",
-      "date": "2027-01-17",
-      "time": "00:00",
-      "gametimeId": "69cdb6765123712e98b80c50",
-      "gametime": "https://gametime.co/nfl-football/afc-wild-card-tbd-at-broncos-date-tbd-if-necessary-tickets/1-17-2027-denver-co-empower-field-at-mile-high/events/69cdb6765123712e98b80c50",
-      "name": "AFC Wild Card - TBD at Denver Broncos (Date TBD) (If Necessary)"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "TBD",
-      "date": "2027-01-24",
-      "time": "00:00",
-      "gametimeId": "69cdb676095af647d1b3693a",
-      "gametime": "https://gametime.co/nfl-football/afc-divisional-round-tbd-at-broncos-date-tbd-if-necessary-tickets/1-24-2027-denver-co-empower-field-at-mile-high/events/69cdb676095af647d1b3693a",
-      "name": "AFC Divisional Round - TBD at Denver Broncos (Date TBD) (If Necessary)"
-    },
-    {
-      "team": "Broncos",
-      "venue": "Empower Field at Mile High",
-      "opponent": "TBD",
-      "date": "2027-01-31",
-      "time": "00:00",
-      "gametimeId": "69cdb67798c0ef2c501d423f",
-      "gametime": "https://gametime.co/nfl-football/afc-conference-championship-tbd-at-broncos-date-tbd-if-necessary-tickets/1-31-2027-denver-co-empower-field-at-mile-high/events/69cdb67798c0ef2c501d423f",
-      "name": "AFC Conference Championship - TBD at Denver Broncos (Date TBD) (If Necessary)"
     }
   ]
 }
