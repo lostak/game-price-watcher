@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09T18:46:05.992Z",
+  "updated": "2026-11-10T18:48:51.625Z",
   "games": [
     {
       "team": "Broncos",
@@ -439,6 +439,14 @@
       "gametimeId": "6a7bd576a7d23a3a47e6afb6",
       "gametime": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6",
       "name": "NBA Cup - Dallas Mavericks at Denver Nuggets"
+    },
+    {
+      "team": "Nuggets",
+      "venue": "Ball Arena",
+      "opponent": "Tbd (if Necessary)",
+      "date": "2026-12-04",
+      "time": "03:00",
+      "tickpick": "https://www.tickpick.com/buy-denver-nuggets-vs-tbd-(if-necessary)-tickets-ball-arena-12-4-26-3am/8204991/"
     },
     {
       "team": "Nuggets",
