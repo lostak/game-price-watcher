@@ -1,5 +1,5 @@
 {
- "at": "2026-11-10T13:07:27.989Z",
+ "at": "2026-11-10T14:09:06.422Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -50,7 +50,7 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-19-2026/production/7300480"
    },
    "tickpick": 51,
-   "seatgeek": 59,
+   "seatgeek": 58,
    "vivid": 53
   },
   "2026-11-22 Broncos vs Las Vegas Raiders": {
@@ -70,15 +70,15 @@
     "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971"
    },
    "tickpick": 265,
-   "seatgeek": 271,
+   "seatgeek": 268,
    "vivid": 245
   }
  },
  "notes": [
-  "Nuggets tickpick: HTTP 403, 12 game links, 4/4 matched",
+  "Nuggets tickpick: HTTP 200, 12 game links, 4/4 matched",
   "Nuggets seatgeek: HTTP 200, 25 game links, 4/4 matched",
   "Nuggets vivid: HTTP 200, 19 game links, 2/4 matched",
-  "Avs tickpick: HTTP 200, 14 game links, 1/1 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 1/1 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 1/1 matched",
   "Avs vivid: HTTP 200, 25 game links, 1/1 matched",
   "Broncos tickpick: HTTP 200, 6 game links, 1/1 matched",
