@@ -90,6 +90,9 @@ jobs:
             [ "$rc" = "2" ] && echo "::warning::Picks can't be posted: the calendar isn't connected (GCAL_SA_KEY)."
             [ "$rc" = "1" ] && echo "::warning::Picks post failed – see log."
           fi
+          # 6:50 AM check: is today's lineup really in #general? If not, retry once and DM Bradley why (once a day).
+          checked=$(node -e "try{console.log(require('./state/picks.json').checked||'')}catch{console.log('')}")
+          if [ "$hm" -ge 650 ] && [ "$hm" -lt 1100 ] && [ "$checked" != "$today" ]; then node picks.js --check || echo "::warning::Picks check failed – see log."; fi
           true
       - name: Save cursor / wants
         run: |
