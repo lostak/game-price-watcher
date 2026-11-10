@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-10T01:00:45.502Z",
+      "at": "2026-11-10T01:05:53.701Z",
       "all": {
         "price": 19,
         "section": "356",
@@ -63,10 +63,10 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-10T01:00:45.502Z",
+      "at": "2026-11-10T01:05:53.701Z",
       "all": {
         "price": 37,
-        "section": "370",
+        "section": "366",
         "row": "11",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-10T01:00:45.502Z",
+      "at": "2026-11-10T01:05:53.701Z",
       "all": {
         "price": 54,
         "section": "324",
@@ -119,7 +119,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-10T01:00:45.502Z",
+      "at": "2026-11-10T01:05:53.701Z",
       "all": {
         "price": 36,
         "section": "320",
@@ -145,21 +145,21 @@
     },
     "lower": {
       "first": 515,
-      "low": 496,
+      "low": 495,
       "lowDate": "2026-11-09",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-10T01:00:45.502Z",
+      "at": "2026-11-10T01:05:53.701Z",
       "all": {
-        "price": 312,
+        "price": 311,
         "section": "526",
         "row": "16",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
       "lower": {
-        "price": 496,
+        "price": 495,
         "section": "135",
         "row": "40",
         "site": "gametime",
@@ -176,21 +176,21 @@
     },
     "lower": {
       "first": 371,
-      "low": 371,
-      "lowDate": "2026-11-08",
+      "low": 370,
+      "lowDate": "2026-11-09",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-10T01:00:45.502Z",
+      "at": "2026-11-10T01:05:53.701Z",
       "all": {
-        "price": 247,
+        "price": 246,
         "section": "316",
         "row": "Y",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       },
       "lower": {
-        "price": 371,
+        "price": 370,
         "section": "149",
         "row": "NN",
         "site": "gametime",
