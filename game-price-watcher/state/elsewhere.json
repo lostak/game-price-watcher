@@ -1,5 +1,5 @@
 {
- "at": "2026-11-11T01:26:52.618Z",
+ "at": "2026-11-11T02:28:28.506Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -75,10 +75,10 @@
   }
  },
  "notes": [
-  "Nuggets tickpick: HTTP 200, 11 game links, 4/4 matched",
+  "Nuggets tickpick: HTTP 200, 12 game links, 4/4 matched",
   "Nuggets seatgeek: HTTP 403, 0 game links, 0/4 matched",
   "Nuggets vivid: HTTP 200, 19 game links, 2/4 matched",
-  "Avs tickpick: HTTP 200, 13 game links, 1/1 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 1/1 matched",
   "Avs seatgeek: HTTP 403, 0 game links, 0/1 matched",
   "Avs vivid: HTTP 200, 25 game links, 1/1 matched",
   "Broncos tickpick: HTTP 200, 6 game links, 1/1 matched",
