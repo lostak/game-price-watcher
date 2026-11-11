@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
         "price": 20,
         "section": "318",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
         "price": 36,
         "section": "366",
@@ -72,7 +72,7 @@
         "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
       },
       "lower": {
-        "price": 112,
+        "price": 113,
         "section": "138",
         "row": "12",
         "site": "gametime",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
         "price": 57,
         "section": "316",
@@ -119,7 +119,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
         "price": 38,
         "section": "354",
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
         "price": 363,
         "section": "538",
@@ -159,7 +159,7 @@
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
       "lower": {
-        "price": 511,
+        "price": 504,
         "section": "135",
         "row": "38",
         "site": "gametime",
@@ -181,7 +181,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
         "price": 278,
         "section": "344",
@@ -212,9 +212,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T04:59:15.644Z",
+      "at": "2026-11-11T12:04:59.825Z",
       "all": {
-        "price": 34,
+        "price": 37,
         "section": "358",
         "row": "11",
         "site": "gametime",
@@ -227,6 +227,26 @@
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       }
+    }
+  },
+  "2026-11-25 Avs vs Montreal Canadiens": {
+    "all": {
+      "first": 87,
+      "low": 87,
+      "lowDate": "2026-11-11",
+      "alerted": null
+    },
+    "lower": {},
+    "last": {
+      "at": "2026-11-11T12:04:59.825Z",
+      "all": {
+        "price": 87,
+        "section": "320",
+        "row": "10",
+        "site": "gametime",
+        "url": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed"
+      },
+      "lower": null
     }
   }
 }
