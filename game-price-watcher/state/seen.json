@@ -32,11 +32,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
         "price": 19,
-        "section": "318",
-        "row": "11",
+        "section": "326",
+        "row": "6",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       },
@@ -63,16 +63,16 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
-        "price": 36,
+        "price": 35,
         "section": "366",
         "row": "11",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
       },
       "lower": {
-        "price": 112,
+        "price": 113,
         "section": "138",
         "row": "12",
         "site": "gametime",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
         "price": 57,
         "section": "316",
@@ -119,18 +119,18 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
         "price": 39,
-        "section": "358",
-        "row": "13",
+        "section": "354",
+        "row": "12",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
         "price": 120,
-        "section": "114",
-        "row": "10",
+        "section": "136",
+        "row": "18",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       }
@@ -150,9 +150,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
-        "price": 348,
+        "price": 343,
         "section": "539",
         "row": "15",
         "site": "gametime",
@@ -181,11 +181,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
-        "price": 278,
-        "section": "344",
-        "row": "U",
+        "price": 274,
+        "section": "326",
+        "row": "Q",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       },
@@ -212,7 +212,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
         "price": 37,
         "section": "358",
@@ -222,8 +222,8 @@
       },
       "lower": {
         "price": 118,
-        "section": "132",
-        "row": "15",
+        "section": "138",
+        "row": "10",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       }
@@ -238,7 +238,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-11T20:14:29.541Z",
+      "at": "2026-11-11T23:01:26.399Z",
       "all": {
         "price": 87,
         "section": "320",
