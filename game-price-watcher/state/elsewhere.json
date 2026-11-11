@@ -1,5 +1,5 @@
 {
- "at": "2026-11-10T23:24:01.412Z",
+ "at": "2026-11-11T00:25:19.410Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -25,7 +25,7 @@
    },
    "tickpick": 29,
    "seatgeek": 39,
-   "vivid": 36
+   "vivid": 35
   },
   "2026-11-20 Nuggets vs Houston Rockets": {
    "urls": {
@@ -40,7 +40,7 @@
     "tickpick": "https://www.tickpick.com/buy-nba-cup-denver-nuggets-vs-dallas-mavericks-tickets-ball-arena-11-24-26-8pm/8200086/",
     "seatgeek": "https://seatgeek.com/denver-nuggets-tickets/11-24-2026-denver-colorado-ball-arena/nba/18485995"
    },
-   "tickpick": 28,
+   "tickpick": 29,
    "seatgeek": 34
   },
   "2026-11-19 Avs vs Anaheim Ducks": {
@@ -59,9 +59,9 @@
     "seatgeek": "https://seatgeek.com/denver-broncos-tickets/11-22-2026-denver-colorado-empower-field-at-mile-high/nfl/18014232",
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-3-2026/production/6489651"
    },
-   "tickpick": 187,
-   "seatgeek": 272,
-   "vivid": 200
+   "tickpick": 184,
+   "seatgeek": 269,
+   "vivid": 198
   },
   "2026-12-13 Seahawks vs New York Giants": {
    "urls": {
@@ -75,7 +75,7 @@
   }
  },
  "notes": [
-  "Nuggets tickpick: HTTP 403, 12 game links, 4/4 matched",
+  "Nuggets tickpick: HTTP 200, 12 game links, 4/4 matched",
   "Nuggets seatgeek: HTTP 200, 25 game links, 4/4 matched",
   "Nuggets vivid: HTTP 200, 19 game links, 2/4 matched",
   "Avs tickpick: HTTP 200, 12 game links, 1/1 matched",
