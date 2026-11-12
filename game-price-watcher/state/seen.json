@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 19,
         "section": "326",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 35,
         "section": "366",
@@ -94,9 +94,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
-        "price": 57,
+        "price": 67,
         "section": "316",
         "row": "14",
         "site": "gametime",
@@ -119,7 +119,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 39,
         "section": "354",
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 343,
         "section": "539",
@@ -181,7 +181,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 274,
         "section": "326",
@@ -207,12 +207,12 @@
     },
     "lower": {
       "first": 118,
-      "low": 118,
-      "lowDate": "2026-11-10",
+      "low": 115,
+      "lowDate": "2026-11-11",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 37,
         "section": "358",
@@ -221,7 +221,7 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       },
       "lower": {
-        "price": 118,
+        "price": 115,
         "section": "138",
         "row": "10",
         "site": "gametime",
@@ -238,7 +238,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-11T23:57:52.875Z",
+      "at": "2026-11-12T00:02:55.241Z",
       "all": {
         "price": 87,
         "section": "320",
