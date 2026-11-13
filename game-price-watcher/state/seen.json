@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 17,
         "section": "312",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 35,
         "section": "356",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 71,
         "section": "350",
@@ -114,22 +114,22 @@
     },
     "lower": {
       "first": 116,
-      "low": 96,
+      "low": 95,
       "lowDate": "2026-11-13",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
-        "price": 44,
+        "price": 45,
         "section": "358",
         "row": "13",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 96,
-        "section": "136",
+        "price": 95,
+        "section": "138",
         "row": "17",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 347,
         "section": "530",
@@ -181,7 +181,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 274,
         "section": "326",
@@ -212,7 +212,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 40,
         "section": "356",
@@ -238,7 +238,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-13T21:39:31.399Z",
+      "at": "2026-11-13T21:44:44.021Z",
       "all": {
         "price": 97,
         "section": "324",
