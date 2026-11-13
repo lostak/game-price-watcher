@@ -32,7 +32,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 17,
         "section": "312",
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 35,
         "section": "356",
@@ -94,7 +94,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 71,
         "section": "350",
@@ -114,12 +114,12 @@
     },
     "lower": {
       "first": 116,
-      "low": 106,
+      "low": 104,
       "lowDate": "2026-11-13",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 43,
         "section": "370",
@@ -128,7 +128,7 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 106,
+        "price": 104,
         "section": "138",
         "row": "17",
         "site": "gametime",
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 351,
         "section": "530",
@@ -181,7 +181,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 274,
         "section": "326",
@@ -212,7 +212,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 40,
         "section": "356",
@@ -238,7 +238,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-13T20:38:16.898Z",
+      "at": "2026-11-13T20:43:08.728Z",
       "all": {
         "price": 97,
         "section": "324",
