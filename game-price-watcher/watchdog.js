@@ -1,6 +1,6 @@
 // Watchdog: DMs Bradley on Discord when another watcher's 5-minute loop stops (no run for 20+ minutes between
 // 6 AM and 10 PM Denver), and again when it's back. With --slate (game-price-watcher only, it has the calendar) it also
-// checks that the Claude betting-slate task posted today's slate by 7:10 AM.
+// checks that the Claude "Task guardian" ran on schedule (the guardian re-runs every other missed Claude task).
 // Usage: node watchdog.js "owner/repo:workflow.yml,owner/repo:workflow.yml" [--slate]
 // Env: GH_API_TOKEN, DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID (any channel in the server), optional DISCORD_OWNER_ID.
 // Copied into golf-watcher (which watches game-price-watcher), so the two cover each other.
@@ -47,14 +47,27 @@ async function dm(st, text) {
       console.log('watchdog: recovered', key);
     } else console.log(`watchdog: ${key} last run ${Math.round(age)} min ago`);
   }
-  // the Claude betting-slate task should have posted today's slate by 7:10 AM
-  if (process.argv.includes('--slate') && t >= 710 && t < 1100) {
-    const cal = require('./gcal'), today = cal.todayLocal();
-    if (cal.ready && st.slateChecked !== today) {
-      const label = new Date().toLocaleDateString('en-US', { timeZone: TZ, weekday: 'short', month: 'short', day: 'numeric' }).replace(',', '');
-      const ev = await cal.findByTitle(new RegExp(`^Personal: betting slate – ${label}$`, 'i'), 'betting slate', { back: 1, ahead: 1 });
-      if (!ev) await dm(st, `⚠ **No betting slate today** – the Claude "Betting slate & picks" task didn't post by 7:10 AM, so no picks went to #general. It may have hit a usage limit; you can rerun it by saying "personal run betting slate".`);
-      st.slateChecked = today;
+  // Who checks the task guardian: the Claude "Task guardian" (re-runs missed/failed Claude tasks at 9:23 AM, 2:23 PM and
+  // 10:23 PM) stamps "LAST RUN:" on its silent "Personal: task guardian log" event every run. If a scheduled guardian run
+  // hasn't stamped it within 45 minutes, Bradley gets one DM (GitHub can't start Claude tasks, so this is the last resort).
+  if (process.argv.includes('--slate')) {
+    const cal = require('./gcal');
+    if (cal.ready) {
+      const now = new Date(), local = new Date(now.toLocaleString('en-US', { timeZone: TZ })), off = local - now;
+      const today = cal.todayLocal(), at = (d, h, m) => new Date(Date.parse(`${d}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00Z`) - off);
+      const yest = new Date(Date.parse(today + 'T12:00:00Z') - 864e5).toISOString().slice(0, 10);
+      const due = [[yest, 22, 23], [today, 9, 23], [today, 14, 23], [today, 22, 23]].map(([d, h, m]) => at(d, h, m)).filter(x => x.getTime() + 45 * 60e3 <= now.getTime()).pop();
+      if (due && st.guardianDue !== due.toISOString()) {
+        const ev = await cal.findByTitle('Personal: task guardian log', 'TASK-GUARDIAN', { back: 30, ahead: 1 }).catch(() => null);
+        const stamp = ev && (ev.description || '').match(/^LAST RUN:\s*(\S+)/m);
+        const last = stamp ? Date.parse(stamp[1]) : ev ? Date.parse(ev.updated) : NaN;
+        if (!ev && Date.now() < Date.parse('2026-11-14T06:00:00Z')) console.log('watchdog: guardian log not created yet (first run pending)');
+        else if (!(last >= due.getTime() - 10 * 60e3)) {
+          await dm(st, `⚠ **Task guardian didn't run** at ${due.toLocaleTimeString('en-US', { timeZone: TZ, hour: 'numeric', minute: '2-digit' })} – so missed Claude tasks aren't being re-run right now. Its next run is in a few hours; to run it now, open Claude's scheduled tasks and run "Task guardian".`);
+          console.log('watchdog: guardian stale');
+        } else console.log('watchdog: guardian ran ' + new Date(last).toISOString());
+        st.guardianDue = due.toISOString();
+      }
     }
   }
   fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify(st));
