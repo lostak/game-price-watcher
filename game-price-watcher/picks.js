@@ -89,7 +89,7 @@ const CHECK = process.argv.includes('--check');
     }
     if (ok === true) { console.log(`Check: today's picks are in #general.`); save({ checked: today }); return; }
     const msg = ok === null ? `⚠️ Picks check: couldn't read #general to confirm today's lineup went out.${why ? ' Last error: ' + why : ''}`
-      : `⚠️ Today's picks did NOT reach #general: ${why || 'unknown reason'}. I'll keep retrying until 11 AM.`;
+      : `⚠️ Today's picks did NOT reach #general: ${why || 'unknown reason'}. The betting task retries at 7:13 and 8:13, and the post goes out as soon as the slate appears (until 1 PM).`;
     console.log(msg); await dmBradley(msg).catch(e => console.log('DM failed: ' + e.message)); save({ checked: today });
     return;
   }

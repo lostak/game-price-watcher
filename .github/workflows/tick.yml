@@ -85,7 +85,7 @@ jobs:
         run: |
           hm=$((10#$(TZ=America/Denver date +%H%M))); today=$(TZ=America/Denver date +%F)
           done=$(node -e "try{console.log(require('./state/picks.json').date||'')}catch{console.log('')}")
-          if [ "$hm" -ge 630 ] && [ "$hm" -lt 1100 ] && [ "$done" != "$today" ]; then   # first try 6:30 (the slate task writes it ~6:20)
+          if [ "$hm" -ge 630 ] && [ "$hm" -lt 1300 ] && [ "$done" != "$today" ]; then   # first try 6:30 (the slate task writes it ~6:20)
             set +e; node picks.js; rc=$?; set -e
             [ "$rc" = "2" ] && echo "::warning::Picks can't be posted: the calendar isn't connected (GCAL_SA_KEY)."
             [ "$rc" = "1" ] && echo "::warning::Picks post failed – see log."
