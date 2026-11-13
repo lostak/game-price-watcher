@@ -9,7 +9,7 @@ const { teamGames } = require('./gt');
 const info = require('./pickinfo');
 const STATE = 'state/brief.json', TZ = cal.TZ, UA = 'MyLife morning brief (github.com/lostak/game-price-watcher)';
 const AURORA = [39.7294, -104.8319];
-const SILENT = /^(Price watch:|Show watch:|Claude)|^Personal: (picks log|pool log|ski workout log|betting lesson log|car log|billers log|WhoStarts log|deliveries today|betting slate|life settings|golf watch|ticket watch|on-demand log|ski season log)/i;
+const SILENT = /^(Price watch:|Show watch:|Claude)|^Personal: (picks log|pool log|ski workout log|betting lesson log|car log|billers log|WhoStarts log|deliveries today|betting slate|life settings|golf watch|ticket watch|on-demand log|ski season log|task guardian log|picks archive)/i;
 const ALERT = /^Personal: (price drop|fare drop|ticket drop|game-day ticket drop|powder alert|powder day|show announced|tee time open|golf courses open)/i;
 const BRIEFY = /^Personal: (morning brief|betting slate|ski workout|pool focus|betting lesson|ski weekend outlook|powder|ticket|price|show|deliveries|tee time open|Sunday reset|bills & renewals)/i;
 

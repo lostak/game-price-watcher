@@ -105,7 +105,7 @@ async function post(text) {
   const hm = +new Date().toLocaleTimeString('en-GB', { timeZone: gcal.TZ, hour: '2-digit', minute: '2-digit' }).replace(':', '');
   const note = (k, v) => { mine.log = [...(mine.log || []).slice(-8), `${new Date().toLocaleTimeString('en-US', { timeZone: gcal.TZ, hour: 'numeric', minute: '2-digit' })} ${k}: ${v}`]; };
 
-  if (mine.date === today && !FORCE) {                             // posted earlier: make sure it's still there
+  if (mine.date === today && !FORCE && !process.argv.includes('--edit')) {                             // posted earlier: make sure it's still there
     if (mine.verified === today) { console.log('Picks posted and confirmed today.'); return; }
     const seen = await inChannel(label);
     if (seen === true) { mine.verified = today; save(); console.log('Picks confirmed in #general.'); return; }
@@ -130,6 +130,13 @@ async function post(text) {
     } else {
       console.log(text);
       if (DRY) return;
+      if (process.argv.includes('--edit')) {          // one-off: rewrite today's already-posted lineup in place (bot's own message)
+        const me = await dapi('GET', '/users/@me'), msgs = await dapi('GET', `/channels/${GENERAL}/messages?limit=50`);
+        const m = msgs.find(x => x.author && x.author.id === me.id && /Picks of the day/i.test(x.content || '') && x.content.includes(label));
+        if (!m) { console.log("Today's post isn't the bot's own message – can't edit it."); return; }
+        await dapi('PATCH', `/channels/${GENERAL}/messages/${m.id}`, { content: text.slice(0, 1990), allowed_mentions: { parse: [] } });
+        console.log('Edited today\'s post.'); return;
+      }
       if (!FORCE && await inChannel(label)) { console.log('Already in the channel.'); Object.assign(mine, { date: today, verified: today, posted: mine.posted || 'found in channel' }); save(); return; }
       const r = await post(text);
       if (r.via) {
