@@ -1,6 +1,6 @@
 name: tick
 # Heartbeat, every ~5 minutes around the clock. Each run: reads new Discord commands in the game-prices channel,
-# posts the day's picks lineup to #general once, first try 6:30 AM (picks.js),
+# posts the day's picks lineup to #general (picks.js, self-healing: retries until posted and confirmed),
 # starts the price check every 5 minutes (5 AM–10 PM, while a home game is within 14 days) and the price board on the
 # first tick after 7:15 AM, then waits out the rest of its 5 minutes and starts the next tick. GitHub's own cron is
 # unreliable (often hours late), so cron here only restarts the chain if it ever stops.
@@ -76,7 +76,7 @@ jobs:
           hm=$((10#$(TZ=America/Denver date +%H%M)))
           if [ "$hm" -ge 1637 ] && [ "$hm" -lt 2100 ]; then node rotations.js pool || echo "::warning::pool focus failed – see log"; fi
           if [ "$hm" -ge 1937 ] && [ "$hm" -lt 2200 ]; then node rotations.js ski || echo "::warning::ski workout failed – see log"; fi
-      - name: Picks for #general (from 6:30 AM Denver, once a day)
+      - name: Picks for #general (6:30 AM–1 PM Denver, every run until posted and confirmed; fixes itself, DMs only if stuck at 10:45)
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
           GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
@@ -84,15 +84,12 @@ jobs:
           DISCORD_WEBHOOK_PICKS: '${{ secrets.DISCORD_WEBHOOK_PICKS }}'
         run: |
           hm=$((10#$(TZ=America/Denver date +%H%M))); today=$(TZ=America/Denver date +%F)
-          done=$(node -e "try{console.log(require('./state/picks.json').date||'')}catch{console.log('')}")
-          if [ "$hm" -ge 630 ] && [ "$hm" -lt 1300 ] && [ "$done" != "$today" ]; then   # first try 6:30 (the slate task writes it ~6:20)
+          ok=$(node -e "try{const s=require('./state/picks.json');console.log(s.day===s.verified&&s.verified==='$today'?'yes':'')}catch{console.log('')}")
+          if [ "$hm" -ge 630 ] && [ "$hm" -lt 1300 ] && [ "$ok" != "yes" ]; then
             set +e; node picks.js; rc=$?; set -e
             [ "$rc" = "2" ] && echo "::warning::Picks can't be posted: the calendar isn't connected (GCAL_SA_KEY)."
-            [ "$rc" = "1" ] && echo "::warning::Picks post failed – see log."
+            [ "$rc" = "1" ] && echo "::warning::Picks run failed – see log."
           fi
-          # 6:50 AM check: is today's lineup really in #general? If not, retry once and DM Bradley why (once a day).
-          checked=$(node -e "try{console.log(require('./state/picks.json').checked||'')}catch{console.log('')}")
-          if [ "$hm" -ge 650 ] && [ "$hm" -lt 1100 ] && [ "$checked" != "$today" ]; then node picks.js --check || echo "::warning::Picks check failed – see log."; fi
           true
       - name: Morning freshness check of the whole project (from 7:40 AM, once a day; DMs only if something is stale)
         env:
