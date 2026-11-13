@@ -75,7 +75,7 @@ async function handleReplies(st, dmId, owner) {
     const refEvent = m.message_reference?.message_id && st.sent?.[m.message_reference.message_id];
     try {
       if (/^(help|\?)$/i.test(text)) {
-        await reply(dmId, m.id, 'Reply **done** to an alert to check it off. **placed all**, **placed parlay** or **placed oilers** marks today\'s picks as placed (**placed yesterday all** / **placed 11/12 wild** for an earlier day). **balance 92.50** sets the bankroll to what DraftKings shows. Anything else goes to Claude as a "personal …" note (handled hourly, 8 AM–7 PM).');
+        await reply(dmId, m.id, 'Reply **done** to an alert to check it off. **placed all**, **placed parlay** or **placed oilers** marks today\'s picks as placed (**placed yesterday all** / **placed 11/12 wild** for an earlier day). Anything else goes to Claude as a "personal …" note (handled hourly, 8 AM–7 PM).');
       } else if (refEvent && /^(done|did it|finished|complete|✅|👍)\b/i.test(text)) {
         const ev = await cal.get(refEvent);
         if (/^✅/.test(ev.summary || '')) { await reply(dmId, m.id, 'Already checked off.'); continue; }
@@ -85,20 +85,6 @@ async function handleReplies(st, dmId, owner) {
         const extra = text.replace(/^(done|did it|finished|complete|✅|👍)[\s,.:-]*/i, '');
         if (log) await cal.insert({ summary: `Claude: personal ${log}${extra ? ' – ' + extra.slice(0, 150) : ''}`, description: `From Bradley's Discord reply (${cal.nowLocal()}).`, when: new Date(), popup: null });
         await reply(dmId, m.id, '✅ Checked off: ' + ev.summary.replace(/^Personal:\s*/i, '') + (log ? ' – logged for the rotation (within the hour).' : ''));
-      } else if (/^(balance|bal|bankroll)\b/i.test(text)) {
-        // "balance 92.50" = what DraftKings shows right now; the bankroll is re-anchored to it (open stakes added back)
-        const amt = +(text.match(/\$?\s*([\d,]+(?:\.\d{1,2})?)/) || [])[1]?.replace(/,/g, '');
-        if (!(amt >= 0) || !/\d/.test(text)) { await reply(dmId, m.id, 'Send it like **balance 92.50** – the balance DraftKings shows right now.'); continue; }
-        const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
-        if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }
-        const arch = await bank.archives(), live = await cal.get(log.id).catch(() => log);
-        const when = new Date().toLocaleTimeString('en-US', { timeZone: cal.TZ, hour: 'numeric', minute: '2-digit' });
-        const line = bank.balanceLine(live.description, arch, amt, when);
-        let desc = String(live.description).split('\n').filter(l => !/^BALANCE CHECK:/.test(l));
-        const at = desc.findIndex(l => /^PICKS \(|^PICKS:/.test(l)); desc.splice(at < 0 ? desc.length - 1 : at, 0, line); desc = desc.join('\n');
-        const c = bank.compute(desc, arch); desc = bank.withCurrent(desc, c, cal.nowLocal());
-        await cal.patch(log.id, { description: desc });
-        await reply(dmId, m.id, `💵 Bankroll set to **$${c.current.toFixed(2)}** ($${amt.toFixed(2)} shown${c.pending ? ` + $${c.pending.toFixed(2)} in open bets I know about` : ''}). From here it moves with every placed bet as it settles. Units resize at Monday's reset.`);
       } else if (/^placed\b/i.test(text)) {
         const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
         if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }
@@ -107,7 +93,7 @@ async function handleReplies(st, dmId, owner) {
         if (!r.hit.length) { await reply(dmId, m.id, `No unplaced pick on ${r.day} matches "${text}". Try **placed all**, **placed parlay** or a team name.`); continue; }
         const arch = await bank.archives().catch(() => []);
         await cal.patch(log.id, { description: bank.withCurrent(r.desc, bank.compute(r.desc, arch), cal.nowLocal()) });
-        await reply(dmId, m.id, `💵 Marked placed (${r.day}): ${r.hit.join('; ')}. They count toward your bankroll at the logged price and stake; upload the slip in My Life if the price was different.`);
+        await reply(dmId, m.id, `💵 Marked placed (${r.day}): ${r.hit.join('; ')}. They count in YOUR BETS (your own record); the picks bankroll tracks every pick either way.`);
       } else {
         await cal.insert({ summary: 'Claude: personal ' + text.replace(/^personal[:\s]+/i, '').slice(0, 200), description: `${text}\n\nFrom Bradley's Discord DM to the bot (${cal.nowLocal()}).`, when: new Date(), popup: null });
         await reply(dmId, m.id, '📝 Sent to Claude. The Pocket processor handles it within the hour (8 AM–7 PM).');
