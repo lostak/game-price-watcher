@@ -9,7 +9,7 @@ const { teamGames } = require('./gt');
 const info = require('./pickinfo');
 const STATE = 'state/brief.json', TZ = cal.TZ, UA = 'MyLife morning brief (github.com/lostak/game-price-watcher)';
 const AURORA = [39.7294, -104.8319];
-const SILENT = /^(Price watch:|Show watch:|Claude)|^Personal: (picks log|pool log|ski workout log|betting lesson log|car log|billers log|WhoStarts log|deliveries today|betting slate|life settings|golf watch|ticket watch|on-demand log|ski season log|task guardian log|picks archive)/i;
+const SILENT = /^(Price watch:|Show watch:|Claude)|^Personal: (picks log|pool log|ski workout log|betting lesson log|car log|billers log|WhoStarts log|deliveries today|betting slate|life settings|golf watch|ticket watch|on-demand log|ski season log|task guardian log|picks archive|app check)/i;
 const ALERT = /^Personal: (price drop|fare drop|ticket drop|game-day ticket drop|powder alert|powder day|show announced|tee time open|golf courses open)/i;
 const BRIEFY = /^Personal: (morning brief|betting slate|ski workout|pool focus|betting lesson|ski weekend outlook|powder|ticket|price|show|deliveries|tee time open|Sunday reset|bills & renewals)/i;
 
@@ -58,7 +58,7 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
   out.push(`WEATHER: ${W.line}`);
 
   // TODAY: timed events in order (skip silent logs/watches, the brief itself, and done items)
-  const timed = todayEv.filter(e => e.start?.dateTime && !SILENT.test(e.summary || '') && !/^Personal: morning brief/i.test(e.summary || '') && !done(e));
+  const timed = todayEv.filter(e => e.start?.dateTime && !SILENT.test(e.summary || '') && !/^Personal: morning brief/i.test(e.summary || '') && !done(e) && !/^[A-Z0-9]+(-[A-Z0-9]+)+$/.test(String(e.description || '').trim().split('\n').pop().trim()));
   const work = e => !/^Personal/i.test(e.summary || '');
   const shown = weekend ? [...timed.filter(e => !work(e)), ...timed.filter(work)] : timed;
   if (shown.length) {
@@ -91,12 +91,12 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
     const plog = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 60, ahead: 1 }).catch(() => null);
     const rows = info.fromLog(plog && plog.description, today), games = info.fromSlate(slate.description);
     const tag = l => { const r = info.match(l.replace(/@\s*DraftKings.*$/i, ''), rows) || info.match(l.replace(/@\s*DraftKings.*$/i, ''), games); return r ? [r.sport, r.time && `${r.time} ${r.zone}`].filter(Boolean).join(' · ') : ''; };
-    out.push('PICKS:', ...[rec, mine, br].filter(Boolean), ...picks.map(l => { const t = tag(l.replace(/^\s*-\s*/, '')); return t ? l.trim().replace(/^(-\s*.+?)\s+[–—]\s+/, (m, head) => `${head} – ${t} – `) : l.trim(); }), ...(par ? [par] : []), 'Full slate in today\'s betting slate event. Placed any? Tap "I placed this" in My Life or reply "placed …" here.');
+    out.push('PICKS:', ...[rec, mine, br].filter(Boolean), ...picks.map(l => { const t = tag(l.replace(/^\s*-\s*/, '')); return t ? l.trim().replace(/^(-\s*.+?)\s+[–—]\s+/, (m, head) => `${head} – ${t} – `) : l.trim(); }), ...(par ? [par] : []), 'Placed any? Tick it in My Life (Sports → Picks log).');
   } else out.push('PICKS: no betting slate yet today.');
 
   // PERSONAL: due today, open to-dos, overdue (last 30 days)
   const recent = await list(localAt(0, 0, -30), t1);
-  const personal = recent.filter(e => /^Personal/i.test(e.summary || '') && !done(e) && !SILENT.test(e.summary) && !BRIEFY.test(e.summary) && !ALERT.test(e.summary));
+  const personal = recent.filter(e => /^Personal/i.test(e.summary || '') && !done(e) && !SILENT.test(e.summary) && !/^[A-Z0-9]+(-[A-Z0-9]+)+$/.test(String(e.description || '').trim().split('\n').pop().trim()) && !BRIEFY.test(e.summary) && !ALERT.test(e.summary));
   const items = [];
   for (const e of personal) {
     if (/^Personal to-do/i.test(e.summary)) { for (const l of String(e.description || '').split('\n')) if (/^\s*☐/.test(l)) items.push(`${l.trim()} (${fmtD(startOf(e))})`); }
