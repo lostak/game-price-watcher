@@ -31,7 +31,7 @@ const settled = l => /^SLIP:/.test(l) ? /\|\s*(won|lost|push|void|cashed)/i.test
     const cutoff = dayAdd(today, -keepDays);
     moved = lines.filter(l => { const d = dateOf(l); return d && d < cutoff && settled(l); });
     const rest = lines.filter(l => !moved.includes(l)).join('\n');
-    if (rest.length < HARD || keepDays <= 2) break;
+    if (rest.length < SOFT || keepDays <= 2) break;
     keepDays--;
   }
   if (!moved.length) { console.log(`logroll: nothing to archive (${len} chars)`); if (!DRY) { st.date = today; fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify(st)); } return; }
