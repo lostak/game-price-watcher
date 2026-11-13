@@ -55,5 +55,5 @@ jobs:
         if: steps.gate.outputs.run == 'yes' && inputs.dry != true
         run: |
           git config user.name game-price-watcher && git config user.email game-price-watcher@users.noreply.github.com
-          git add state/ && (git diff --cached --quiet || (git commit -m "game prices: update state" && git pull --rebase -q -X theirs && git push))
+          git add state/ && (git diff --cached --quiet || (git commit -m "game prices: update state" && for i in 1 2 3 4; do git pull --rebase -q -X theirs && git push -q && break; sleep $((i*4)); done))
 # schedule registered by lostak

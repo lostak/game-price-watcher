@@ -16,7 +16,17 @@ const dapi = async (method, path, body) => {
   const r = await fetch('https://discord.com/api/v10' + path, { method, headers: { Authorization: 'Bot ' + TOKEN, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
   if (!r.ok) throw new Error(`Discord ${path} ${r.status}`); return r.json();
 };
+// Every alert goes to Discord; if Discord itself fails, the same text becomes a calendar popup on Bradley's phone.
 async function dm(st, text) {
+  try { await dmDiscord(st, text); }
+  catch (e) {
+    const cal = require('./gcal');
+    if (!cal.ready) throw e;
+    await cal.insert({ summary: 'Personal: ⚠ ' + text.replace(/\*\*/g, '').split(/ – |\n/)[0].replace(/^⚠\s*/, '').slice(0, 90), description: text.replace(/\*\*/g, '') + `\n(Sent as a calendar alert because Discord failed: ${e.message.slice(0, 120)})`, when: cal.nextQuarter(), popup: 0 });
+  }
+}
+async function dmDiscord(st, text) {
+  if (!TOKEN || !CHANNEL) throw new Error('Discord bot not configured');
   if (!st.dmId) {
     let owner = one(process.env.DISCORD_OWNER_ID);
     if (!owner) { const ch = await dapi('GET', `/channels/${CHANNEL}`); owner = (await dapi('GET', `/guilds/${ch.guild_id}`)).owner_id; }
@@ -26,7 +36,7 @@ async function dm(st, text) {
 }
 
 (async () => {
-  if (!TOKEN || !CHANNEL) { console.log('watchdog: Discord bot not configured'); return; }
+  if (!TOKEN || !CHANNEL) console.log('watchdog: Discord bot not configured – alerts fall back to calendar popups');
   let st = {}; try { st = JSON.parse(fs.readFileSync(STATE, 'utf8')); } catch {}
   st.down ||= {};
   const t = hm(), daytime = t >= 600 && t < 2200;
@@ -69,6 +79,23 @@ async function dm(st, text) {
         st.guardianDue = due.toISOString();
       }
     }
+  }
+  // Credentials: once an hour, check the two things every alert depends on, and report each through the OTHER one.
+  if (process.argv.includes('--slate') && (!st.credsAt || Date.now() - Date.parse(st.credsAt) > 55 * 60e3)) {
+    st.credsAt = new Date().toISOString();
+    const cal = require('./gcal'), today = cal.todayLocal();
+    let calErr = null, discErr = null;
+    if (!cal.ready) calErr = 'GCAL_SA_KEY / GCAL_CALENDAR_ID secrets missing or unreadable';
+    else try { await cal.search('PICKS-LOG', { back: 1, ahead: 1, max: 1 }); } catch (e) { calErr = e.message.slice(0, 160); }
+    try { await dapi('GET', '/users/@me'); } catch (e) { discErr = e.message.slice(0, 160); }
+    if (calErr && st.calAlert !== today) {      // calendar broken → Discord DM
+      try { await dm(st, `⚠ **Google Calendar access is failing for the watchers** (${calErr}). Picks, the brief, grading, golf and alerts all read the calendar. Check the service account key (GCAL_SA_KEY) and that the calendar is still shared with it.`); st.calAlert = today; } catch {}
+    }
+    if (discErr && cal.ready && !calErr && st.discAlert !== today) {   // Discord broken → phone calendar popup
+      await cal.insert({ summary: 'Personal: ⚠ Discord bot can\'t send messages', description: `The watchers' Discord bot failed: ${discErr}\nNo Discord DMs or #general posts can go out until it's fixed (usually: reset the bot token in the Discord developer portal and update DISCORD_BOT_TOKEN in the game-price-watcher and golf-watcher repo secrets). Calendar popups like this one still work.`, when: cal.nextQuarter(), popup: 0 }).catch(() => {});
+      st.discAlert = today;
+    }
+    console.log(`watchdog: credentials – calendar ${calErr ? 'FAIL ' + calErr : 'ok'}, discord ${discErr ? 'FAIL ' + discErr : 'ok'}`);
   }
   fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify(st));
 })().catch(e => { console.error('watchdog:', e.message); process.exit(1); });

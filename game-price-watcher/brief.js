@@ -40,7 +40,13 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
   if (!cal.ready) { console.log('brief: calendar not configured'); return; }
   let st = {}; try { st = JSON.parse(fs.readFileSync(STATE, 'utf8')); } catch {}
   const today = cal.todayLocal(), label = fmtD(localAt(12, 0));
-  if (st.date === today && !process.argv.includes('--force')) { console.log('brief: already done today'); return; }
+  // done for today – unless it went out without the picks and the slate has turned up since (the betting task retries until 10:13)
+  if (st.date === today && !process.argv.includes('--force')) {
+    if (!st.noSlate) { console.log('brief: already done today'); return; }
+    const evs = await list(localAt(0, 0), localAt(0, 0, 1));
+    if (!evs.some(e => new RegExp(`^Personal: betting slate – ${label}$`, 'i').test(e.summary || ''))) { console.log('brief: done; still no slate'); return; }
+    console.log('brief: slate arrived – adding the picks to today\'s brief');
+  }
   const t0 = localAt(0, 0), t1 = localAt(0, 0, 1), now = new Date();
   const todayEv = await list(t0, t1);
   const slate = todayEv.find(e => new RegExp(`^Personal: betting slate – ${label}$`, 'i').test(e.summary || ''));
@@ -125,5 +131,5 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
   if (existing) await cal.patch(existing.id, { summary: title, description });
   else await cal.insert({ summary: title, description, when: localAt(7, 0) < now ? cal.nextQuarter() : localAt(7, 0), popup: 0 });
   console.log(`brief: ${existing ? 'updated' : 'created'} – ${shown.length} events, ${items.length} personal items, ${games.length} games, slate ${slate ? 'yes' : 'no'}`);
-  st.date = today; fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify(st));
+  st.date = today; st.noSlate = !slate; fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify(st));
 })().catch(e => { console.error('brief:', e.message); process.exit(1); });
