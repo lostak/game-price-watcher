@@ -35,7 +35,7 @@ function placedRows(text) {
   const out = [], lines = String(text || '').split('\n'), slipPicks = [];
   for (const l of lines) {
     const m = l.match(/^(\d{4}-\d{2}-\d{2}) \| ([^|]+) \|/); if (!m) continue;
-    const pl = (l.match(/placed:\s*(yes|slip|no|not yet)/i) || [])[1]?.toLowerCase();
+    const pl = (l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1]?.toLowerCase();
     if (pl === 'slip') { slipPicks.push({ date: m[1], w: words(m[2]) }); continue; }
     if (pl !== 'yes') continue;
     const sk = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stake = sk ? +sk[2] : 0, res = ((l.match(/result:\s*(.*)$/i) || [])[1] || '').trim();

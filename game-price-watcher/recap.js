@@ -24,7 +24,7 @@ function parse(desc) {
     const res = (l.match(/result:\s*(W|L|P|Push)\b/i) || [])[1]; if (!res) continue;
     const units = parseFloat((l.match(/result:[^|]*?([+-]\d+(?:\.\d+)?)u/) || [])[1]);
     const dm = l.match(/result:[^|]*?([+-])\$(\d+(?:\.\d+)?)/), st = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/);
-    const placed = ((l.match(/placed:\s*(yes|slip|no|not yet)/i) || [])[1] || '').toLowerCase();
+    const placed = ((l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1] || '').toLowerCase();
     rows.push({ date: p[0], bet: p[1], parlay: /^PARLAY:/i.test(p[1]), res: res[0].toUpperCase(), units: isNaN(units) ? 0 : units,
       stakeU: st ? +st[1] : 1, stake$: st ? +st[2] : 0, dollars: dm ? (dm[1] === '-' ? -1 : 1) * +dm[2] : null, placed, mine: placed === 'yes',
       sport: ((p[1].match(/\((CFB|NFL|NHL|NBA|TT)\b/i) || [])[1] || (/^PARLAY:/i.test(p[1]) ? 'Parlay' : 'Other')).toUpperCase(),

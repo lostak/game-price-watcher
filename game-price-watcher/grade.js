@@ -98,7 +98,7 @@ const TEST_LOG = [
       if (yoursOnly) { if (stake$ !== null && per !== null) { lines[i] = l.replace(/yours:\s*pending/i, mineOf()); changed++; console.log(`graded yours ${date} ${bet}`); } continue; }
       if (per === null) { graded[date].push('?'); continue; }
       const u = res === 'W' ? stakeU * per : res === 'L' ? -stakeU : 0;
-      const placed = (l.match(/placed:\s*(yes|slip|no|not yet)/i) || [])[1]?.toLowerCase();
+      const placed = (l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1]?.toLowerCase();
       if (placed === 'not yet') lines[i] = l.replace(/placed:\s*not yet/i, 'placed: no');   // no slip by grading time
       const money = placed === 'yes' && stake$ !== null ? (yo.line || yo.odds ? ', ' + mineOf() : `, ${fd(res === 'W' ? stake$ * per : res === 'L' ? -stake$ : 0)}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
       lines[i] = lines[i].replace(/result:\s*pending/i, `result: ${res} (${note}) ${fu(u)}${money} (auto-graded)`);
@@ -115,7 +115,7 @@ const TEST_LOG = [
     const res = rs.includes('L') ? 'L' : 'W', per = ppu(p[2]), st = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/);
     if (per === null || !st) continue;
     const u = res === 'W' ? +st[1] * per : -st[1];
-    const placed = (l.match(/placed:\s*(yes|slip|no|not yet)/i) || [])[1]?.toLowerCase();
+    const placed = (l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1]?.toLowerCase();
     let nl = placed === 'not yet' ? l.replace(/placed:\s*not yet/i, 'placed: no') : l;
     const yo = yours(l), yper = yo.odds ? ppu(yo.odds) : per;
     const money = placed === 'yes' ? (yo.odds ? `, yours: ${res} ${fd(res === 'W' ? +st[2] * yper : -st[2])}` : `, ${fd(res === 'W' ? +st[2] * per : -st[2])}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
