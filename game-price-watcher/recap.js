@@ -41,7 +41,9 @@ function parse(desc) {
   if (st.date === today && !force) { console.log('recap: already sent'); return; }
   const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
   if (!log) { console.log('recap: no picks log'); return; }
-  const all = parse(log.description), hdr = String(log.description);
+  // older days live in "Personal: picks archive – week of …" events (logroll.js keeps the log under Google's size limit)
+  const arch = (await cal.search('PICKS-ARCHIVE', { back: 60, ahead: 1, max: 50 })).filter(e => /^Personal: picks archive/.test(e.summary || ''));
+  const all = parse([...new Set([...arch.map(e => e.description || ''), log.description || ''].join('\n').split('\n'))].join('\n')), hdr = String(log.description);   // a line in both counts once
   const from = new Date(Date.parse(today + 'T12:00:00Z') - 6 * 864e5).toISOString().slice(0, 10);
   const wk = all.filter(r => r.date >= from && r.date <= today), picks = wk.filter(r => !r.slip), mine = wk.filter(r => r.mine);
   const sum = (a, f) => a.reduce((t, r) => t + (f(r) || 0), 0);
