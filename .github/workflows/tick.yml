@@ -91,6 +91,11 @@ jobs:
             [ "$rc" = "1" ] && echo "::warning::Picks run failed – see log."
           fi
           true
+      - name: Keep the picks log under Google's size limit (nightly, or whenever it grows past 6,500 chars)
+        env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+        run: node logroll.js || echo "::warning::picks log roll failed – see log"
       - name: Morning freshness check of the whole project (from 7:40 AM, once a day; DMs only if something is stale)
         env:
           GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
