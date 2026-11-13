@@ -6,6 +6,7 @@ const fs = require('fs');
 const cal = require('./gcal');
 const { byName } = require('./teams');
 const { teamGames } = require('./gt');
+const info = require('./pickinfo');
 const STATE = 'state/brief.json', TZ = cal.TZ, UA = 'MyLife morning brief (github.com/lostak/game-price-watcher)';
 const AURORA = [39.7294, -104.8319];
 const SILENT = /^(Price watch:|Show watch:|Claude)|^Personal: (picks log|pool log|ski workout log|betting lesson log|car log|billers log|WhoStarts log|deliveries today|betting slate|life settings|golf watch|ticket watch|on-demand log|ski season log)/i;
@@ -87,7 +88,10 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
     const rec = d.find(l => /^RECORD:/.test(l)), mine = d.find(l => /^YOUR BETS:/.test(l)), br = d.find(l => /^BANKROLL:/.test(l));
     const i = d.findIndex(l => /^PICKS:/.test(l)), picks = i >= 0 ? d.slice(i + 1).filter(l => /^\s*-\s/.test(l)).slice(0, 3) : [];
     const par = d.find(l => /^PARLAY:/.test(l));
-    out.push('PICKS:', ...[rec, mine, br].filter(Boolean), ...picks.map(l => l.trim()), ...(par ? [par] : []), 'Full slate in today\'s betting slate event. Placed any? Tap "I placed this" in My Life or reply "placed …" here.');
+    const plog = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 60, ahead: 1 }).catch(() => null);
+    const rows = info.fromLog(plog && plog.description, today), games = info.fromSlate(slate.description);
+    const tag = l => { const r = info.match(l.replace(/@\s*DraftKings.*$/i, ''), rows) || info.match(l.replace(/@\s*DraftKings.*$/i, ''), games); return r ? [r.sport, r.time && `${r.time} ${r.zone}`].filter(Boolean).join(' · ') : ''; };
+    out.push('PICKS:', ...[rec, mine, br].filter(Boolean), ...picks.map(l => { const t = tag(l.replace(/^\s*-\s*/, '')); return t ? l.trim().replace(/^-\s*/, `- [${t}] `) : l.trim(); }), ...(par ? [par] : []), 'Full slate in today\'s betting slate event. Placed any? Tap "I placed this" in My Life or reply "placed …" here.');
   } else out.push('PICKS: no betting slate yet today.');
 
   // PERSONAL: due today, open to-dos, overdue (last 30 days)

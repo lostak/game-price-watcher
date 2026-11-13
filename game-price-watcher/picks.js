@@ -7,6 +7,7 @@
 'use strict';
 const fs = require('fs');
 const gcal = require('./gcal');
+const info = require('./pickinfo');
 const STATE = 'state/picks.json', GENERAL = '1568311701701398641';
 const one = v => String(v || '').split(/\s+/).filter(Boolean)[0] || '';   // pasted secrets can carry a line break
 const DRY = process.argv.includes('--dry'), FORCE = process.argv.includes('--force');
@@ -17,14 +18,24 @@ const noMoney = s => s.replace(/\s*\([^)]*\$[^)]*\)/g, '').replace(/,?\s*[-+]?\$
 // format slip must never cost the day's post. If no PICKS block is found it falls back to any line that names a book.
 const SEP = /\s+[–—-]\s+/;   // odds like -130 have no space after the minus, so they never split
 const BULLET = /^(?:[-•*]|\d+[.)])\s+/;
-function pickLine(raw) {
+// "🏒 NHL · 7:00 PM" in front of each pick; in Discord the time is a <t:…:t> stamp so everyone sees their own time zone
+function tagFor(pick, ctx, parlay = false) {
+  if (!ctx) return '';
+  const r = info.match(pick, ctx.log, parlay) || (parlay ? null : info.match(pick, ctx.slate));
+  if (!r) return '';
+  const ts = r.time ? (ctx.discord && r.zone === 'MT' ? `<t:${info.epoch(ctx.date, r.time)}:t>` : `${r.time} ${r.zone}`) : '';
+  if (parlay) return ts ? `last leg ${ts}` : '';
+  return [r.sport ? `${info.EMOJI[r.sport] || ''} ${r.sport}`.trim() : '', ts].filter(Boolean).join(' · ');
+}
+function pickLine(raw, ctx) {
   const p = raw.replace(BULLET, '').replace(/\*\*/g, '').split(SEP);
   const pick = p[0].replace(BOOKS, '').trim(), units = noMoney((p.find(x => /\d(\.\d+)?\s*u\b/i.test(x)) || p[1] || ''));
   const conf = (p.find(x => /^(High|Medium|Low)( confidence)?$/i.test(x.trim())) || '').trim().replace(/ confidence$/i, '');
   const stop = (p.find(x => /^stop at /i.test(x.trim())) || '').trim();
-  return pick ? `• ${pick}${units && /u\b/.test(units) ? ' – ' + units : ''}${conf ? ' – ' + conf.toLowerCase() + ' confidence' : ''}${stop ? ' – ' + stop : ''}` : null;
+  const tag = tagFor(pick, ctx);
+  return pick ? `• ${tag ? '**' + tag + '** – ' : ''}${pick}${units && /u\b/.test(units) ? ' – ' + units : ''}${conf ? ' – ' + conf.toLowerCase() + ' confidence' : ''}${stop ? ' – ' + stop : ''}` : null;
 }
-function build(desc, label) {
+function build(desc, label, ctx) {
   const lines = String(desc || '').replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').split('\n').map(l => l.trim());
   const out = [], label_ = /^[A-Z][A-Z /&-]{2,}:/;
   let inPicks = false, parlay = null, record = null;
@@ -32,12 +43,12 @@ function build(desc, label) {
     const l = l0.replace(/^\*\*(.+?)\*\*/, '$1');
     if (/^RECORD:/i.test(l)) record = noMoney(l.replace(/^RECORD:\s*(picks\s+)?/i, '').split('|')[0]).replace(/,\s*$/, '');
     if (/^PICKS\b[^:]*:/i.test(l)) { inPicks = true; const rest = l.replace(/^PICKS\b[^:]*:\s*/i, ''); if (rest && /none|no (games|picks)/i.test(rest)) return null; continue; }
-    if (/^PARLAY:/i.test(l)) { inPicks = false; const p = l.replace(/^PARLAY:\s*/i, '').split(SEP); parlay = `Parlay: ${p[0].replace(/\s*@\s*(DraftKings|DK|FanDuel|FD|bet365|BetMGM|Caesars|ESPN ?Bet|Fanatics|BetRivers|Hard Rock)\b/i, '')}${p[1] ? ' – ' + noMoney(p[1]) : ''}`; continue; }
+    if (/^PARLAY:/i.test(l)) { inPicks = false; const p = l.replace(/^PARLAY:\s*/i, '').split(SEP); { const t = tagFor('', ctx, true); parlay = `Parlay${t ? ' (' + t + ')' : ''}: ${p[0].replace(/\s*@\s*(DraftKings|DK|FanDuel|FD|bet365|BetMGM|Caesars|ESPN ?Bet|Fanatics|BetRivers|Hard Rock)\b/i, '')}${p[1] ? ' – ' + noMoney(p[1]) : ''}`; } continue; }
     if (label_.test(l)) inPicks = false;
-    if (inPicks && BULLET.test(l)) { const x = pickLine(l); if (x) out.push(x); }
+    if (inPicks && BULLET.test(l)) { const x = pickLine(l, ctx); if (x) out.push(x); }
   }
   if (!out.length) {   // fallback: no usable PICKS block – any bullet line that names a sportsbook is a pick
-    for (const l of lines) if (BULLET.test(l) && /@\s*(DraftKings|DK|FanDuel|FD|bet365)/i.test(l) && !/^PARLAY/i.test(l)) { const x = pickLine(l); if (x) out.push(x); }
+    for (const l of lines) if (BULLET.test(l) && /@\s*(DraftKings|DK|FanDuel|FD|bet365)/i.test(l) && !/^PARLAY/i.test(l)) { const x = pickLine(l, ctx); if (x) out.push(x); }
   }
   if (!out.length) return null;
   const text = [`🎯 **Picks of the day – ${label}**`, ...out.slice(0, 6), parlay ? '• ' + noMoney(parlay) : null,
@@ -107,7 +118,12 @@ async function post(text) {
   const ev = (await gcal.search('betting slate', { back: 1, ahead: 1 })).find(e => (e.summary || '').includes('betting slate') && (e.summary || '').includes(label));
   if (!ev) problem = `the Claude betting task hasn't written today's slate yet (it retries at 7:13, 8:13, 9:13 and 10:13)`;
   else {
-    const text = build(ev.description, label);
+    // sport + game time per pick, from today's picks-log lines (the betting task writes those right after the slate)
+    const log = await gcal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 60, ahead: 1 }).catch(() => null);
+    const ctx = { date: today, discord: true, log: info.fromLog(log && log.description, today), slate: info.fromSlate(ev.description) };
+    const fresh = Date.now() - new Date(ev.updated || 0) < 10 * 60000;
+    if (!ctx.log.length && fresh && !FORCE) { console.log('Slate just written; waiting a run for its picks-log lines (sport + game time).'); return; }
+    const text = build(ev.description, label, ctx);
     if (!text) {
       if (/^PICKS\b[^:]*:\s*.*(none|no (games|picks))/im.test(ev.description || '')) { console.log('Slate says no picks today – nothing to post.'); mine.date = today; mine.verified = today; mine.none = true; save(); return; }
       problem = "today's slate has no pick lines I can read (the betting task may still be writing it)";
