@@ -12,6 +12,7 @@
 'use strict';
 const fs = require('fs');
 const cal = require('./gcal');
+const bank = require('./bankroll');
 const one = v => String(v || '').split(/\s+/).filter(Boolean)[0] || '';
 const TOKEN = one(process.env.DISCORD_BOT_TOKEN), CHANNEL = one(process.env.DISCORD_CHANNEL_ID);
 const STATE = 'state/forwarded.json';
@@ -40,7 +41,15 @@ const reply = (dmId, ref, content) => dapi('POST', `/channels/${dmId}/messages`,
 // placed: yes for matching picks on the latest log date (today's picks); fills in dollars for picks already graded as not placed
 function markPlaced(desc, words) {
   const lines = String(desc || '').split('\n'), dates = lines.map(l => (l.match(/^(\d{4}-\d{2}-\d{2}) \| /) || [])[1]).filter(Boolean).sort();
-  const day = dates.includes(cal.todayLocal()) ? cal.todayLocal() : dates[dates.length - 1];
+  // "placed yesterday all" / "placed 11/12 wild" / "placed nov 12 parlay" back-fill an earlier day
+  const today = cal.todayLocal(), y0 = +today.slice(0, 4), MON = 'jan feb mar apr may jun jul aug sep oct nov dec'.split(' ');
+  let want = null, w = words.trim();
+  const yd = w.match(/^yesterday\b\s*/i), md = w.match(/^(\d{1,2})\/(\d{1,2})\b\s*/), mn = w.match(/^([a-z]{3})[a-z]*\.?\s+(\d{1,2})(st|nd|rd|th)?\b\s*/i);
+  if (yd) { const t = new Date(today + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() - 1); want = t.toISOString().slice(0, 10); w = w.slice(yd[0].length); }
+  else if (md) { want = `${y0}-${md[1].padStart(2, '0')}-${md[2].padStart(2, '0')}`; w = w.slice(md[0].length); }
+  else if (mn && MON.includes(mn[1].toLowerCase())) { want = `${y0}-${String(MON.indexOf(mn[1].toLowerCase()) + 1).padStart(2, '0')}-${mn[2].padStart(2, '0')}`; w = w.slice(mn[0].length); }
+  words = w || 'all';
+  const day = want || (dates.includes(today) ? today : dates[dates.length - 1]);
   const all = /^(all|everything|them|all of them|it all)$/i.test(words.trim()), keys = words.toLowerCase().match(/[a-z0-9+.-]{3,}/g)?.filter(w => !/^(the|bet|bets|and|on|ml|pick|picks)$/.test(w)) || [];
   const hit = [];
   for (let i = 0; i < lines.length; i++) {
@@ -66,7 +75,7 @@ async function handleReplies(st, dmId, owner) {
     const refEvent = m.message_reference?.message_id && st.sent?.[m.message_reference.message_id];
     try {
       if (/^(help|\?)$/i.test(text)) {
-        await reply(dmId, m.id, 'Reply **done** to an alert to check it off. **placed all**, **placed parlay** or **placed oilers** marks today\'s picks as placed. Anything else goes to Claude as a "personal …" note (handled hourly, 8 AM–7 PM).');
+        await reply(dmId, m.id, 'Reply **done** to an alert to check it off. **placed all**, **placed parlay** or **placed oilers** marks today\'s picks as placed (**placed yesterday all** / **placed 11/12 wild** for an earlier day). **balance 92.50** sets the bankroll to what DraftKings shows. Anything else goes to Claude as a "personal …" note (handled hourly, 8 AM–7 PM).');
       } else if (refEvent && /^(done|did it|finished|complete|✅|👍)\b/i.test(text)) {
         const ev = await cal.get(refEvent);
         if (/^✅/.test(ev.summary || '')) { await reply(dmId, m.id, 'Already checked off.'); continue; }
@@ -76,13 +85,28 @@ async function handleReplies(st, dmId, owner) {
         const extra = text.replace(/^(done|did it|finished|complete|✅|👍)[\s,.:-]*/i, '');
         if (log) await cal.insert({ summary: `Claude: personal ${log}${extra ? ' – ' + extra.slice(0, 150) : ''}`, description: `From Bradley's Discord reply (${cal.nowLocal()}).`, when: new Date(), popup: null });
         await reply(dmId, m.id, '✅ Checked off: ' + ev.summary.replace(/^Personal:\s*/i, '') + (log ? ' – logged for the rotation (within the hour).' : ''));
+      } else if (/^(balance|bal|bankroll)\b/i.test(text)) {
+        // "balance 92.50" = what DraftKings shows right now; the bankroll is re-anchored to it (open stakes added back)
+        const amt = +(text.match(/\$?\s*([\d,]+(?:\.\d{1,2})?)/) || [])[1]?.replace(/,/g, '');
+        if (!(amt >= 0) || !/\d/.test(text)) { await reply(dmId, m.id, 'Send it like **balance 92.50** – the balance DraftKings shows right now.'); continue; }
+        const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
+        if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }
+        const arch = await bank.archives(), live = await cal.get(log.id).catch(() => log);
+        const when = new Date().toLocaleTimeString('en-US', { timeZone: cal.TZ, hour: 'numeric', minute: '2-digit' });
+        const line = bank.balanceLine(live.description, arch, amt, when);
+        let desc = String(live.description).split('\n').filter(l => !/^BALANCE CHECK:/.test(l));
+        const at = desc.findIndex(l => /^PICKS \(|^PICKS:/.test(l)); desc.splice(at < 0 ? desc.length - 1 : at, 0, line); desc = desc.join('\n');
+        const c = bank.compute(desc, arch); desc = bank.withCurrent(desc, c, cal.nowLocal());
+        await cal.patch(log.id, { description: desc });
+        await reply(dmId, m.id, `💵 Bankroll set to **$${c.current.toFixed(2)}** ($${amt.toFixed(2)} shown${c.pending ? ` + $${c.pending.toFixed(2)} in open bets I know about` : ''}). From here it moves with every placed bet as it settles. Units resize at Monday's reset.`);
       } else if (/^placed\b/i.test(text)) {
         const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
         if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }
         const live = await cal.get(log.id).catch(() => log);   // freshest copy right before editing
         const r = markPlaced(live.description, text.replace(/^placed\s*/i, '') || 'all');
         if (!r.hit.length) { await reply(dmId, m.id, `No unplaced pick on ${r.day} matches "${text}". Try **placed all**, **placed parlay** or a team name.`); continue; }
-        await cal.patch(log.id, { description: r.desc });
+        const arch = await bank.archives().catch(() => []);
+        await cal.patch(log.id, { description: bank.withCurrent(r.desc, bank.compute(r.desc, arch), cal.nowLocal()) });
         await reply(dmId, m.id, `💵 Marked placed (${r.day}): ${r.hit.join('; ')}. They count toward your bankroll at the logged price and stake; upload the slip in My Life if the price was different.`);
       } else {
         await cal.insert({ summary: 'Claude: personal ' + text.replace(/^personal[:\s]+/i, '').slice(0, 200), description: `${text}\n\nFrom Bradley's Discord DM to the bot (${cal.nowLocal()}).`, when: new Date(), popup: null });

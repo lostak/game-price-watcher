@@ -3,7 +3,7 @@ name: run-script
 on:
   workflow_dispatch:
     inputs:
-      script: { description: 'brief | recap | grade | pool | ski | inspect | fresh | logroll | picks', required: true, type: string }
+      script: { description: 'brief | recap | grade | pool | ski | inspect | fresh | logroll | picks | bankroll', required: true, type: string }
       args: { description: 'extra args, e.g. --force', required: false, default: '--force', type: string }
 permissions: { contents: write }
 concurrency: { group: run-script, cancel-in-progress: false }
@@ -26,7 +26,7 @@ jobs:
           A: '${{ inputs.args }}'
         run: |
           case "$S" in
-            brief|recap|grade|inspect|fresh|logroll|picks) node "$S.js" $A ;;
+            brief|recap|grade|inspect|fresh|logroll|picks|bankroll) node "$S.js" $A ;;
             pool|ski) node rotations.js "$S" ;;
             *) echo "unknown script $S"; exit 1 ;;
           esac

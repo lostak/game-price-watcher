@@ -7,6 +7,7 @@ const cal = require('./gcal');
 const { byName } = require('./teams');
 const { teamGames } = require('./gt');
 const info = require('./pickinfo');
+const bankroll = require('./bankroll');
 const STATE = 'state/brief.json', TZ = cal.TZ, UA = 'MyLife morning brief (github.com/lostak/game-price-watcher)';
 const AURORA = [39.7294, -104.8319];
 const SILENT = /^(Price watch:|Show watch:|Claude)|^Personal: (picks log|pool log|ski workout log|betting lesson log|car log|billers log|WhoStarts log|deliveries today|betting slate|life settings|golf watch|ticket watch|on-demand log|ski season log|task guardian log|picks archive)/i;
@@ -91,7 +92,10 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
     const plog = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 60, ahead: 1 }).catch(() => null);
     const rows = info.fromLog(plog && plog.description, today), games = info.fromSlate(slate.description);
     const tag = l => { const r = info.match(l.replace(/@\s*DraftKings.*$/i, ''), rows) || info.match(l.replace(/@\s*DraftKings.*$/i, ''), games); return r ? [r.sport, r.time && `${r.time} ${r.zone}`].filter(Boolean).join(' · ') : ''; };
-    out.push('PICKS:', ...[rec, mine, br].filter(Boolean), ...picks.map(l => { const t = tag(l.replace(/^\s*-\s*/, '')); return t ? l.trim().replace(/^-\s*/, `- [${t}] `) : l.trim(); }), ...(par ? [par] : []), 'Full slate in today\'s betting slate event. Placed any? Tap "I placed this" in My Life or reply "placed …" here.');
+    // nothing marked placed lately → the bankroll can't move; say how to fix it
+    const placed = bankroll.rows(plog && plog.description).map(r => r.date).sort().pop(), stale = !placed || (new Date(today) - new Date(placed)) / 864e5 >= 3;
+    const nudge = stale && plog ? `BANKROLL NOTE: it only counts bets marked placed – none since ${placed ? placed.slice(5).replace('-', '/') : 'the start'}. Bet since then? Reply "balance 92.50" with what DraftKings shows, or "placed 11/12 wild", or upload the slips in My Life.` : null;
+    out.push('PICKS:', ...[rec, mine, br, nudge].filter(Boolean), ...picks.map(l => { const t = tag(l.replace(/^\s*-\s*/, '')); return t ? l.trim().replace(/^-\s*/, `- [${t}] `) : l.trim(); }), ...(par ? [par] : []), 'Full slate in today\'s betting slate event. Placed any? Tap "I placed this" in My Life or reply "placed …" here.');
   } else out.push('PICKS: no betting slate yet today.');
 
   // PERSONAL: due today, open to-dos, overdue (last 30 days)
