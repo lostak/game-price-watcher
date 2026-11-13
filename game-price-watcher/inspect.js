@@ -3,7 +3,7 @@
 'use strict';
 const gcal = require('./gcal');
 (async () => {
-  for (const t of ['picks log', 'pool log', 'ski workout log', 'betting lesson log', 'golf watch', 'ski season log', 'billers log', 'car log', 'life settings']) {
+  for (const t of ['picks log', 'pool log', 'ski workout log', 'betting lesson log', 'golf watch', 'ski season log', 'billers log', 'car log', 'life settings', 'ticket watch log', 'app versions', 'task guardian log', 'lesson log']) {
     const ev = await gcal.findByTitle('Personal: ' + t, t).catch(() => null);
     if (!ev) { console.log(`${t}: not found`); continue; }
     const d = ev.description || '';
