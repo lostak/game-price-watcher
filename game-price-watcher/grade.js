@@ -68,6 +68,7 @@ const TEST_LOG = [
   const log = TEST ? { description: TEST_LOG } : await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
   if (!log) { console.log('grade: no picks log'); return; }
   const lines = String(log.description || '').split('\n'), today = cal.todayLocal();
+  const orig = lines.slice();   // to apply only our changes onto a fresh copy at the end
   let changed = 0;
   const graded = {};   // date -> [res of singles]
   for (let i = 0; i < lines.length; i++) {
@@ -111,6 +112,9 @@ const TEST_LOG = [
   }
   if (!changed) { console.log('grade: nothing new to grade'); return; }
   if (DRY || TEST) { console.log(lines.filter(x => /auto-graded/.test(x)).join('\n')); return; }
-  await cal.patch(log.id, { description: lines.join('\n') });
+  // the ESPN lookups took a while: re-read the log and change only the lines we graded (others may have written meanwhile)
+  const swap = new Map(orig.map((l, i) => [l, lines[i]]).filter(([a, b]) => a !== b));
+  const live = String((await cal.get(log.id)).description || '').split('\n');
+  await cal.patch(log.id, { description: live.map(l => swap.get(l) ?? l).join('\n') });
   console.log(`grade: ${changed} line(s) graded`);
 })().catch(e => { console.error('grade:', e.message); process.exit(1); });

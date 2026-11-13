@@ -79,7 +79,8 @@ async function handleReplies(st, dmId, owner) {
       } else if (/^placed\b/i.test(text)) {
         const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
         if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }
-        const r = markPlaced(log.description, text.replace(/^placed\s*/i, '') || 'all');
+        const live = await cal.get(log.id).catch(() => log);   // freshest copy right before editing
+        const r = markPlaced(live.description, text.replace(/^placed\s*/i, '') || 'all');
         if (!r.hit.length) { await reply(dmId, m.id, `No unplaced pick on ${r.day} matches "${text}". Try **placed all**, **placed parlay** or a team name.`); continue; }
         await cal.patch(log.id, { description: r.desc });
         await reply(dmId, m.id, `💵 Marked placed (${r.day}): ${r.hit.join('; ')}. They count toward your bankroll at the logged price and stake; upload the slip in My Life if the price was different.`);
