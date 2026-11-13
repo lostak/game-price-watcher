@@ -79,7 +79,11 @@ function withCurrent(desc, c, stamp) {
   const d = x => x ? x.slice(5).replace('-', '/') : '';
   const note = `current $${c.current.toFixed(2)} (Claude's picks only: every pick at its logged stake, placed or not${c.last ? `, settled through ${d(c.last)}` : ''}${c.pending ? `, $${c.pending.toFixed(2)} riding on open picks` : ''}; auto ${stamp})`;
   const p = c.placed, pnote = `placed bankroll $${p.current.toFixed(2)} (only the picks you placed, at your odds and line; ${p.n} placed${p.pending ? `, $${p.pending.toFixed(2)} riding` : ''})`;
-  let L = lines[i].replace(/ \| placed bankroll \$[^|]*?(?= \| |$)/, '');
+  let L = lines[i].replace(/ \| placed bankroll \$[^|]*?(?= \| |$)/, '')
+    .replace(/ \| current (?!\$)[^|]*\| [\d.]+ \([^)]*\)/g, '');   // a segment garbled by an old "$1" replacement bug
+  // keep exactly one "current $X (…)" segment
+  const segs = L.split(' | '), cur = segs.filter(x => /^current \$/.test(x));
+  if (cur.length > 1) L = segs.filter((x, j) => !/^current \$/.test(x) || j === segs.indexOf(cur[0])).join(' | ');
   L = /\| current \$[^|]*/.test(L) ? L.replace(/\| current \$[^|]*?(?=( \| |$))/, () => '| ' + note) : L + ' | ' + note;
   lines[i] = L.split(note).join(note + ' | ' + pnote);
   return lines.join('\n');
