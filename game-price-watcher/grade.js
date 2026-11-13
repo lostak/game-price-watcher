@@ -5,6 +5,9 @@
 // which also recomputes the totals and bankroll each morning.
 'use strict';
 const cal = require('./gcal');
+const { yours } = require('./bankroll');
+// your line swapped into the bet text: totals replace the Over/Under number, spreads the first signed number
+const withLine = (bet, line) => /\b(Over|Under)\s+\d/i.test(bet) ? bet.replace(/\b(Over|Under)\s+\d+(?:\.\d+)?/i, (m, ou) => `${ou} ${String(line).replace(/^[+-]/, '')}`) : bet.replace(/(\s)[+-]\d+(?:\.\d+)?\b/, (m, sp) => sp + line);
 const SPORT = { NFL: 'football/nfl', CFB: 'football/college-football', NHL: 'hockey/nhl', NBA: 'basketball/nba' };
 const DRY = process.argv.includes('--dry');
 
@@ -58,7 +61,8 @@ const TEST_LOG = [
   '2026-11-07 | Lightning ML @ Wild (NHL) | -142 | DraftKings | Low | 1u ($2, returns $3.41) | 6:10 PM MT | placed: yes | result: pending',   // W
   '2026-11-08 | Broncos @ Panthers Over 44.5 (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 11:00 AM MT | placed: no | result: pending',   // W
   '2026-11-08 | Bruins ML vs Panthers (NHL) | -135 | DraftKings | Low | 1u ($2, returns $3.48) | 11:00 AM MT | placed: no | result: pending',   // W
-  '2026-11-08 | Packers +3 @ Patriots (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 2:25 PM MT | placed: no | result: pending',   // W
+  '2026-11-08 | Packers +3 @ Patriots (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 2:25 PM MT | placed: yes (your line +2.5, your odds -120) | result: pending',   // W, yours W +$1.67
+  '2026-11-08 | Broncos @ Panthers Over 44.5 (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 11:00 AM MT | placed: yes (your line 47.5) | result: W (DEN 26-21, total 47) +0.93u, yours: pending',   // yours L -$2
   '2026-11-08 | PARLAY: DEN-CAR Over 44.5 / Bruins ML / Packers +3 | +546 | DraftKings | 0.5u ($1, returns $6.46) | placed: no | result: pending',   // W
 ].join('\n');
 
@@ -75,21 +79,28 @@ const TEST_LOG = [
     const l = lines[i], p = l.split(' | ').map(s => s.trim());
     if (!/^\d{4}-\d{2}-\d{2}$/.test(p[0] || '') || /^PARLAY:/i.test(p[1] || '')) continue;
     const date = p[0], bet = p[1] || '', sport = ((bet.match(/\((CFB|NFL|NHL|NBA|TT)\b/i) || [])[1] || '').toUpperCase();
-    const pending = /result:\s*pending/i.test(l);
+    const pending = /result:\s*pending/i.test(l), yoursOnly = !pending && /yours:\s*pending/i.test(l);   // edited after grading
     (graded[date] ||= []);
-    if (!pending) { const r = (l.match(/result:\s*(W|L|P|Push)\b/i) || [])[1]; graded[date].push(r ? r[0].toUpperCase() : '?'); continue; }
+    if (!pending) { const r = (l.match(/result:\s*(W|L|P|Push)\b/i) || [])[1]; graded[date].push(r ? r[0].toUpperCase() : '?'); if (!yoursOnly) continue; }
     if (!SPORT[sport] || date > today) { graded[date].push('?'); continue; }
     try {
       const games = (await scoreboard(sport, date)).filter(g => g.teams.length === 2 && g.teams.some(t => mention(bet, t) >= 0));
       const g = games.sort((x, y) => y.teams.filter(t => mention(bet, t) >= 0).length - x.teams.filter(t => mention(bet, t) >= 0).length)[0];
-      if (!g || !g.done) { graded[date].push('?'); continue; }
-      const { res, note } = grade(bet.replace(/\([^)]*\)/g, m => m.replace(/@/g, ' ')), g);
+      if (!g || !g.done) { if (!yoursOnly) graded[date].push('?'); continue; }
+      const clean = bet.replace(/\([^)]*\)/g, m => m.replace(/@/g, ' '));
+      const { res, note } = grade(clean, g);
       const per = ppu(p[2]), st = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stakeU = st ? +st[1] : 1, stake$ = st ? +st[2] : null;
+      // Bradley's own terms on a pick he placed: "placed: yes (your line -4, your odds -110)"
+      const yo = yours(l), mineOf = () => {
+        const yres = yo.line ? grade(withLine(clean, yo.line), g).res : res, yper = yo.odds ? ppu(yo.odds) : per;
+        return `yours: ${yres} ${fd(yres === 'W' ? stake$ * yper : yres === 'L' ? -stake$ : 0)}`;
+      };
+      if (yoursOnly) { if (stake$ !== null && per !== null) { lines[i] = l.replace(/yours:\s*pending/i, mineOf()); changed++; console.log(`graded yours ${date} ${bet}`); } continue; }
       if (per === null) { graded[date].push('?'); continue; }
       const u = res === 'W' ? stakeU * per : res === 'L' ? -stakeU : 0;
       const placed = (l.match(/placed:\s*(yes|slip|no|not yet)/i) || [])[1]?.toLowerCase();
       if (placed === 'not yet') lines[i] = l.replace(/placed:\s*not yet/i, 'placed: no');   // no slip by grading time
-      const money = placed === 'yes' && stake$ !== null ? `, ${fd(res === 'W' ? stake$ * per : res === 'L' ? -stake$ : 0)}` : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
+      const money = placed === 'yes' && stake$ !== null ? (yo.line || yo.odds ? ', ' + mineOf() : `, ${fd(res === 'W' ? stake$ * per : res === 'L' ? -stake$ : 0)}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
       lines[i] = lines[i].replace(/result:\s*pending/i, `result: ${res} (${note}) ${fu(u)}${money} (auto-graded)`);
       graded[date].push(res); changed++;
       console.log(`graded ${date} ${bet}: ${res} ${note}`);
@@ -106,7 +117,8 @@ const TEST_LOG = [
     const u = res === 'W' ? +st[1] * per : -st[1];
     const placed = (l.match(/placed:\s*(yes|slip|no|not yet)/i) || [])[1]?.toLowerCase();
     let nl = placed === 'not yet' ? l.replace(/placed:\s*not yet/i, 'placed: no') : l;
-    const money = placed === 'yes' ? `, ${fd(res === 'W' ? +st[2] * per : -st[2])}` : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
+    const yo = yours(l), yper = yo.odds ? ppu(yo.odds) : per;
+    const money = placed === 'yes' ? (yo.odds ? `, yours: ${res} ${fd(res === 'W' ? +st[2] * yper : -st[2])}` : `, ${fd(res === 'W' ? +st[2] * per : -st[2])}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
     lines[i] = nl.replace(/result:\s*pending/i, `result: ${res} (${res === 'W' ? 'all legs won' : 'a leg lost'}) ${fu(u)}${money} (auto-graded)`);
     changed++; console.log(`graded parlay ${p[0]}: ${res}`);
   }
