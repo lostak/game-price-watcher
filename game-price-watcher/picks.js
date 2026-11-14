@@ -97,7 +97,8 @@ async function post(text) {
 // - posted but not visible (or deleted) → post again next run
 // Bradley hears nothing while it's fixing itself. Only if it still isn't up at 10:45 AM does he get ONE DM saying what
 // was wrong and what was tried; when it then goes up, a ✅ follow-up. `--check` is kept as an alias of a normal run.
-(async () => {
+module.exports = { build, pickLine, noMoney };
+if (require.main === module) (async () => {
   const today = gcal.todayLocal(), state = (() => { try { return JSON.parse(fs.readFileSync(STATE, 'utf8')); } catch { return {}; } })();
   const mine = state.day === today ? state : { day: today };     // today's working state (older days are dropped)
   const save = () => { fs.mkdirSync('state', { recursive: true }); fs.writeFileSync(STATE, JSON.stringify(mine) + '\n'); };

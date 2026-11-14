@@ -1,0 +1,19 @@
+name: test
+# The background scripts' tests (game-price-watcher/tests) on every change to them; failures go to the App doctor.
+on:
+  push: { branches: [main], paths: ['game-price-watcher/**/*.js', 'game-price-watcher/tests/**', '.github/workflows/test.yml'] }
+  workflow_dispatch:
+concurrency: { group: test, cancel-in-progress: true }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults: { run: { working-directory: game-price-watcher } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - env:
+          GCAL_SA_KEY: '${{ secrets.GCAL_SA_KEY }}'
+          GCAL_CALENDAR_ID: '${{ secrets.GCAL_CALENDAR_ID }}'
+        run: node tests/run.js

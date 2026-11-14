@@ -102,7 +102,8 @@ async function handleReplies(st, dmId, owner) {
   }
 }
 
-(async () => {
+module.exports = { markPlaced };
+if (require.main === module) (async () => {
   if (!cal.ready || !TOKEN || !CHANNEL) { console.log('forwarder: calendar or Discord bot not configured'); return; }
   let st = null; try { st = JSON.parse(fs.readFileSync(STATE, 'utf8')); } catch {}
   const first = !st; st ||= { seen: [] };

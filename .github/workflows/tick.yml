@@ -101,6 +101,8 @@ jobs:
           if [ "$hm" -ge 630 ] && [ "$hm" -lt 1300 ] && [ "$nok" != "yes" ] && [ "$(TZ=America/Denver date +%u)" = "7" ]; then
             node nflparlay.js || echo "::warning::NFL parlay post failed – see log."
           fi
+          # once the posts are up (or at 1 PM): read back what actually went out and report problems to the App doctor
+          if [ "$hm" -ge 700 ] && [ "$hm" -lt 1400 ]; then node outcheck.js || echo "::warning::output check failed – see log."; fi
           true
       - name: Keep the picks log under Google's size limit (nightly, or whenever it grows past 6,500 chars)
         env:

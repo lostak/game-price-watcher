@@ -68,7 +68,8 @@ const TEST_LOG = [
   '2026-11-08 | PARLAY: DEN-CAR Over 44.5 / Bruins ML / Packers +3 | +546 | DraftKings | 0.5u ($1, returns $6.46) | placed: no | result: pending',   // W
 ].join('\n');
 
-(async () => {
+module.exports = { grade, withLine, mention, ppu };
+if (require.main === module) (async () => {
   if (!cal.ready && !process.argv.includes('--test')) { console.log('grade: calendar not configured'); return; }
   const TEST = process.argv.includes('--test');   // re-grade Nov 6–8 (known results) without writing anything
   const log = TEST ? { description: TEST_LOG } : await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });

@@ -1,0 +1,31 @@
+BANKROLL: DraftKings, started $100 on 2026-11-06 | current  | 17.88 (garbled by an old bug; auto Fri) | unit $2 (2% of $100.40) | current $117.88 (Claude's picks only; auto now) | placed bankroll $99.40 (only the picks you placed, at your odds and line; 9 placed)
+YOUR BETS (placed only – the only thing that moves the bankroll): singles 4-2-0, +1.70u, +$3.40 | parlays 0-3, -2.00u, -$4.00 | combined -0.30u, -$0.60
+PICKS RECORD (every recommendation, placed or not; units only): singles 15-6-0, +6.59u | parlays 2-5, +2.34u | combined +8.93u on 25.5u risked (log started Fri Nov 6, 2026)
+CLV: 13 of 19 known beat the close (Nov 12: Bruins, Wild and Sabres all beat the close)
+PICKS (last 4 days):
+2026-11-08 | Broncos @ Panthers Over 44.5 (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 11:00 AM MT | placed: no | close: -115 DK – beat | result: W (DEN 26-21, total 47) +0.93u (not placed, no $)
+2026-11-08 | Bruins ML vs Panthers (NHL) | -135 | DraftKings | Low | 1u ($2, returns $3.48) | 11:00 AM MT | placed: no | close: -155 DK – beat | result: W (BOS 4-1) +0.74u (not placed, no $)
+2026-11-08 | Packers +3 @ Patriots (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 2:25 PM MT | placed: no | close: +3.5 -126 DK – did not beat | result: W (GB 45-27) +0.93u (not placed, no $)
+2026-11-08 | PARLAY: DEN-CAR Over 44.5 / Bruins ML / Packers +3 | +546 | DraftKings | 0.5u ($1, returns $6.46) | last leg 2:25 PM MT | placed: no | result: W (all 3 legs won) +2.73u (not placed, no $)
+2026-11-09 | Islanders ML @ Sharks (NHL) | -135 | DraftKings | Low | 1u ($2, returns $3.48) | 8:00 PM MT | placed: no | close: -142 DK – beat | result: L (SJ 3-2) -1u (not placed, no $)
+2026-11-09 | Oilers ML vs Rangers (NHL) | -155 | DraftKings | Low | 1u ($2, returns $3.29) | 6:00 PM MT | placed: no | close: -162 DK – beat | result: W (EDM 3-1) +0.65u (not placed, no $)
+2026-11-09 | Bills @ Vikings Under 43.5 (NFL) | -102 | DraftKings | Low | 1u ($2, returns $3.96) | 6:15 PM MT | placed: no | close: U 46.5 -115 DK – did not beat | result: W (BUF 23-6, total 29) +0.98u (not placed, no $)
+2026-11-09 | PARLAY: Islanders ML / Oilers ML / BUF-MIN Under 43.5 | +467 | DraftKings | 0.5u ($1, returns $5.67) | last leg 8:00 PM MT | placed: slip | result: L (Islanders leg lost) -0.5u (see slip)
+2026-11-10 | Devils ML @ Jets (NHL) | -148 | DraftKings | Low | 1u ($2, returns $3.35) | 5:00 PM MT | placed: no | close: -142 DK – did not beat | result: L (WPG 4-2) -1u (not placed, no $)
+2026-11-10 | Avalanche ML @ Maple Leafs (NHL) | -155 | DraftKings | Low | 1u ($2, returns $3.29) | 5:00 PM MT | placed: no | close: -175 DK – beat | result: W (COL 6-3) +0.65u (not placed, no $)
+2026-11-10 | Wild ML @ Canadiens (NHL) | -118 | DraftKings | Low | 1u ($2, returns $3.69) | 5:00 PM MT | placed: no | close: -130 DK – beat | result: W (MIN 2-1) +0.85u (not placed, no $)
+2026-11-10 | PARLAY: Devils ML / Avalanche ML / Wild ML | +409 | DraftKings | 0.5u ($1, returns $5.09) | last leg 5:00 PM MT | placed: no | result: L (Devils leg lost) -0.5u (not placed, no $)
+2026-11-11 | Lightning ML @ Sabres (NHL) | -130 | DraftKings | Low | 1u ($2, returns $3.54) | 5:00 PM MT | placed: no | close: -130 DK – did not beat | result: W (TB 8-3) +0.77u (not placed, no $)
+2026-11-11 | Central Michigan -18.5 vs Sacramento State (CFB) | -105 | DraftKings | Low | 1u ($2, returns $3.90) | 5:30 PM MT | placed: no | close: -17.5 -108 DK – did not beat | result: W (CMU 28-7) +0.95u (not placed, no $)
+2026-11-11 | Golden Knights ML vs Mammoth (NHL) | -125 | DraftKings | Low | 1u ($2, returns $3.60) | 7:30 PM MT | placed: no | close: -155 DK – beat | result: W (VGK 5-3) +0.8u (not placed, no $)
+2026-11-11 | PARLAY: Lightning ML / Central Michigan -18.5 / Golden Knights ML | +522 | DraftKings | 0.5u ($1, returns $6.22) | last leg 7:30 PM MT | placed: no | result: W (all legs won) +2.61u (not placed, no $)
+2026-11-12 | Bruins ML vs Canadiens (NHL) | -120 | DraftKings | Low | 1u ($2, returns $3.67) | 5:00 PM MT | placed: no | close: -125 DK – beat | result: L (MTL 5-2) -1u (not placed, no $)
+2026-11-12 | Wild ML @ Maple Leafs (NHL) | -155 | DraftKings | Low | 1u ($2, returns $3.29) | 5:00 PM MT | placed: no | close: -180 DK – beat | result: W (MIN 5-2) +0.65u (not placed, no $)
+2026-11-12 | Sabres ML @ Blackhawks (NHL) | -148 | DraftKings | Low | 1u ($2, returns $3.35) | 6:00 PM MT | placed: no | close: -155 DK – beat | result: L (CHI 3-2) -1u (not placed, no $)
+2026-11-12 | PARLAY: Bruins ML / Wild ML / Sabres ML | +405 | DraftKings | 0.5u ($1, returns $5.05) | last leg 6:00 PM MT | placed: no | result: L (Bruins leg lost) -0.5u (not placed, no $)
+2026-11-13 | Pittsburgh -3.5 vs Florida State (CFB) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 5:00 PM MT | placed: not yet | close: pending | result: pending
+2026-11-13 | Rangers -1.5 puck line @ Canucks (NHL) | +114 | DraftKings | Low | 1u ($2, returns $4.28) | 7:00 PM MT | placed: not yet | close: pending | result: pending
+2026-11-13 | Colorado +9.5 vs Houston (CFB) | -110 | DraftKings | Low | 1u ($2, returns $3.82) | 8:15 PM MT | placed: not yet | close: pending | result: pending
+2026-11-13 | PARLAY: Pitt -3.5 / Rangers -1.5 / Colorado +9.5 | +687 | DraftKings | 0.5u ($1, returns $7.87) | last leg 8:15 PM MT | placed: not yet | result: pending
+SLIP: 2026-11-09 | Parlay: NY Islanders ML vs San Jose (-142) / Edmonton Oilers ML | +430 | $1.00 to win $4.30 | DraftKings | lost -$1.00
+PICKS-LOG

@@ -1,0 +1,8 @@
+2026-11-06 | Virginia Tech +6.5 (CFB, @ SMU) | -110 | DraftKings | Low-Medium | 1u ($2, returns $3.81) | 5:00 PM MT | placed: yes | close: +5.5 -110 DK – beat | result: L (SMU 51-28) -1u, -$2.00
+2026-11-06 | Nebraska @ Illinois Under 50.5 (CFB) | -110 | DraftKings | Low | 1u ($2, returns $3.81) | 6:00 PM MT | placed: yes | close: x | result: W (ILL 24-13, total 37) +0.91u, +$1.81
+2026-11-06 | TCU +7.5 alt spread (CFB, @ Arizona) | -133 | DraftKings | Low | 1u ($2, returns $3.50) | 8:15 PM MT | placed: yes | close: x | result: W (ARIZ 29-28) +0.75u, +$1.50
+2026-11-06 | PARLAY: VT +6.5 / NEB-ILL Under 50.5 / TCU +7.5 alt | +943 (boosted) | DraftKings | 1u ($2, returns $20.86) | last leg 8:15 PM MT | placed: yes | result: L (VT leg lost) -1u, -$2.00
+2026-11-07 | Tulane +3 vs Tulsa (CFB) | -118 | DraftKings | Low | 1u ($2, returns $3.69) | 10:00 AM MT | placed: yes | close: unknown | result: L (TLSA 60-10) -1u, -$2.00
+2026-11-07 | Kentucky @ Tennessee Under 49.5 (CFB) | -112 | DraftKings | Medium | 1.5u ($3, returns $5.68) | 4:15 PM MT | placed: yes | close: unknown | result: W (TENN 34-6, total 40) +1.34u, +$2.68
+2026-11-07 | Lightning ML @ Wild (NHL) | -142 | DraftKings | Low | 1u ($2, returns $3.41) | 6:10 PM MT | placed: yes | close: x | result: W (TBL 4-3 OT) +0.70u, +$1.41
+2026-11-07 | PARLAY: Tulane +3 / UK-TENN Under 49.5 / Lightning ML | +571 (boosted) | DraftKings | 0.5u ($1, returns $6.71) | last leg 6:10 PM MT | placed: yes | result: L (Tulane leg lost) -0.5u, -$1.00
