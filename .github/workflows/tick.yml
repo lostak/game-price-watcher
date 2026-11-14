@@ -96,6 +96,11 @@ jobs:
             [ "$rc" = "2" ] && echo "::warning::Picks can't be posted: the calendar isn't connected (GCAL_SA_KEY)."
             [ "$rc" = "1" ] && echo "::warning::Picks run failed – see log."
           fi
+          # Sundays (or any day the slate has one): the NFL moneyline parlay, after the lineup, until posted and confirmed
+          nok=$(node -e "try{const s=require('./state/nfl.json');console.log(s.day==='$today'&&s.verified?'yes':'')}catch{console.log('')}")
+          if [ "$hm" -ge 630 ] && [ "$hm" -lt 1300 ] && [ "$nok" != "yes" ] && [ "$(TZ=America/Denver date +%u)" = "7" ]; then
+            node nflparlay.js || echo "::warning::NFL parlay post failed – see log."
+          fi
           true
       - name: Keep the picks log under Google's size limit (nightly, or whenever it grows past 6,500 chars)
         env:

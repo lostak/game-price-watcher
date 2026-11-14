@@ -63,6 +63,8 @@ const TEST_LOG = [
   '2026-11-08 | Bruins ML vs Panthers (NHL) | -135 | DraftKings | Low | 1u ($2, returns $3.48) | 11:00 AM MT | placed: no | result: pending',   // W
   '2026-11-08 | Packers +3 @ Patriots (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 2:25 PM MT | placed: yes (your line +2.5, your odds -120) | result: pending',   // W, yours W +$1.67
   '2026-11-08 | Broncos @ Panthers Over 44.5 (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 11:00 AM MT | placed: yes (your line 47.5) | result: W (DEN 26-21, total 47) +0.93u, yours: pending',   // yours L -$2
+  '2026-11-08 | PARLAY: NFL Sunday ML – Broncos ML / Packers ML | +250 | DraftKings | 0.5u ($1, returns $3.50) | last leg 2:25 PM MT | placed: no | result: pending',   // W (DEN and GB won Nov 8)
+  '2026-11-08 | PARLAY: NFL Sunday ML – Panthers ML / Packers ML | +900 | DraftKings | 0.5u ($1, returns $10.00) | last leg 2:25 PM MT | placed: yes (your odds +1000) | result: pending',   // L (CAR lost)
   '2026-11-08 | PARLAY: DEN-CAR Over 44.5 / Bruins ML / Packers +3 | +546 | DraftKings | 0.5u ($1, returns $6.46) | placed: no | result: pending',   // W
 ].join('\n');
 
@@ -110,8 +112,24 @@ const TEST_LOG = [
   for (let i = 0; i < lines.length; i++) {
     const l = lines[i], p = l.split(' | ').map(s => s.trim());
     if (!/^PARLAY:/i.test(p[1] || '') || !/result:\s*pending/i.test(l)) continue;
-    const rs = graded[p[0]] || [];
-    if (!rs.length || rs.includes('?') || (!rs.includes('L') && rs.includes('P'))) continue;
+    let rs = graded[p[0]] || [];
+    // the Sunday NFL moneyline parlay has its own legs (every game that day), graded one by one from ESPN
+    if (/^PARLAY:\s*NFL Sunday ML/i.test(p[1])) {
+      if (p[0] > today) continue;
+      const legs = p[1].replace(/^PARLAY:\s*NFL Sunday ML\s*[–—:-]\s*/i, '').split(/\s*\/\s*/).filter(Boolean); rs = [];
+      try {
+        const games = await scoreboard('NFL', p[0]);
+        for (const leg of legs) {
+          const g = games.filter(x => x.teams.length === 2 && x.teams.some(t => mention(leg, t) >= 0))[0];
+          if (!g || !g.done) { rs.push('?'); continue; }
+          rs.push(grade(leg.replace(/\s[+-]\d{3,}\b/, '').replace(/\bML\b/i, '').trim() + ' ML', g).res);
+        }
+      } catch (e) { console.log(`grade NFL parlay ${p[0]}: ${e.message}`); continue; }
+      if (!rs.includes('L') && rs.includes('?')) continue;   // still playing (a lost leg settles it early)
+    } else if (!rs.length) continue;
+    if (rs.includes('?') && !rs.includes('L')) continue;
+    if (!rs.includes('L') && rs.includes('P')) continue;
+    if (!rs.length || (rs.includes('?') && !/^PARLAY:\s*NFL Sunday ML/i.test(p[1])) || (!rs.includes('L') && rs.includes('P'))) continue;
     const res = rs.includes('L') ? 'L' : 'W', per = ppu(p[2]), st = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/);
     if (per === null || !st) continue;
     const u = res === 'W' ? +st[1] * per : -st[1];

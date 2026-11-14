@@ -92,6 +92,10 @@ const hourAt = (hourly, when) => hourly.find(h => Date.parse(h.startTime) <= +wh
     const rows = info.fromLog(plog && plog.description, today), games = info.fromSlate(slate.description);
     const tag = l => { const r = info.match(l.replace(/@\s*DraftKings.*$/i, ''), rows) || info.match(l.replace(/@\s*DraftKings.*$/i, ''), games); return r ? [r.sport, r.time && `${r.time} ${r.zone}`].filter(Boolean).join(' · ') : ''; };
     out.push('PICKS:', ...[rec, mine, br].filter(Boolean), ...picks.map(l => { const t = tag(l.replace(/^\s*-\s*/, '')); return t ? l.trim().replace(/^(-\s*.+?)\s+[–—]\s+/, (m, head) => `${head} – ${t} – `) : l.trim(); }), ...(par ? [par] : []), 'Placed any? Tick it in My Life (Sports → Picks log).');
+    // Sundays: the NFL moneyline parlay, legs only (the reasons are in the slate and the #general post)
+    const nfl = require('./nflparlay').parse(slate.description);
+    if (nfl) out.push(`NFL SUNDAY PARLAY: ${nfl.head.legs || nfl.legs.length} legs – ${[nfl.head.price, nfl.head.units && nfl.head.units + 'u', nfl.head.odds].filter(Boolean).join(' – ')}`,
+      ...nfl.legs.map(l => `- ${l.upset ? '🐶 upset: ' : ''}${l.text}${l.time ? ' – ' + l.time + ' MT' : ''}`));
   } else out.push('PICKS: no betting slate yet today.');
 
   // PERSONAL: due today, open to-dos, overdue (last 30 days)
