@@ -79,3 +79,12 @@ test('Discord "placed" back-fills earlier days', () => {
   assert.strictEqual(markPlaced(LOG, '11/12 wild').day, '2026-11-12');
   assert.ok(markPlaced(LOG, 'nov 12 all').hit.length >= 3);
 });
+test('recording bets placed at his odds, plus his own 2-leg parlay of the picks', () => {
+  const { apply } = require('../record');
+  const r = apply(F('nov14.txt'), '2026-11-14', [{ word: 'Wild', odds: '-130' }, { word: 'Oilers', odds: '-148' }], { legs: ['Wild', 'Oilers'], odds: '+196', stake: 2 });
+  assert.match(r.desc, /Wild ML @ Bruins.*placed: yes \(your odds -130\).*yours: W \+\$1\.53/);
+  assert.match(r.desc, /Oilers ML @ Maple Leafs.*placed: yes \(your odds -148\).*yours: W \+\$1\.35/);
+  assert.match(r.desc, /SLIP: 2026-11-14 \| Parlay: Wild ML \/ Oilers ML \| \+196 \| \$2\.00 to win \$3\.92 \| DraftKings \| won \+\$3\.92/);
+  assert.strictEqual(bank.compute(r.desc, []).placed.current, 106.8);   // $100 + 1.53 + 1.35 + 3.92 (DraftKings' payouts)
+  assert.strictEqual(apply(r.desc, '2026-11-14', [], { legs: ['Wild', 'Oilers'], odds: '+196', stake: 2 }).desc.split('SLIP: 2026-11-14').length, 2, 'no duplicate slip on a re-run');
+});

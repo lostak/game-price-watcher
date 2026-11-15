@@ -1,0 +1,8 @@
+BANKROLL: DraftKings, started $100 on 2026-11-06 | unit $2 (2% of $100.40) | current $130.34 (Claude's picks only; auto) | placed bankroll $99.40 (only the picks you placed, at your odds and line; 9 placed)
+PICKS (last 4 days):
+2026-11-14 | Wake Forest ML @ SMU (CFB) | -104 | FanDuel | Medium | 1.5u ($3, returns $5.88) | 10:00 AM MT | placed: no | close: +115 (consensus) | result: W (WAKE 49-7) +1.44u (not placed, no $) (auto-graded)
+2026-11-14 | Wild ML @ Bruins (NHL) | -110 | DraftKings | Low | 1u ($2, returns $3.82) | 5:00 PM MT | placed: no | close: -130 (DK) | result: W (MIN 6-2) +0.91u (not placed, no $) (auto-graded)
+2026-11-14 | Oilers ML @ Maple Leafs (NHL) | -147 | DraftKings | Low | 1u ($2, returns $3.36) | 5:00 PM MT | placed: no | close: -142 (DK) | result: W (EDM 1-0) +0.68u (not placed, no $) (auto-graded)
+2026-11-14 | PARLAY: Wake Forest ML / Wild ML / Oilers ML | +529 | DraftKings | 0.5u ($1, returns $6.29) | last leg 5:00 PM MT | placed: no | result: W (all legs won) +2.65u (not placed, no $) (auto-graded)
+SLIPS (Bradley's actual bets from uploaded bet slips; the real price and stake – grade these for the bankroll):
+PICKS-LOG
