@@ -86,5 +86,6 @@ test('recording bets placed at his odds, plus his own 2-leg parlay of the picks'
   assert.match(r.desc, /Oilers ML @ Maple Leafs.*placed: yes \(your odds -148\).*yours: W \+\$1\.35/);
   assert.match(r.desc, /SLIP: 2026-11-14 \| Parlay: Wild ML \/ Oilers ML \| \+196 \| \$2\.00 to win \$3\.92 \| DraftKings \| won \+\$3\.92/);
   assert.strictEqual(bank.compute(r.desc, []).placed.current, 106.8);   // $100 + 1.53 + 1.35 + 3.92 (DraftKings' payouts)
+  assert.strictEqual(bank.compute(r.desc, []).current, bank.compute(F('nov14.txt'), []).current, 'recording his bets must not move the picks bankroll');
   assert.strictEqual(apply(r.desc, '2026-11-14', [], { legs: ['Wild', 'Oilers'], odds: '+196', stake: 2 }).desc.split('SLIP: 2026-11-14').length, 2, 'no duplicate slip on a re-run');
 });

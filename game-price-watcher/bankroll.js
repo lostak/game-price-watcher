@@ -14,7 +14,8 @@ function rows(text) {          // every pick line: [{date, key, amt (settled $ o
     const m = l.match(/^(\d{4}-\d{2}-\d{2}) \| ([^|]+) \|/);
     if (!m) continue;
     const sk = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stake = sk ? +sk[2] : 0, perU = sk && +sk[1] ? +sk[2] / +sk[1] : 0;
-    const res = ((l.match(/result:\s*(.*)$/i) || [])[1] || '').trim();
+    // the pick's own result only: "yours: W +$1.53" is Bradley's payout at his odds and belongs to the placed bankroll
+    const res = ((l.match(/result:\s*(.*)$/i) || [])[1] || '').replace(/,\s*yours:[^|(]*/i, '').trim();
     let amt = null;
     if (res && !/^pending/i.test(res)) {
       const d = res.match(/([+-])\$\s?([\d,]+(?:\.\d+)?)/), u = res.match(/([+-]?\d+(?:\.\d+)?)u\b/);
