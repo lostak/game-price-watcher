@@ -1,5 +1,5 @@
 {
- "at": "2026-11-15T01:23:53.483Z",
+ "at": "2026-11-15T02:25:22.480Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -49,8 +49,8 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-19-2026/production/7300480",
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-19-2026-denver-colorado-ball-arena/nhl/18377042"
    },
-   "tickpick": 55,
-   "vivid": 58,
+   "tickpick": 63,
+   "vivid": 65,
    "seatgeek": 67
   },
   "2026-11-25 Avs vs Montreal Canadiens": {
@@ -79,7 +79,7 @@
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-3-2026/production/6489651",
     "seatgeek": "https://seatgeek.com/denver-broncos-tickets/11-22-2026-denver-colorado-empower-field-at-mile-high/nfl/18014232"
    },
-   "tickpick": 195,
+   "tickpick": 197,
    "vivid": 208,
    "seatgeek": 251
   },
@@ -95,10 +95,10 @@
   }
  },
  "notes": [
-  "Nuggets tickpick: HTTP 200, 10 game links, 4/4 matched",
+  "Nuggets tickpick: HTTP 200, 11 game links, 4/4 matched",
   "Nuggets seatgeek: HTTP 403, 0 game links, 0/4 matched",
   "Nuggets vivid: HTTP 200, 19 game links, 2/4 matched",
-  "Avs tickpick: HTTP 200, 12 game links, 3/3 matched",
+  "Avs tickpick: HTTP 200, 14 game links, 3/3 matched",
   "Avs seatgeek: HTTP 403, 0 game links, 0/3 matched",
   "Avs vivid: HTTP 200, 25 game links, 3/3 matched",
   "Broncos tickpick: HTTP 200, 6 game links, 1/1 matched",
