@@ -1,0 +1,14 @@
+2026-11-09 | Islanders ML @ Sharks (NHL) | -135 | DraftKings | Low | 1u ($2, returns $3.48) | 8:00 PM MT | placed: no | close: -142 DK – beat | result: L (SJ 3-2) -1u (not placed, no $)
+2026-11-09 | Oilers ML vs Rangers (NHL) | -155 | DraftKings | Low | 1u ($2, returns $3.29) | 6:00 PM MT | placed: no | close: -162 DK – beat | result: W (EDM 3-1) +0.65u (not placed, no $)
+2026-11-09 | Bills @ Vikings Under 43.5 (NFL) | -102 | DraftKings | Low | 1u ($2, returns $3.96) | 6:15 PM MT | placed: no | close: U 46.5 -115 DK – did not beat | result: W (BUF 23-6, total 29) +0.98u (not placed, no $)
+2026-11-10 | Devils ML @ Jets (NHL) | -148 | DraftKings | Low | 1u ($2, returns $3.35) | 5:00 PM MT | placed: no | close: -142 DK – did not beat | result: L (WPG 4-2) -1u (not placed, no $)
+2026-11-10 | Avalanche ML @ Maple Leafs (NHL) | -155 | DraftKings | Low | 1u ($2, returns $3.29) | 5:00 PM MT | placed: no | close: -175 DK – beat | result: W (COL 6-3) +0.65u (not placed, no $)
+2026-11-10 | Wild ML @ Canadiens (NHL) | -118 | DraftKings | Low | 1u ($2, returns $3.69) | 5:00 PM MT | placed: no | close: -130 DK – beat | result: W (MIN 2-1) +0.85u (not placed, no $)
+2026-11-06 | Virginia Tech +6.5 (CFB, @ SMU) | -110 | DraftKings | Low-Medium | 1u ($2, returns $3.81) | 5:00 PM MT | placed: yes | close: +5.5 -110 DK – beat | result: L (SMU 51-28) -1u, -$2.00
+2026-11-06 | Nebraska @ Illinois Under 50.5 (CFB) | -110 | DraftKings | Low | 1u ($2, returns $3.81) | 6:00 PM MT | placed: yes | close: U 52.5 -115 DK – beat | result: W (ILL 24-13, total 37) +0.91u, +$1.81
+2026-11-06 | TCU +7.5 alt spread (CFB, @ Arizona) | -133 | DraftKings | Low | 1u ($2, returns $3.50) | 8:15 PM MT | placed: yes | close: +6.5 -121 DK – beat (est.) | result: W (ARIZ 29-28) +0.75u, +$1.50
+2026-11-07 | Tulane +3 vs Tulsa (CFB) | -118 | DraftKings | Low | 1u ($2, returns $3.69) | 10:00 AM MT | placed: yes | close: unknown | result: L (TLSA 60-10) -1u, -$2.00
+2026-11-07 | Lightning ML @ Wild (NHL) | -142 | DraftKings | Low | 1u ($2, returns $3.41) | 6:10 PM MT | placed: yes | close: -135 DK – did not beat | result: W (TBL 4-3 OT) +0.70u, +$1.41
+2026-11-08 | Broncos @ Panthers Over 44.5 (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 11:00 AM MT | placed: no | close: -115 DK – beat | result: W (DEN 26-21, total 47) +0.93u (not placed, no $)
+2026-11-08 | Bruins ML vs Panthers (NHL) | -135 | DraftKings | Low | 1u ($2, returns $3.48) | 6:00 PM MT | placed: no | close: -155 DK – beat | result: W (BOS 4-1) +0.74u (not placed, no $)
+2026-11-08 | Packers +3 @ Patriots (NFL) | -108 | DraftKings | Low | 1u ($2, returns $3.85) | 2:25 PM MT | placed: no | close: +3.5 -126 DK – did not beat | result: W (GB 45-27) +0.93u (not placed, no $)

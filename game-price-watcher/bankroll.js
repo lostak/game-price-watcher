@@ -89,10 +89,53 @@ function withCurrent(desc, c, stamp) {
   lines[i] = L.split(note).join(note + ' | ' + pnote);
   return lines.join('\n');
 }
+// CLV ("CLV: x of y known beat the close (…)"), in code as well: the morning Claude task used to count it by hand and
+// got a pick wrong (Wake Forest ML -104 that closed +115 counted as beating the close). Singles only; a close note's own
+// verdict ("– beat", "– did not beat") wins, otherwise the closing number is compared (better line, else better price;
+// an equal close is known but not beaten). Same rule as my-life appcheck/check.js, which recomputes it independently.
+function clvVerdict(l) {
+  const close = (l.match(/close:\s*([^|]*)/i) || [])[1] || '';
+  if (!close || /^(pending|unknown)/i.test(close.trim())) return null;
+  if (/(did not|didn't|missed|worse than|lost to)\b/i.test(close)) return false;
+  if (/\bbeat\b/i.test(close)) return true;
+  const f = l.split(' | '), bet = f[1] || '', price = parseFloat(f[2]);
+  const nums = close.replace(/\([^)]*\)/g, '').match(/[+-]?\d+(?:\.\d+)?/g) || [];
+  const pay = o => o > 0 ? o / 100 : 100 / Math.abs(o);
+  const tot = bet.match(/\b(Over|Under)\s+(\d+(?:\.\d+)?)/i), spr = !tot && !/\bML\b/i.test(bet) ? (bet.replace(/\([^)]*\)/g, '').match(/\s([+-]\d+(?:\.\d+)?)\b/) || [])[1] : null;
+  if ((tot || spr) && nums.length >= 2) {
+    const mine = tot ? +tot[2] : parseFloat(spr), theirs = tot ? Math.abs(parseFloat(nums[0])) : parseFloat(nums[0]), cp = parseFloat(nums[1]);
+    const better = tot ? (/over/i.test(tot[1]) ? theirs - mine : mine - theirs) : mine - theirs;
+    if (Math.abs(better) > 0.01) return better > 0;
+    return pay(price) > pay(cp);
+  }
+  const cp = parseFloat(nums[nums.length - 1]);
+  if (isNaN(cp) || isNaN(price)) return null;
+  return pay(price) > pay(cp);
+}
+function clv(desc, archives = []) {
+  const all = [...archives, desc].flatMap(t => String(t || '').split('\n')).filter(l => /^\d{4}-\d{2}-\d{2} \| /.test(l) && !/^\S+ \| PARLAY:/i.test(l));
+  const v = all.map(l => ({ date: l.slice(0, 10), name: (l.split(' | ')[1] || '').replace(/\s+(ML\b|[+-]\d|Over\b|Under\b|@|vs\b|\().*$/i, '').trim(), ok: clvVerdict(l) })).filter(x => x.ok !== null);
+  const last = v.map(x => x.date).sort().pop();
+  let note = '';
+  if (last) {
+    const day = v.filter(x => x.date === last), and = a => a.length <= 1 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+    const b = day.filter(x => x.ok).map(x => x.name), n = day.filter(x => !x.ok).map(x => x.name);
+    const md = new Date(last + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric' });
+    note = ` (${md}: ${[b.length ? `${and(b)} beat the close` : '', n.length ? `${and(n)} did not` : ''].filter(Boolean).join('; ')})`;
+  }
+  return { beat: v.filter(x => x.ok).length, known: v.length, line: `CLV: ${v.filter(x => x.ok).length} of ${v.length} known beat the close${note}` };
+}
+// replaces the CLV line's counts and note (only that line); added after the PICKS RECORD line if missing
+function withClv(desc, c) {
+  const lines = String(desc).split('\n'), i = lines.findIndex(l => /^CLV:/.test(l));
+  if (i >= 0) lines[i] = c.line;
+  else { const r = lines.findIndex(l => /^PICKS RECORD/.test(l)); if (r < 0 || !c.known) return desc; lines.splice(r + 1, 0, c.line); }
+  return lines.join('\n');
+}
 async function archives() {
   return (await cal.search('PICKS-ARCHIVE', { back: 400, ahead: 1 })).filter(e => /picks archive/i.test(e.summary || '')).map(e => e.description || '');
 }
-module.exports = { rows, placedRows, compute, withCurrent, archives, yours };
+module.exports = { rows, placedRows, compute, withCurrent, archives, yours, clvVerdict, clv, withClv };
 
 if (require.main === module) (async () => {
   if (!cal.ready) { console.log('bankroll: calendar not connected'); return; }
@@ -101,10 +144,13 @@ if (require.main === module) (async () => {
   const arch = await archives(), live = await cal.get(log.id).catch(() => log);
   const c = compute(live.description, arch), old = (String(live.description).match(/\| current \$([\d,.]+)/) || [])[1], oldP = (String(live.description).match(/placed bankroll \$([\d,.]+)/) || [])[1];
   console.log(`bankroll: picks $${c.current.toFixed(2)} (was $${old}); placed $${c.placed.current.toFixed(2)} (was $${oldP}); ${c.rows.length} pick rows`);
+  const k = clv(live.description, arch), oldClv = (String(live.description).match(/^CLV:.*$/m) || [''])[0];
+  console.log(`bankroll: CLV ${k.beat} of ${k.known} (was "${oldClv.slice(0, 40)}")`);
   const same = (a, b) => a && Math.abs(+a.replace(/,/g, '') - b) < 0.005;
-  if (same(old, c.current) && same(oldP, c.placed.current) && !process.argv.includes('--force')) return;
+  const clvSame = oldClv === k.line || (!oldClv && !k.known);
+  if (same(old, c.current) && same(oldP, c.placed.current) && clvSame && !process.argv.includes('--force')) return;
   if (DRY) return;
-  const fresh = await cal.get(log.id);                        // re-read right before writing; only the BANKROLL line changes
-  await cal.patch(log.id, { description: withCurrent(fresh.description, compute(fresh.description, arch), cal.nowLocal()) });
+  const fresh = await cal.get(log.id);                        // re-read right before writing; only the BANKROLL and CLV lines change
+  await cal.patch(log.id, { description: withClv(withCurrent(fresh.description, compute(fresh.description, arch), cal.nowLocal()), clv(fresh.description, arch)) });
   console.log('bankroll: updated');
 })().catch(e => { console.error('bankroll: ' + e.message); process.exit(1); });

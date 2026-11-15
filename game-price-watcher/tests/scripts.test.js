@@ -89,3 +89,13 @@ test('recording bets placed at his odds, plus his own 2-leg parlay of the picks'
   assert.strictEqual(bank.compute(r.desc, []).current, bank.compute(F('nov14.txt'), []).current, 'recording his bets must not move the picks bankroll');
   assert.strictEqual(apply(r.desc, '2026-11-14', [], { legs: ['Wild', 'Oilers'], odds: '+196', stake: 2 }).desc.split('SLIP: 2026-11-14').length, 2, 'no duplicate slip on a re-run');
 });
+test('CLV line is counted in code: Wake Forest -104 that closed +115 did NOT beat the close (Nov 15 miscount 16 vs 15)', () => {
+  const log = F('nov15-clv.txt'), arch = F('archives-nov15.txt');
+  assert.strictEqual(bank.clvVerdict(log.split('\n').find(l => /^2026-11-14 \| Wake Forest/.test(l))), false);
+  const c = bank.clv(log, [arch]);
+  assert.strictEqual(c.line, 'CLV: 15 of 25 known beat the close (Nov 14: Wild beat the close; Wake Forest and Oilers did not)');
+  const once = bank.withClv(log, c);
+  assert.strictEqual(bank.withClv(once, bank.clv(once, [arch])), once, 'stable on re-run');
+  assert.strictEqual(once.split('\n').filter(l => /^CLV:/.test(l)).length, 1);
+  assert.strictEqual(once.replace(/^CLV:.*$/m, ''), log.replace(/^CLV:.*$/m, ''), 'only the CLV line changes');
+});
