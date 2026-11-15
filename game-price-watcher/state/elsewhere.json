@@ -1,5 +1,5 @@
 {
- "at": "2026-11-15T22:19:50.359Z",
+ "at": "2026-11-15T23:21:33.888Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -15,7 +15,7 @@
    },
    "tickpick": 14,
    "seatgeek": 19,
-   "vivid": 15
+   "vivid": 16
   },
   "2026-11-18 Nuggets vs Boston Celtics": {
    "urls": {
@@ -24,8 +24,8 @@
     "vivid": "https://www.vividseats.com/denver-nuggets-tickets-ball-arena-11-18-2026/production/7433160"
    },
    "tickpick": 35,
-   "seatgeek": 38,
-   "vivid": 35
+   "seatgeek": 39,
+   "vivid": 36
   },
   "2026-11-20 Nuggets vs Houston Rockets": {
    "urls": {
@@ -59,7 +59,7 @@
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-25-2026-denver-colorado-ball-arena/nhl/18377043",
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-25-2026/production/7300486"
    },
-   "tickpick": 82,
+   "tickpick": 83,
    "seatgeek": 90,
    "vivid": 85
   },
@@ -90,7 +90,7 @@
     "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971"
    },
    "tickpick": 266,
-   "seatgeek": 300,
+   "seatgeek": 297,
    "vivid": 266
   }
  },
@@ -98,14 +98,14 @@
   "Nuggets tickpick: HTTP 200, 10 game links, 4/4 matched",
   "Nuggets seatgeek: HTTP 200, 25 game links, 4/4 matched",
   "Nuggets vivid: HTTP 200, 19 game links, 2/4 matched",
-  "Avs tickpick: HTTP 200, 12 game links, 3/3 matched",
+  "Avs tickpick: HTTP 200, 13 game links, 3/3 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 3/3 matched",
   "Avs vivid: HTTP 200, 25 game links, 3/3 matched",
   "Broncos tickpick: HTTP 200, 6 game links, 1/1 matched",
   "Broncos seatgeek: HTTP 200, 8 game links, 1/1 matched",
   "Broncos vivid: HTTP 200, 8 game links, 1/1 matched",
   "Seahawks tickpick: HTTP 200, 7 game links, 1/1 matched",
-  "Seahawks seatgeek: HTTP 200, 8 game links, 1/1 matched",
+  "Seahawks seatgeek: HTTP 200, 7 game links, 1/1 matched",
   "Seahawks vivid: HTTP 200, 8 game links, 1/1 matched"
  ]
 }
