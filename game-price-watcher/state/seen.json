@@ -32,18 +32,18 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 18,
-        "section": "350",
-        "row": "11",
+        "section": "314",
+        "row": "5",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       },
       "lower": {
-        "price": 73,
+        "price": 72,
         "section": "134",
-        "row": "4",
+        "row": "6",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
       }
@@ -63,7 +63,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 40,
         "section": "360",
@@ -94,11 +94,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
-        "price": 77,
-        "section": "310",
-        "row": "15",
+        "price": 74,
+        "section": "318",
+        "row": "9",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48"
       },
@@ -119,11 +119,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
-        "price": 43,
-        "section": "334",
-        "row": "10",
+        "price": 45,
+        "section": "358",
+        "row": "13",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
@@ -150,7 +150,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 317,
         "section": "501",
@@ -159,9 +159,9 @@
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
       "lower": {
-        "price": 507,
-        "section": "134",
-        "row": "39",
+        "price": 501,
+        "section": "135",
+        "row": "32",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       }
@@ -181,7 +181,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 309,
         "section": "319",
@@ -212,10 +212,10 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 42,
-        "section": "358",
+        "section": "356",
         "row": "11",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
@@ -238,7 +238,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 93,
         "section": "324",
@@ -258,7 +258,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-16T15:00:34.275Z",
+      "at": "2026-11-16T15:59:50.728Z",
       "all": {
         "price": 126,
         "section": "330",
