@@ -1,5 +1,5 @@
 // Price-history charts for the game-price-watcher: one PNG per game – the cheapest price anywhere (blue) and in the
-// lower bowl (orange) since watching started, plus the cheapest single ticket elsewhere (aqua, dashed: TickPick/SeatGeek/Vivid "from" prices), with a title, axis labels and mm/dd date ticks. Drawn as SVG and
+// lower bowl (orange) since watching started, plus the cheapest single ticket elsewhere (green, dashed: TickPick/SeatGeek/Vivid "from" prices), with a title, axis labels and mm/dd date ticks. Drawn as SVG and
 // screenshotted in the runner's Chrome (scrollbars hidden), then shown inside the game's Discord embed.
 // Colors: the dataviz reference palette, dark mode, validated on the #1a1a19 surface.
 'use strict';

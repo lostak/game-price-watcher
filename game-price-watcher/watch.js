@@ -422,7 +422,7 @@ async function launch() {
         const lowTxt = l.lower ? money(l.lower.price) + ' lower bowl (sec ' + l.lower.section + ')' + arrow(l.lower.price, p.lower) : 'lower bowl n/a';
         const tgtTxt = g.target ? [g.target.all && money(g.target.all), g.target.lower && money(g.target.lower) + ' lower'].filter(Boolean).join(' / ') : '';
         const ewMin = Elsewhere.lowest(EW.games[key]);
-        if (asked(g)) mine.push({ g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`, '🔵 ' + anyTxt, '🟠 ' + lowTxt, ewLine(g) && '⚪ ' + ewLine(g), tgtTxt && '🎯 target ' + tgtTxt].filter(Boolean).join('\n') });
+        if (asked(g)) mine.push({ g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`, '🔵 ' + anyTxt, '🟠 ' + lowTxt, ewLine(g) && '🟢 ' + ewLine(g), tgtTxt && '🎯 target ' + tgtTxt].filter(Boolean).join('\n') });
         else lines.push(`${niceDate(g.date)} ${g.team} vs ${g.opponent} – ${anyTxt} · ${lowTxt}${ewMin != null ? ' · 1 ticket elsewhere from ' + money(ewMin) : ''}${tgtTxt ? ' · target ' + tgtTxt : ''}`);
         if (l.all && (!bestAll || l.all.price < bestAll.price)) bestAll = { ...l.all, g };
         if (l.lower && (!bestLower || l.lower.price < bestLower.price)) bestLower = { ...l.lower, g };
@@ -449,7 +449,7 @@ async function launch() {
         return { g, text: [`*${niceDate(g.date)} ${g.team} vs ${g.opponent}*`,
           `🔵 ${l.all ? money(l.all.price) + ' anywhere' : 'anywhere n/a'}${low(1) ? ' · low ' + low(1) : ''}`,
           `🟠 ${l.lower ? money(l.lower.price) + ' lower bowl' : 'lower bowl n/a'}${low(2) ? ' · low ' + low(2) : ''}`,
-          ewLine(g) && `⚪ ${ewLine(g)}${low(3) ? ' · low ' + low(3) : ''}`,
+          ewLine(g) && `🟢 ${ewLine(g)}${low(3) ? ' · low ' + low(3) : ''}`,
           since ? `since ${since}` : ''].filter(Boolean).join('\n') };
       });
       const embeds = await gameEmbeds(browser, items, hist);

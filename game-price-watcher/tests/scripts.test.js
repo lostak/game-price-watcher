@@ -99,3 +99,11 @@ test('CLV line is counted in code: Wake Forest -104 that closed +115 did NOT bea
   assert.strictEqual(once.split('\n').filter(l => /^CLV:/.test(l)).length, 1);
   assert.strictEqual(once.replace(/^CLV:.*$/m, ''), log.replace(/^CLV:.*$/m, ''), 'only the CLV line changes');
 });
+
+test('price message dots match the chart lines: 🔵 anywhere, 🟠 lower bowl, 🟢 1 ticket elsewhere (Nov 17: was ⚪)', () => {
+  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'watch.js'), 'utf8');
+  assert.ok(!src.includes('⚪'), 'no white dot');
+  assert.ok(/'🟢 ' \+ ewLine/.test(src) && /`🟢 \$\{ewLine/.test(src), 'green dot on both "elsewhere" lines');
+  const C = require('fs').readFileSync(require('path').join(__dirname, '..', 'charts.js'), 'utf8');
+  assert.match(C, /all: '#3987e5', lower: '#d95926', ew: '#199e70'/, 'chart: blue, orange, green');
+});
