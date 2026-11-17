@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T19:19:00.395Z",
+  "updated": "2026-11-17T19:21:16.193Z",
   "games": [
     {
       "team": "Broncos",
@@ -399,17 +399,6 @@
       "gametimeId": "6a5965fbe8a357f03f178e98",
       "gametime": "https://gametime.co/nhl-hockey/wild-at-avalanche-tickets/4-10-2027-denver-co-ball-arena/events/6a5965fbe8a357f03f178e98",
       "name": "Minnesota Wild at Colorado Avalanche"
-    },
-    {
-      "team": "Nuggets",
-      "venue": "Ball Arena",
-      "opponent": "Phoenix Suns",
-      "date": "2026-11-16",
-      "time": "19:00",
-      "gametimeId": "6a7e5e9fc8d484af65716272",
-      "gametime": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272",
-      "name": "Phoenix Suns at Denver Nuggets",
-      "tickpick": "https://www.tickpick.com/buy-denver-nuggets-vs-phoenix-suns-tickets-ball-arena-11-16-26-7pm/8205547/"
     },
     {
       "team": "Nuggets",
