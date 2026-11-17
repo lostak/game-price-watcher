@@ -51,7 +51,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 40,
         "section": "366",
@@ -82,7 +82,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 73,
         "section": "360",
@@ -107,7 +107,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 41,
         "section": "354",
@@ -138,7 +138,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 293,
         "section": "518",
@@ -169,7 +169,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 309,
         "section": "319",
@@ -200,7 +200,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 41,
         "section": "316",
@@ -226,7 +226,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 96,
         "section": "324",
@@ -246,7 +246,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -260,7 +260,7 @@
   "2026-12-06 Broncos vs Miami Dolphins": {
     "all": {
       "first": 213,
-      "low": 213,
+      "low": 210,
       "lowDate": "2026-11-17",
       "alerted": null
     },
@@ -271,11 +271,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T19:00:38.279Z",
+      "at": "2026-11-17T19:05:45.628Z",
       "all": {
-        "price": 213,
-        "section": "518",
-        "row": "27",
+        "price": 210,
+        "section": "531",
+        "row": "19",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
