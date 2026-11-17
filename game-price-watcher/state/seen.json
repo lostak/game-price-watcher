@@ -32,21 +32,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
-      "all": {
-        "price": 42,
-        "section": "352",
-        "row": "6",
-        "site": "gametime",
-        "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
-      },
-      "lower": {
-        "price": 117,
-        "section": "116",
-        "row": "FF",
-        "site": "gametime",
-        "url": "https://gametime.co/nba-basketball/suns-at-nuggets-tickets/11-16-2026-denver-co-ball-arena/events/6a7e5e9fc8d484af65716272"
-      }
+      "at": "2026-11-17T02:54:10.092Z",
+      "all": null,
+      "lower": null
     }
   },
   "2026-11-18 Nuggets vs Boston Celtics": {
@@ -63,7 +51,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 41,
         "section": "354",
@@ -94,11 +82,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
-        "price": 75,
-        "section": "310",
-        "row": "15",
+        "price": 79,
+        "section": "360",
+        "row": "13",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48"
       },
@@ -119,7 +107,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 39,
         "section": "358",
@@ -150,7 +138,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 302,
         "section": "523",
@@ -181,7 +169,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 309,
         "section": "319",
@@ -212,7 +200,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 39,
         "section": "366",
@@ -238,7 +226,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 93,
         "section": "324",
@@ -258,7 +246,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-17T02:49:13.375Z",
+      "at": "2026-11-17T02:54:10.092Z",
       "all": {
         "price": 129,
         "section": "376",
