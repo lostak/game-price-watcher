@@ -74,6 +74,11 @@ if (require.main === module) (async () => {
   const TEST = process.argv.includes('--test');   // re-grade Nov 6–8 (known results) without writing anything
   const log = TEST ? { description: TEST_LOG } : await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
   if (!log) { console.log('grade: no picks log'); return; }
+  await gradeEvent(log, 'picks log');
+  // picks ticked in the app after they were archived ("yours: pending" when his line differs) get graded where they live
+  if (!TEST) for (const a of (await cal.search('PICKS-ARCHIVE', { back: 400, ahead: 1 })).filter(e => /picks archive/i.test(e.summary || '') && /yours:\s*pending|result:\s*pending/i.test(e.description || '')))
+    await gradeEvent(a, a.summary);
+  async function gradeEvent(log, name) {
   const lines = String(log.description || '').split('\n'), today = cal.todayLocal();
   const orig = lines.slice();   // to apply only our changes onto a fresh copy at the end
   let changed = 0;
@@ -141,11 +146,12 @@ if (require.main === module) (async () => {
     lines[i] = nl.replace(/result:\s*pending/i, `result: ${res} (${res === 'W' ? 'all legs won' : 'a leg lost'}) ${fu(u)}${money} (auto-graded)`);
     changed++; console.log(`graded parlay ${p[0]}: ${res}`);
   }
-  if (!changed) { console.log('grade: nothing new to grade'); return; }
+  if (!changed) { console.log(`grade: nothing new to grade in the ${name}`); return; }
   if (DRY || TEST) { console.log(lines.filter(x => /auto-graded/.test(x)).join('\n')); return; }
   // the ESPN lookups took a while: re-read the log and change only the lines we graded (others may have written meanwhile)
   const swap = new Map(orig.map((l, i) => [l, lines[i]]).filter(([a, b]) => a !== b));
   const live = String((await cal.get(log.id)).description || '').split('\n');
   await cal.patch(log.id, { description: live.map(l => swap.get(l) ?? l).join('\n') });
-  console.log(`grade: ${changed} line(s) graded`);
+  console.log(`grade: ${changed} line(s) graded in the ${name}`);
+  }
 })().catch(e => { console.error('grade:', e.message); process.exit(1); });
