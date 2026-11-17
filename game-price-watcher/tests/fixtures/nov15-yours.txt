@@ -1,0 +1,5 @@
+BANKROLL: DraftKings, started $100 on 2026-11-06 | unit $2.50 | current $120.98 | placed bankroll $95.66
+PICKS (last 4 days):
+2026-11-15 | Vikings +2.5 @ Packers (NFL) | -110 | DraftKings | Low | 1u ($2, returns $3.82) | 11:00 AM MT | placed: yes (your line +3, your odds -102) | close: +2.5 +100 (DK) | result: W (MIN 30-10) +0.91u, yours: pending (auto-graded)
+2026-11-17 | Predators ML @ Wild (NHL) | +170 | DraftKings | Low | 1u ($2.50, returns $6.75) | 6:00 PM MT | placed: yes | close: pending | result: pending
+PICKS-LOG

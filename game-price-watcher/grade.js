@@ -10,6 +10,10 @@ const { yours } = require('./bankroll');
 const withLine = (bet, line) => /\b(Over|Under)\s+\d/i.test(bet) ? bet.replace(/\b(Over|Under)\s+\d+(?:\.\d+)?/i, (m, ou) => `${ou} ${String(line).replace(/^[+-]/, '')}`) : bet.replace(/(\s)[+-]\d+(?:\.\d+)?\b/, (m, sp) => sp + line);
 const SPORT = { NFL: 'football/nfl', CFB: 'football/college-football', NHL: 'hockey/nhl', NBA: 'basketball/nba' };
 const DRY = process.argv.includes('--dry');
+// --yours: only lines already graded where Bradley ticked his own line/odds afterwards ("yours: pending").
+// tick.yml runs this outside the main grading window (6:10 AM–noon) so a morning tick is settled in minutes,
+// not at noon (Nov 17: Vikings +3 ticked after 6:10 AM sat as "yours: pending" and the app check flagged it).
+const YOURS_ONLY = process.argv.includes('--yours');
 
 const ppu = price => { const o = parseFloat(String(price).replace(/[^\d+.-]/g, '')); return !o ? null : o > 0 ? o / 100 : 100 / Math.abs(o); };
 const r2 = n => Math.round(n * 100) / 100;
@@ -89,6 +93,7 @@ if (require.main === module) (async () => {
     const date = p[0], bet = p[1] || '', sport = ((bet.match(/\((CFB|NFL|NHL|NBA|TT)\b/i) || [])[1] || '').toUpperCase();
     const pending = /result:\s*pending/i.test(l), yoursOnly = !pending && /yours:\s*pending/i.test(l);   // edited after grading
     (graded[date] ||= []);
+    if (YOURS_ONLY && !yoursOnly) continue;
     if (!pending) { const r = (l.match(/result:\s*(W|L|P|Push)\b/i) || [])[1]; graded[date].push(r ? r[0].toUpperCase() : '?'); if (!yoursOnly) continue; }
     if (!SPORT[sport] || date > today) { graded[date].push('?'); continue; }
     try {
@@ -115,7 +120,7 @@ if (require.main === module) (async () => {
     } catch (e) { console.log(`grade ${date} ${bet}: ${e.message}`); graded[date].push('?'); }
   }
   // parlays: same picks as that day's singles
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length && !YOURS_ONLY; i++) {
     const l = lines[i], p = l.split(' | ').map(s => s.trim());
     if (!/^PARLAY:/i.test(p[1] || '') || !/result:\s*pending/i.test(l)) continue;
     let rs = graded[p[0]] || [];

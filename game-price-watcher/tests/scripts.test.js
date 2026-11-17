@@ -107,3 +107,14 @@ test('price message dots match the chart lines: 🔵 anywhere, 🟠 lower bowl, 
   const C = require('fs').readFileSync(require('path').join(__dirname, '..', 'charts.js'), 'utf8');
   assert.match(C, /all: '#3987e5', lower: '#d95926', ew: '#199e70'/, 'chart: blue, orange, green');
 });
+
+test('a morning tick of his own line on an already-graded pick is graded by "grade.js --yours" (Nov 17 Vikings +3)', () => {
+  const { spawnSync } = require('child_process');
+  const r = spawnSync(process.execPath, ['-r', path.join(__dirname, 'fake-grade-env.js'), path.join(__dirname, '..', 'grade.js'), '--yours'],
+    { encoding: 'utf8', env: { ...process.env, FAKE_LOG: path.join(__dirname, 'fixtures', 'nov15-yours.txt') } });
+  assert.strictEqual(r.status, 0, r.stderr);
+  const out = r.stdout.split('PATCHED\n')[1] || '';
+  assert.match(out, /Vikings \+2\.5 @ Packers .*result: W \(MIN 30-10\) \+0\.91u, yours: W \+\$1\.96 \(auto-graded\)/, r.stdout);
+  assert.match(out, /Predators ML @ Wild .*result: pending/, 'today\'s ungraded pick is left for the main grading window');
+  assert.ok(!/nhl/.test(r.stdout), '--yours does not look up games for lines it leaves alone');
+});
