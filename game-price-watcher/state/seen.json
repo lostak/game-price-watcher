@@ -51,11 +51,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
-        "price": 43,
-        "section": "358",
-        "row": "11",
+        "price": 41,
+        "section": "316",
+        "row": "15",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/celtics-at-nuggets-tickets/11-18-2026-denver-co-ball-arena/events/6a7e5e9f439fa430c8127e2f"
       },
@@ -82,7 +82,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 66,
         "section": "310",
@@ -107,11 +107,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 42,
-        "section": "358",
-        "row": "10",
+        "section": "366",
+        "row": "12",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
@@ -127,7 +127,7 @@
   "2026-11-22 Broncos vs Las Vegas Raiders": {
     "all": {
       "first": 304,
-      "low": 262,
+      "low": 249,
       "lowDate": "2026-11-18",
       "alerted": null
     },
@@ -138,9 +138,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
-        "price": 262,
+        "price": 249,
         "section": "514",
         "row": "23",
         "site": "gametime",
@@ -169,7 +169,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 306,
         "section": "344",
@@ -200,7 +200,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 42,
         "section": "364",
@@ -226,7 +226,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 96,
         "section": "324",
@@ -246,7 +246,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -271,7 +271,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-18T18:44:34.259Z",
+      "at": "2026-11-18T18:49:27.113Z",
       "all": {
         "price": 213,
         "section": "518",
