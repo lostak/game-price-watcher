@@ -70,7 +70,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
         "price": 84,
         "section": "360",
@@ -95,7 +95,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
         "price": 46,
         "section": "364",
@@ -104,9 +104,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 137,
-        "section": "136",
-        "row": "20",
+        "price": 126,
+        "section": "110",
+        "row": "10",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       }
@@ -126,11 +126,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
-        "price": 277,
-        "section": "504",
-        "row": "27",
+        "price": 257,
+        "section": "523",
+        "row": "13",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
@@ -157,7 +157,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
         "price": 300,
         "section": "325",
@@ -188,11 +188,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
-        "price": 39,
-        "section": "352",
-        "row": "10",
+        "price": 40,
+        "section": "368",
+        "row": "12",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       },
@@ -214,7 +214,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
         "price": 96,
         "section": "324",
@@ -234,7 +234,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -259,7 +259,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T04:55:19.272Z",
+      "at": "2026-11-19T12:01:52.839Z",
       "all": {
         "price": 213,
         "section": "518",
