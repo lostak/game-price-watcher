@@ -70,7 +70,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 84,
         "section": "360",
@@ -95,7 +95,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 46,
         "section": "364",
@@ -126,7 +126,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 256,
         "section": "523",
@@ -157,7 +157,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 300,
         "section": "325",
@@ -188,7 +188,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 40,
         "section": "368",
@@ -214,7 +214,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 96,
         "section": "324",
@@ -234,7 +234,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -259,11 +259,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T15:53:07.856Z",
+      "at": "2026-11-19T15:57:57.592Z",
       "all": {
-        "price": 215,
-        "section": "518",
-        "row": "27",
+        "price": 211,
+        "section": "500",
+        "row": "9",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
