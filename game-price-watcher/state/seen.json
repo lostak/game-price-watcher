@@ -70,7 +70,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 84,
         "section": "358",
@@ -95,7 +95,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 43,
         "section": "322–330",
@@ -126,7 +126,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 249,
         "section": "527",
@@ -157,7 +157,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 300,
         "section": "325",
@@ -183,12 +183,12 @@
     },
     "lower": {
       "first": 118,
-      "low": 107,
-      "lowDate": "2026-11-16",
+      "low": 105,
+      "lowDate": "2026-11-19",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 40,
         "section": "322–330",
@@ -197,9 +197,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       },
       "lower": {
-        "price": 108,
+        "price": 105,
         "section": "136",
-        "row": "17",
+        "row": "16",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       }
@@ -214,7 +214,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 104,
         "section": "330",
@@ -234,7 +234,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -259,7 +259,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T21:53:22.783Z",
+      "at": "2026-11-19T21:58:24.545Z",
       "all": {
         "price": 211,
         "section": "500",
