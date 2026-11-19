@@ -1,23 +1,19 @@
 {
-  "2026-11-18 Nuggets vs Boston Celtics": {
-    "all": 40,
-    "lower": 100
-  },
   "2026-11-19 Avs vs Anaheim Ducks": {
-    "all": 81,
+    "all": 84,
     "lower": null
   },
   "2026-11-20 Nuggets vs Houston Rockets": {
-    "all": 41,
-    "lower": 118
+    "all": 46,
+    "lower": 147
   },
   "2026-11-22 Broncos vs Las Vegas Raiders": {
-    "all": 279,
-    "lower": 456
+    "all": 257,
+    "lower": 437
   },
   "2026-11-24 Nuggets vs Dallas Mavericks": {
-    "all": 42,
-    "lower": 112
+    "all": 40,
+    "lower": 108
   },
   "2026-11-25 Avs vs Montreal Canadiens": {
     "all": 96,
@@ -29,11 +25,11 @@
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
     "all": 213,
-    "lower": 363
+    "lower": 359
   },
   "2026-12-13 Seahawks vs New York Giants": {
-    "all": 309,
+    "all": 300,
     "lower": 370
   },
-  "_date": "2026-11-18"
+  "_date": "2026-11-19"
 }
