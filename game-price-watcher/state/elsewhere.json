@@ -1,5 +1,5 @@
 {
- "at": "2026-11-19T18:15:42.419Z",
+ "at": "2026-11-19T19:16:26.188Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -13,9 +13,9 @@
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-19-2026-denver-colorado-ball-arena/nhl/18377042",
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-19-2026/production/7300480"
    },
-   "tickpick": 48,
-   "seatgeek": 54,
-   "vivid": 54
+   "tickpick": 65,
+   "seatgeek": 76,
+   "vivid": 71
   },
   "2026-11-25 Avs vs Montreal Canadiens": {
    "urls": {
@@ -43,14 +43,14 @@
     "seatgeek": "https://seatgeek.com/denver-nuggets-tickets/11-20-2026-denver-colorado-ball-arena/nba/18485991"
    },
    "tickpick": 38,
-   "seatgeek": 46
+   "seatgeek": 40
   },
   "2026-11-24 Nuggets vs Dallas Mavericks": {
    "urls": {
     "tickpick": "https://www.tickpick.com/buy-nba-cup-denver-nuggets-vs-dallas-mavericks-tickets-ball-arena-11-24-26-8pm/8200086/",
     "seatgeek": "https://seatgeek.com/denver-nuggets-tickets/11-24-2026-denver-colorado-ball-arena/nba/18485995"
    },
-   "tickpick": 39,
+   "tickpick": 40,
    "seatgeek": 43
   },
   "2026-11-22 Broncos vs Las Vegas Raiders": {
@@ -60,8 +60,8 @@
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-3-2026/production/6489651"
    },
    "tickpick": 219,
-   "seatgeek": 231,
-   "vivid": 220
+   "seatgeek": 234,
+   "vivid": 230
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
@@ -85,7 +85,7 @@
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 403, 12 game links, 3/3 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 3/3 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 3/3 matched",
   "Avs vivid: HTTP 200, 25 game links, 3/3 matched",
   "Nuggets tickpick: HTTP 200, 10 game links, 2/2 matched",
