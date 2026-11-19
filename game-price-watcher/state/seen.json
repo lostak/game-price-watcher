@@ -70,7 +70,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 84,
         "section": "360",
@@ -95,7 +95,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 46,
         "section": "364",
@@ -104,9 +104,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 126,
-        "section": "110",
-        "row": "10",
+        "price": 122,
+        "section": "116",
+        "row": "5",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       }
@@ -126,9 +126,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
-        "price": 257,
+        "price": 270,
         "section": "523",
         "row": "13",
         "site": "gametime",
@@ -157,7 +157,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 300,
         "section": "325",
@@ -188,7 +188,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 40,
         "section": "368",
@@ -214,7 +214,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 96,
         "section": "324",
@@ -234,7 +234,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -259,7 +259,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-19T12:17:14.430Z",
+      "at": "2026-11-19T12:22:16.615Z",
       "all": {
         "price": 213,
         "section": "518",
