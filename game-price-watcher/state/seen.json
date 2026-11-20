@@ -90,7 +90,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 37,
         "section": "322–330",
@@ -99,9 +99,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 138,
-        "section": "110",
-        "row": "8",
+        "price": 140,
+        "section": "136",
+        "row": "20",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       }
@@ -121,7 +121,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 222,
         "section": "527",
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 297,
         "section": "325",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,7 +254,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": {
         "price": 208,
         "section": "519",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T16:21:57.148Z",
+      "at": "2026-11-20T16:27:05.842Z",
       "all": null,
       "lower": null
     }
