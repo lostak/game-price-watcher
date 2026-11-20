@@ -1,5 +1,5 @@
 {
- "at": "2026-11-20T01:26:42.083Z",
+ "at": "2026-11-20T02:28:33.236Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -14,8 +14,8 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-19-2026/production/7300480"
    },
    "tickpick": 76,
-   "seatgeek": 71,
-   "vivid": 66
+   "seatgeek": 70,
+   "vivid": 74
   },
   "2026-11-25 Avs vs Montreal Canadiens": {
    "urls": {
@@ -34,7 +34,7 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501"
    },
    "tickpick": 119,
-   "seatgeek": 126,
+   "seatgeek": 124,
    "vivid": 116
   },
   "2026-11-20 Nuggets vs Houston Rockets": {
@@ -59,9 +59,9 @@
     "seatgeek": "https://seatgeek.com/denver-broncos-tickets/11-22-2026-denver-colorado-empower-field-at-mile-high/nfl/18014232",
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-3-2026/production/6489651"
    },
-   "tickpick": 203,
-   "seatgeek": 213,
-   "vivid": 227
+   "tickpick": 196,
+   "seatgeek": 224,
+   "vivid": 210
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
@@ -70,7 +70,7 @@
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-5-2026/production/6489684"
    },
    "tickpick": 117,
-   "seatgeek": 211,
+   "seatgeek": 200,
    "vivid": 123
   },
   "2026-12-13 Seahawks vs New York Giants": {
@@ -80,12 +80,12 @@
     "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971"
    },
    "tickpick": 250,
-   "seatgeek": 296,
+   "seatgeek": 299,
    "vivid": 267
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 403, 12 game links, 3/3 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 3/3 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 3/3 matched",
   "Avs vivid: HTTP 200, 25 game links, 3/3 matched",
   "Nuggets tickpick: HTTP 200, 10 game links, 2/2 matched",
