@@ -81,7 +81,7 @@
       "low": 11,
       "lowDate": "2026-11-20",
       "alerted": 11,
-      "sent": 44
+      "sent": 47
     },
     "lower": {
       "first": 116,
@@ -90,11 +90,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
-        "price": 44,
-        "section": "316",
-        "row": "6",
+        "price": 47,
+        "section": "350",
+        "row": "14",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
@@ -121,7 +121,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
         "price": 232,
         "section": "540",
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
         "price": 309,
         "section": "319",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,11 +254,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": {
-        "price": 221,
-        "section": "522",
-        "row": "30",
+        "price": 220,
+        "section": "504",
+        "row": "21",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T22:06:27.928Z",
+      "at": "2026-11-20T22:11:26.811Z",
       "all": null,
       "lower": null
     }
