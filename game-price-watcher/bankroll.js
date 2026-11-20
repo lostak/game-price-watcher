@@ -132,10 +132,32 @@ function withClv(desc, c) {
   else { const r = lines.findIndex(l => /^PICKS RECORD/.test(l)); if (r < 0 || !c.known) return desc; lines.splice(r + 1, 0, c.line); }
   return lines.join('\n');
 }
+// PICKS RECORD ("singles W-L-P, ±Xu | parlays W-L, ±Yu | combined ±Zu on Nu risked"), in code too: the morning Claude
+// task counted it by hand and on Nov 20 it was still at Nov 18 (Nov 19's four graded picks never added). Every graded
+// pick line (log + archives, placed or not), units from its own result (not "yours:"), risked = logged stake units of
+// every graded line. Only the numbers in that line change; the rest of its wording stays. my-life appcheck/check.js
+// recomputes the same totals independently.
+function record(desc, archives = []) {
+  const all = [...archives, desc].flatMap(t => String(t || '').split('\n')).filter(l => /^\d{4}-\d{2}-\d{2} \| /.test(l));
+  const res = l => ((l.match(/result:\s*(W|L|P|Push)\b/i) || [])[1] || '').toUpperCase().slice(0, 1);
+  const units = l => +((l.replace(/,\s*yours:.*$/i, '').match(/result:[^|]*?([+-]?\d+(?:\.\d+)?)u\b/i) || [])[1] || 0);
+  const stake = l => +((l.match(/\| (\d+(?:\.\d+)?)u \(\$/) || [])[1] || 0);
+  const g = all.filter(res), S = g.filter(l => !/^\S+ \| PARLAY:/i.test(l)), P = g.filter(l => /^\S+ \| PARLAY:/i.test(l));
+  const n = (a, r) => a.filter(l => res(l) === r).length, u = a => Math.round(a.reduce((t, l) => t + units(l), 0) * 100) / 100;
+  const sg = x => (x >= 0 ? '+' : '') + x.toFixed(2), risked = Math.round(g.reduce((t, l) => t + stake(l), 0) * 100) / 100;
+  return { singles: [n(S, 'W'), n(S, 'L'), n(S, 'P')], parlays: [n(P, 'W'), n(P, 'L')], su: u(S), pu: u(P), risked,
+    text: `singles ${n(S, 'W')}-${n(S, 'L')}-${n(S, 'P')}, ${sg(u(S))}u | parlays ${n(P, 'W')}-${n(P, 'L')}, ${sg(u(P))}u | combined ${sg(Math.round((u(S) + u(P)) * 100) / 100)}u on ${risked}u risked` };
+}
+function withRecord(desc, r) {
+  const lines = String(desc).split('\n'), i = lines.findIndex(l => /^PICKS RECORD/.test(l));
+  if (i < 0) return desc;
+  lines[i] = lines[i].replace(/singles \d+-\d+-\d+,\s*[+-]?[\d.]+u \| parlays \d+-\d+,\s*[+-]?[\d.]+u \| combined [+-]?[\d.]+u on [\d.]+u risked/, () => r.text);
+  return lines.join('\n');
+}
 async function archives() {
   return (await cal.search('PICKS-ARCHIVE', { back: 400, ahead: 1 })).filter(e => /picks archive/i.test(e.summary || '')).map(e => e.description || '');
 }
-module.exports = { rows, placedRows, compute, withCurrent, archives, yours, clvVerdict, clv, withClv };
+module.exports = { rows, placedRows, compute, withCurrent, archives, yours, clvVerdict, clv, withClv, record, withRecord };
 
 if (require.main === module) (async () => {
   if (!cal.ready) { console.log('bankroll: calendar not connected'); return; }
@@ -148,9 +170,11 @@ if (require.main === module) (async () => {
   console.log(`bankroll: CLV ${k.beat} of ${k.known} (was "${oldClv.slice(0, 40)}")`);
   const same = (a, b) => a && Math.abs(+a.replace(/,/g, '') - b) < 0.005;
   const clvSame = oldClv === k.line || (!oldClv && !k.known);
-  if (same(old, c.current) && same(oldP, c.placed.current) && clvSame && !process.argv.includes('--force')) return;
+  const recSame = withRecord(live.description, record(live.description, arch)) === String(live.description);
+  if (!recSame) console.log(`bankroll: PICKS RECORD -> ${record(live.description, arch).text}`);
+  if (same(old, c.current) && same(oldP, c.placed.current) && clvSame && recSame && !process.argv.includes('--force')) return;
   if (DRY) return;
-  const fresh = await cal.get(log.id);                        // re-read right before writing; only the BANKROLL and CLV lines change
-  await cal.patch(log.id, { description: withClv(withCurrent(fresh.description, compute(fresh.description, arch), cal.nowLocal()), clv(fresh.description, arch)) });
+  const fresh = await cal.get(log.id);                        // re-read right before writing; only the BANKROLL, CLV and PICKS RECORD lines change
+  await cal.patch(log.id, { description: withRecord(withClv(withCurrent(fresh.description, compute(fresh.description, arch), cal.nowLocal()), clv(fresh.description, arch)), record(fresh.description, arch)) });
   console.log('bankroll: updated');
 })().catch(e => { console.error('bankroll: ' + e.message); process.exit(1); });

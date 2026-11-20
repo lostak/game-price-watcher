@@ -118,3 +118,13 @@ test('a morning tick of his own line on an already-graded pick is graded by "gra
   assert.match(out, /Predators ML @ Wild .*result: pending/, 'today\'s ungraded pick is left for the main grading window');
   assert.ok(!/nhl/.test(r.stdout), '--yours does not look up games for lines it leaves alone');
 });
+test('PICKS RECORD is counted in code: Nov 20 line was stuck at Nov 18 (24-15 / 3-11 instead of 25-17 / 3-12)', () => {
+  const log = F('nov20-log.txt'), arch = F('archives-nov20.txt');
+  const r = bank.record(log, [arch]);
+  assert.strictEqual(r.text, 'singles 25-17-0, +7.03u | parlays 3-12, +1.49u | combined +8.52u on 51u risked');
+  const once = bank.withRecord(log, r);
+  assert.strictEqual(once.split('\n')[3], 'PICKS RECORD (every recommendation, placed or not; units only): singles 25-17-0, +7.03u | parlays 3-12, +1.49u | combined +8.52u on 51u risked (log started Fri Nov 6, 2026)');
+  assert.strictEqual(bank.withRecord(once, bank.record(once, [arch])), once, 'stable on re-run');
+  assert.strictEqual(once.replace(/^PICKS RECORD.*$/m, ''), log.replace(/^PICKS RECORD.*$/m, ''), 'only the PICKS RECORD line changes');
+  assert.strictEqual(bank.record('2026-11-18 | Bruins ML | +102 | DraftKings | Low | 1u ($2.50) | placed: yes (your odds -110) | result: W (BOS 4-1) +1.02u, yours: W +$2.27').su, 1.02, 'units come from the pick, not "yours:"');
+});

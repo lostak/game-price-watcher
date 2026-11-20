@@ -1,0 +1,30 @@
+BANKROLL: DraftKings, started $100 on 2026-11-06 | unit $2.50 (2% of $129.98 = $2.60, rounded to $2.50 at the Mon Nov 16 reset; next reset Mon Nov 23) | current $112.80 (Claude's picks only: every pick at its logged stake, placed or not, settled through 11/19; auto Thu, Nov 19, 10:34 PM) | placed bankroll $89.67 (only the picks you placed, at your odds and line; 37 placed)
+STAKING: singles Low = 1u | Medium = 1.5u | High = 2u | daily 3-leg parlay of the same picks = 0.5u (1u when DraftKings offers a parlay boost) | max 2u on any bet, max 5u total per day
+YOUR BETS (placed only – the only thing that moves the bankroll): singles 12-11-0, +0.25u, -$2.13 | parlays 1-9, -3.04u, -$7.58 | combined -2.79u, -$9.71
+PICKS RECORD (every recommendation, placed or not; units only): singles 24-15-0, +6.87u | parlays 3-11, +1.99u | combined +8.86u on 47.5u risked (log started Fri Nov 6, 2026)
+CLV: 22 of 39 known beat the close (Nov 19: Blackhawks and Canucks beat the close; Canadiens did not)
+ROLLED-UP: picks and slips older than 4 days are in the "Personal: picks archive – week of …" events (search PICKS-ARCHIVE); the totals above include them
+PLACED FIELD: placed: yes = Bradley placed it at the logged price and stake (confirmed from his slips) | placed: slip = placed at a different price or stake, the SLIP line is the real bet | placed: no = not placed, counts only in the PICKS RECORD | placed: not yet = no slip seen yet (becomes "no" at grading if no slip shows up)
+PICKS (last 4 days):
+2026-11-16 | Chargers @ Ravens Under 38.5 (NFL) | -105 | DraftKings | Low | 1u ($2.50, returns $4.88) | 6:15 PM MT | placed: yes | close: unknown (ESPN showed U 39.5 -112, different number) | result: L (LAC 23-20, total 43) -1u, -$2.50 (auto-graded)
+2026-11-16 | Canucks @ Mammoth Over 6.5 (NHL) | -105 | DraftKings | Low | 1u ($2.50, returns $4.88) | 7:30 PM MT | placed: yes | close: -115 (DK) | result: L (VAN 3-2, total 5) -1u, -$2.50 (auto-graded)
+2026-11-16 | Canadiens ML @ Rangers (NHL) | -105 | DraftKings | Low | 1u ($2.50, returns $4.88) | 5:30 PM MT | placed: yes | close: -120 (DK) | result: L (NYR 3-1) -1u, -$2.50 (auto-graded)
+2026-11-16 | PARLAY: LAC-BAL Under 38.5 / VAN-UTA Over 6.5 / Canadiens ML | +644 | DraftKings | 0.5u ($1.50, returns $11.16) | last leg 7:30 PM MT | placed: yes | result: L (a leg lost) -0.5u, -$1.50 (auto-graded)
+2026-11-17 | Predators ML @ Wild (NHL) | +170 | DraftKings | Low | 1u ($2.50, returns $6.75) | 6:00 PM MT | placed: yes | close: +170 (DK) | result: L (MIN 7-3) -1u, -$2.50 (auto-graded)
+2026-11-17 | Ohio -11.5 vs Ball State (CFB) | -108 | DraftKings | Low | 1u ($2.50, returns $4.81) | 5:00 PM MT | placed: yes (your line -10, your odds -110) | close: -10.5 -111 (DK) | result: L (OHIO 35-28) -1u, yours: L -$2.50 (auto-graded)
+2026-11-17 | Blue Jackets ML @ Islanders (NHL) | +120 | DraftKings | Low | 1u ($2.50, returns $5.50) | 5:00 PM MT | placed: yes | close: +100 (DK) | result: L (NYI 5-1) -1u, -$2.50 (auto-graded)
+2026-11-17 | PARLAY: Predators ML / Ohio -11.5 / Blue Jackets ML | +1044 | DraftKings | 0.5u ($1.50, returns $17.16) | last leg 6:00 PM MT | placed: yes (your odds +1034) | result: L (a leg lost) -0.5u, yours: L -$1.50 (auto-graded)
+2026-11-18 | Bruins ML @ Red Wings (NHL) | +102 | DraftKings | Low | 1u ($2.50, returns $5.05) | 5:30 PM MT | placed: yes (your odds -110) | close: -110 (DK) | result: W (BOS 4-1) +1.02u, yours: W +$2.27 (auto-graded)
+2026-11-18 | Canadiens ML @ Devils (NHL) | +136 | DraftKings | Low | 1u ($2.50, returns $5.90) | 5:30 PM MT | placed: yes | close: +142 (DK) | result: W (MTL 3-2) +1.36u, +$3.40 (auto-graded)
+2026-11-18 | Avalanche ML @ Mammoth (NHL) | -112 | DraftKings | Low | 1u ($2.50, returns $4.73) | 8:00 PM MT | placed: yes (your odds -105) | close: -110 (DK) | result: L (UTA 4-1) -1u, yours: L -$2.50 (auto-graded)
+2026-11-18 | PARLAY: Bruins ML / Canadiens ML / Avalanche ML | +802 | DraftKings | 0.5u ($1.50, returns $13.54) | last leg 8:00 PM MT | placed: yes (your odds +779) | result: L (a leg lost) -0.5u, yours: L -$1.50 (auto-graded)
+2026-11-19 | Canadiens ML @ Hurricanes (NHL) | +215 | DraftKings | Low | 1u ($2.50, returns $7.88) | 5:00 PM MT | placed: yes (your odds +235) | close: +275 (DK) | result: W (MTL 2-1) +2.15u, yours: W +$5.88 (auto-graded)
+2026-11-19 | Blackhawks ML vs Blue Jackets (NHL) | +140 | DraftKings | Low | 1u ($2.50, returns $6.00) | 6:00 PM MT | placed: yes (your odds +136) | close: +136 (DK) | result: L (CBJ 4-2) -1u, yours: L -$2.50 (auto-graded)
+2026-11-19 | Canucks ML @ Kraken (NHL) | +160 | DraftKings | Low | 1u ($2.50, returns $6.50) | 7:40 PM MT | placed: yes (your odds +142) | close: +136 (DK) | result: L (SEA 5-1) -1u, yours: L -$2.50 (auto-graded)
+2026-11-19 | PARLAY: Canadiens ML / Blackhawks ML / Canucks ML | +1866 | DraftKings | 0.5u ($1.50, returns $29.48) | last leg 7:40 PM MT | placed: yes (your odds +1813) | result: L (a leg lost) -0.5u, yours: L -$1.50 (auto-graded)
+2026-11-20 | UCF ML vs Iowa State (CFB) | -120 | FanDuel | Low | 1u ($2.50, returns $4.58) | 4:00 PM MT | placed: not yet | close: pending | result: pending
+2026-11-20 | Michigan State +17.5 vs Oregon (CFB) | -110 | DraftKings | Low | 1u ($2.50, returns $4.77) | 6:00 PM MT | placed: not yet | close: pending | result: pending
+2026-11-20 | Toledo -16.5 vs Bowling Green (CFB) | -110 | DraftKings | Low | 1u ($2.50, returns $4.77) | 5:30 PM MT | placed: not yet | close: pending | result: pending
+2026-11-20 | PARLAY: UCF ML / Michigan State +17.5 / Toledo -16.5 | +556 | DraftKings | 0.5u ($1.50, returns $9.84) | last leg 6:00 PM MT | placed: not yet | result: pending
+SLIPS (Bradley's actual bets from uploaded bet slips; the real price and stake – grade these for the bankroll):
+PICKS-LOG
