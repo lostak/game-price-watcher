@@ -90,7 +90,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
         "price": 37,
         "section": "322–330",
@@ -121,11 +121,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
-        "price": 229,
-        "section": "541",
-        "row": "13",
+        "price": 236,
+        "section": "520",
+        "row": "28",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
         "price": 297,
         "section": "325",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,7 +254,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": {
         "price": 208,
         "section": "519",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T17:18:26.014Z",
+      "at": "2026-11-20T17:23:32.232Z",
       "all": null,
       "lower": null
     }
