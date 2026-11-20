@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T19:29:08.356Z",
+  "updated": "2026-11-20T19:31:56.404Z",
   "games": [
     {
       "team": "Broncos",
@@ -78,17 +78,6 @@
     {
       "team": "Avs",
       "venue": "Ball Arena",
-      "opponent": "Anaheim Ducks",
-      "date": "2026-11-19",
-      "time": "19:00",
-      "gametimeId": "6a5965fc2da5c11be1387f48",
-      "gametime": "https://gametime.co/nhl-hockey/ducks-at-avalanche-tickets/11-19-2026-denver-co-ball-arena/events/6a5965fc2da5c11be1387f48",
-      "name": "Anaheim Ducks at Colorado Avalanche",
-      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-anaheim-ducks-tickets-ball-arena-11-19-26-7pm/8139124/"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
       "opponent": "Montreal Canadiens",
       "date": "2026-11-25",
       "time": "19:00",
@@ -149,7 +138,8 @@
       "time": "19:00",
       "gametimeId": "6a5965fb0a5557225e5cb246",
       "gametime": "https://gametime.co/nhl-hockey/hurricanes-at-avalanche-tickets/12-18-2026-denver-co-ball-arena/events/6a5965fb0a5557225e5cb246",
-      "name": "Carolina Hurricanes at Colorado Avalanche"
+      "name": "Carolina Hurricanes at Colorado Avalanche",
+      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-carolina-hurricanes-tickets-ball-arena-12-18-26-7pm/8139231/"
     },
     {
       "team": "Avs",

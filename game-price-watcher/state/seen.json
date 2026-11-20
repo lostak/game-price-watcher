@@ -90,7 +90,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 37,
         "section": "322–330",
@@ -121,7 +121,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 241,
         "section": "540",
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 297,
         "section": "325",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -249,12 +249,12 @@
     },
     "lower": {
       "first": 359,
-      "low": 345,
-      "lowDate": "2026-11-19",
+      "low": 341,
+      "lowDate": "2026-11-20",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": {
         "price": 221,
         "section": "522",
@@ -263,7 +263,7 @@
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
       "lower": {
-        "price": 345,
+        "price": 341,
         "section": "129",
         "row": "38",
         "site": "gametime",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T19:26:43.198Z",
+      "at": "2026-11-20T19:31:56.404Z",
       "all": null,
       "lower": null
     }
