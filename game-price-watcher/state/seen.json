@@ -81,7 +81,7 @@
       "low": 11,
       "lowDate": "2026-11-20",
       "alerted": 11,
-      "sent": 48
+      "sent": 50
     },
     "lower": {
       "first": 116,
@@ -90,11 +90,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
-        "price": 48,
-        "section": "372",
-        "row": "11",
+        "price": 50,
+        "section": "360",
+        "row": "7",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
@@ -121,7 +121,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
         "price": 237,
         "section": "540",
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
         "price": 302,
         "section": "325",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,7 +254,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": {
         "price": 221,
         "section": "522",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T20:44:02.293Z",
+      "at": "2026-11-20T20:49:07.557Z",
       "all": null,
       "lower": null
     }
