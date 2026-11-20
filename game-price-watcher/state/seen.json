@@ -85,12 +85,12 @@
     },
     "lower": {
       "first": 116,
-      "low": 95,
-      "lowDate": "2026-11-13",
+      "low": 91,
+      "lowDate": "2026-11-20",
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
         "price": 46,
         "section": "360",
@@ -99,9 +99,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 124,
-        "section": "134",
-        "row": "15",
+        "price": 91,
+        "section": "118",
+        "row": "8",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       }
@@ -121,7 +121,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
         "price": 232,
         "section": "540",
@@ -152,11 +152,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
-        "price": 302,
-        "section": "325",
-        "row": "P",
+        "price": 309,
+        "section": "319",
+        "row": "EE",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       },
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,7 +254,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": {
         "price": 221,
         "section": "522",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T21:09:46.008Z",
+      "at": "2026-11-20T21:14:55.426Z",
       "all": null,
       "lower": null
     }
