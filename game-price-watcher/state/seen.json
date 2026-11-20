@@ -70,7 +70,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 72,
         "section": "356",
@@ -95,7 +95,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 37,
         "section": "322–330",
@@ -115,8 +115,8 @@
   "2026-11-22 Broncos vs Las Vegas Raiders": {
     "all": {
       "first": 304,
-      "low": 249,
-      "lowDate": "2026-11-18",
+      "low": 234,
+      "lowDate": "2026-11-19",
       "alerted": null
     },
     "lower": {
@@ -126,11 +126,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
-        "price": 249,
-        "section": "527",
-        "row": "21",
+        "price": 234,
+        "section": "528",
+        "row": "15",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
@@ -157,7 +157,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 297,
         "section": "325",
@@ -188,7 +188,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -214,7 +214,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 104,
         "section": "376",
@@ -234,7 +234,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -259,7 +259,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T00:37:31.488Z",
+      "at": "2026-11-20T00:42:45.929Z",
       "all": {
         "price": 219,
         "section": "501",
