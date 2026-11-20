@@ -90,7 +90,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 37,
         "section": "322–330",
@@ -121,7 +121,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 241,
         "section": "540",
@@ -130,9 +130,9 @@
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
       "lower": {
-        "price": 431,
-        "section": "133",
-        "row": "17",
+        "price": 414,
+        "section": "128",
+        "row": "32",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       }
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 297,
         "section": "325",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 95,
         "section": "358",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,7 +254,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": {
         "price": 221,
         "section": "522",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-20T19:31:56.404Z",
+      "at": "2026-11-20T19:37:20.260Z",
       "all": null,
       "lower": null
     }
