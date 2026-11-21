@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T19:31:56.404Z",
+  "updated": "2026-11-21T19:33:21.859Z",
   "games": [
     {
       "team": "Broncos",
@@ -394,16 +394,6 @@
     {
       "team": "Nuggets",
       "venue": "Ball Arena",
-      "opponent": "Houston Rockets",
-      "date": "2026-11-20",
-      "time": "20:00",
-      "gametimeId": "6a7bd57a01496222ebc85c4b",
-      "gametime": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b",
-      "name": "NBA Cup - Houston Rockets at Denver Nuggets"
-    },
-    {
-      "team": "Nuggets",
-      "venue": "Ball Arena",
       "opponent": "Dallas Mavericks",
       "date": "2026-11-24",
       "time": "20:00",
@@ -448,7 +438,8 @@
       "time": "19:00",
       "gametimeId": "6a7e5e9edc9f1c1f9b633c13",
       "gametime": "https://gametime.co/nba-basketball/lakers-at-nuggets-tickets/12-19-2026-denver-co-ball-arena/events/6a7e5e9edc9f1c1f9b633c13",
-      "name": "Los Angeles Lakers at Denver Nuggets"
+      "name": "Los Angeles Lakers at Denver Nuggets",
+      "tickpick": "https://www.tickpick.com/buy-denver-nuggets-vs-los-angeles-lakers-tickets-ball-arena-12-19-26-7pm/8205412/"
     },
     {
       "team": "Nuggets",
