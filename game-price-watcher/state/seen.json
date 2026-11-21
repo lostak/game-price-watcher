@@ -109,7 +109,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": {
         "price": 211,
         "section": "524",
@@ -140,7 +140,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": {
         "price": 309,
         "section": "319",
@@ -171,7 +171,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -180,9 +180,9 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       },
       "lower": {
-        "price": 126,
-        "section": "142",
-        "row": "20",
+        "price": 122,
+        "section": "132",
+        "row": "22",
         "site": "gametime",
         "url": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6"
       }
@@ -197,7 +197,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": {
         "price": 105,
         "section": "330",
@@ -217,7 +217,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -242,7 +242,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": {
         "price": 221,
         "section": "522",
@@ -263,7 +263,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-21T19:23:06.269Z",
+      "at": "2026-11-21T19:28:09.387Z",
       "all": null,
       "lower": null
     }
