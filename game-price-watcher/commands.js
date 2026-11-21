@@ -8,7 +8,9 @@
 //   watch Broncos vs Raiders                                 → next game against them
 //   watch Lakers vs Celtics Dec 25   /   watch Broncos @ Chiefs   /   watch Maple Leafs   → any team's game, anywhere
 //   (shared nicknames: "NHL Kings" or "LA Kings", "NFL Jets" or "Winnipeg Jets")
-//   stop Nuggets Nov 20   /   stop all                       → drop manual watches (auto-watching of the next 14 days continues)
+//   stop Nuggets Nov 20 / stop Nuggets / stop all            → drop his watches AND mute the automatic ones (MUTE: lines)
+//     (any wording: "watch stop nuggets", "cancel the avs", "no more broncos", "mute everything", "stop watching")
+//   resume Nuggets / resume all                              → automatic watching back on
 //   watch list  (or list)                                    → every game being watched, with the latest prices and targets
 //   report                                                   → post the price report now
 //   price graph Nuggets vs Suns  (or graph Lakers, graph all)  → price-history sparklines for any tracked game
@@ -18,6 +20,7 @@ const fs = require('fs');
 const gcal = require('./gcal');   // when configured, WATCH: lines on the "Personal: ticket watch" calendar event are the source of truth
 const Teams = require('./teams');   // every NBA/NFL/NHL team + Gametime slug
 const { findGame } = require('./gt');
+const Mutes = require('./mutes');
 const TZ = 'America/Denver';
 const WANTS = 'wants.json', STATE = 'state/discord.json', GAMES = 'state/games.json', SEEN = 'state/seen.json';
 // secrets pasted from a clipboard can carry a line break or a second copy – keep the first word only
@@ -71,6 +74,7 @@ const money = n => '$' + Math.round(n);
   const st = readJson(STATE, {});
   const cfg = readJson(WANTS, { games: [] }); cfg.games = cfg.games || [];
   let watchEv = null, otherLines = [];
+  cfg.muted = cfg.muted || [];
   if (gcal.ready) {                                                     // calendar mode: games come from WATCH: lines
     watchEv = await gcal.findByTitle('Personal: ticket watch', 'ticket watch');
     const d = watchEv ? watchEv.description || '' : '';
@@ -79,7 +83,8 @@ const money = n => '$' + Math.round(n);
       const target = {}; const t = m[4] || ''; const a = t.match(/all\s*\$?(\d+)/i), l = t.match(/lower\s*\$?(\d+)/i); if (a) target.all = +a[1]; if (l) target.lower = +l[1];
       cfg.games.push({ team: m[2], opponent: m[3].trim(), date: m[1], target: Object.keys(target).length ? target : undefined });
     }
-    otherLines = d.split('\n').filter(l => !/^\s*(WATCH:|TICKET-WATCH)/.test(l) && l.trim());
+    cfg.muted = Mutes.parse(d);
+    otherLines = d.split('\n').filter(l => !/^\s*(WATCH:|MUTE:|TICKET-WATCH)/.test(l) && l.trim());
     if (!otherLines.length) otherLines = ['Games to watch for 4 tickets (the game-price-watcher checks TickPick every 5 minutes). Home games in the next 14 days are watched automatically; add a line to watch another or set targets.'];
   }
   const sched = (readJson(GAMES, { games: [] }).games || []).filter(g => g.date >= today());
@@ -98,8 +103,13 @@ const money = n => '$' + Math.round(n);
     // a /slash command: the Cloudflare helper answers Discord with "⏳ `<command>` …"; that reply carries the command text
     const slash = (msg.interaction_metadata || msg.interaction) && /^⏳ `([^`]+)`/.exec(msg.content || '');
     if (!slash && (msg.author?.bot || msg.webhook_id)) continue;
-    const text = (slash ? slash[1] : msg.content || '').trim(); if (!text) continue;
+    // lead-ins before a stop/resume word are noise: "watch stop nuggets", "prices: cancel avs", "please stop" (Nov 21: "Watch stop nuggets" STARTED a watch)
+    const text = (slash ? slash[1] : msg.content || '').trim()
+      .replace(/^(?:(?:watch|watching|price|prices|game|games|tickets?|please|pls|ok|okay|hey)[\s,:-]+)+(?=(?:stop|cancel|remove|clear|drop|delete|unwatch|mute|silence|quiet|end|kill|quit|no more|don'?t|resume|unmute|restart)\b)/i, '');
+    if (!text) continue;
     const t = text.toLowerCase();
+    const STOP = /^(stop|cancel|remove|clear|drop|delete|unwatch|mute|silence|quiet|end|kill|quit|no more|don'?t (watch|track|post))\b/;
+    const mentionsStop = STOP.test(t) || /\b(stop|cancel|unwatch|mute|no more|don'?t (watch|track|post))\b/.test(t);
     console.log('message:', text);
     if (/^(price )?(graph|chart)s?\b/.test(t)) {      // "price graph Nuggets vs Suns" → sparkline(s) posted by the next price check
       const q = t.replace(/^(price )?(graph|chart)s?\s*(for|of)?\s*/, '').trim();
@@ -122,7 +132,8 @@ const money = n => '$' + Math.round(n);
       const lines = ['🎟️ **Watch list** (4 tickets together)'];
       lines.push('**Your watches**', ...(mine.length ? mine.map(g => '• ' + describe(g)) : ['• none – add one with "watch Nuggets vs Suns Nov 20 under 80"']));
       lines.push('**Automatic (home games in the next 14 days)**', ...(auto.length ? auto.map(g => '• ' + describe(g)) : ['• no home games in the next 14 days']));
-      lines.push('Prices are the latest check. "stop [team] [date]" drops a watch, "report" posts the full board.');
+      if (cfg.muted.length) lines.push('**Muted**', ...cfg.muted.map(m => '• ' + Mutes.describe(m)));
+      lines.push('Prices are the latest check. "stop [team] [date]" or "stop all" stops posts, "resume [team]" turns them back on, "report" posts the full board.');
       await reply(lines.join('\n'));
       continue;
     }
@@ -131,16 +142,30 @@ const money = n => '$' + Math.round(n);
     if (first && first.teams.length > 1) { await reply(`Which ${first.alias}? ${first.teams.map(x => x.full + ' (' + x.league.toUpperCase() + ')').join(' or ')} – say "${first.teams[0].league.toUpperCase()} ${first.alias}" or the city.`); continue; }
     const teamObj = first && first.teams[0], oppObj = second && second.teams.length === 1 ? second.teams[0] : null;
     const team = teamObj && teamObj.label, date = parseDate(text), opp = oppObj ? oppObj.full : parseOpponent(text), targets = parseTargets(text);
-    if (/^(stop|cancel|remove|clear|drop)\b/.test(t)) {
-      const before = cfg.games.length;
-      if (!/\ball\b|everything/.test(t) && !team && !date && !opp) {      // a bare "stop" never wipes everything – ask which
-        await reply(cfg.games.length ? `Which one? Say "stop [team] [date]" or "stop all". Watching: ${cfg.games.map(describe).join(' · ')}.` : 'Nothing extra is being watched – only the automatic home games in the next 14 days.');
-        continue;
+    if (/^(resume|unmute|restart|start again|turn on)\b/.test(t)) {
+      const all = /\ball\b|everything|^(resume|unmute)$/.test(t) && !team;
+      if (!all && !team) { await reply('Resume which? "resume Nuggets" or "resume all".'); continue; }
+      const before = JSON.stringify(cfg.muted); cfg.muted = Mutes.remove(cfg.muted, all ? { all: true } : { team, date });
+      changed = changed || JSON.stringify(cfg.muted) !== before;
+      await reply(JSON.stringify(cfg.muted) !== before ? `Back on: ${all ? 'all automatic games' : team + (date ? ' ' + nice(date) : ' games')}.` + (cfg.muted.length ? ` Still muted: ${cfg.muted.map(Mutes.describe).join(', ')}.` : '') : cfg.muted.some(m => m.all) ? 'Everything is muted right now – say "resume all", or "watch Nuggets Nov 25" for one game.' : 'Nothing was muted for that.');
+      continue;
+    }
+    if (mentionsStop) {
+      // "stop all" / "stop everything" / "stop watching" / a bare "stop": his watches go AND the automatic ones are muted
+      const all = !team && !date && !opp;
+      const beforeG = cfg.games.length, beforeM = JSON.stringify(cfg.muted);
+      if (all) { cfg.games = []; cfg.muted = [{ all: true }]; }
+      else {
+        if (!team) { await reply(`Stop which? "stop Nuggets", "stop Nuggets Nov 20" or "stop all". Nothing changed.`); continue; }
+        cfg.games = cfg.games.filter(g => !(Mutes.sameTeam(g.team, team) && (!date || g.date === date) && (!opp || sameOpp(g.opponent, opp))));
+        // a specific opponent with no date: mute that game's date if we know it
+        const game = !date && opp && sched.find(g => Mutes.sameTeam(g.team, team) && sameOpp(g.opponent, opp));
+        cfg.muted = Mutes.add(cfg.muted, { team, date: date || (game && game.date) || undefined });
       }
-      if (/\ball\b|everything/.test(t)) cfg.games = [];
-      else cfg.games = cfg.games.filter(g => !((!team || g.team === team) && (!date || g.date === date) && (!opp || sameOpp(g.opponent, opp))));
-      changed = changed || cfg.games.length !== before;
-      await reply(cfg.games.length !== before ? `Dropped. Still watching: ${cfg.games.map(describe).join(' · ') || 'nothing beyond the automatic 14-day window'}.` : 'Nothing matched that. "watch list" shows what is being watched.');
+      const did = cfg.games.length !== beforeG || JSON.stringify(cfg.muted) !== beforeM; changed = changed || did;
+      await reply((did ? 'Stopped. ' : 'Already stopped. ') + (all ? 'No more price posts here until you say "watch …" or "resume all".'
+        : `No more posts for ${team}${date ? ' ' + nice(date) : opp ? ' vs ' + opp : ' games'}. "resume ${team}" turns them back on.`) +
+        (cfg.games.length ? ` Still watching: ${cfg.games.map(describe).join(' · ')}.` : ''));
       continue;
     }
     if (!team) { await reply(`Didn't catch a team in "${text.slice(0, 60)}". Any NBA, NFL or NHL team works: "watch Nuggets vs Suns Nov 20 under 80", "watch Lakers vs Celtics Dec 25", "watch list", "report" or "stop all".`); continue; }
@@ -153,6 +178,7 @@ const money = n => '$' + Math.round(n);
     if (!game && date) game = { team, opponent: opp || 'TBD', date };
     if (!game) { await reply(`Couldn't find a ${teamObj.full} game${opp ? ' vs ' + opp : ''} on Gametime yet. Add the date: "watch ${team} vs ${opp || 'Suns'} Nov 20".`); continue; }
     const entry = { team: game.team, opponent: game.opponent, date: game.date }; if (targets) entry.target = targets;
+    cfg.muted = Mutes.remove(cfg.muted, { team: game.team, date: game.date });   // asking for a game un-mutes it (an "all" mute stays; his own watch is never muted)
     cfg.games = cfg.games.filter(g => !(g.team === entry.team && g.date === entry.date));
     cfg.games.push(entry); cfg.games.sort((a, b) => a.date.localeCompare(b.date));
     changed = true;
@@ -162,7 +188,7 @@ const money = n => '$' + Math.round(n);
   if (!TEXT) fs.writeFileSync(STATE, JSON.stringify(st));
   if (changed) cfg.games = cfg.games.filter(g => g.date >= today());
   if (changed && gcal.ready) {
-    const body = [...otherLines, ...cfg.games.map(g => `WATCH: ${g.date} ${g.team} vs ${g.opponent}${g.target ? ' | ' + [g.target.all && 'all $' + g.target.all, g.target.lower && 'lower $' + g.target.lower].filter(Boolean).join(' | ') : ''}`), 'TICKET-WATCH'].join('\n');
+    const body = [...otherLines, ...cfg.muted.map(Mutes.line), ...cfg.games.map(g => `WATCH: ${g.date} ${g.team} vs ${g.opponent}${g.target ? ' | ' + [g.target.all && 'all $' + g.target.all, g.target.lower && 'lower $' + g.target.lower].filter(Boolean).join(' | ') : ''}`), 'TICKET-WATCH'].join('\n');
     if (watchEv) await gcal.patch(watchEv.id, { description: body }); else await gcal.insert({ summary: 'Personal: ticket watch', description: body, when: new Date(), popup: null });
     console.log('calendar ticket watch updated'); fs.writeFileSync(WANTS, JSON.stringify(cfg, null, 2) + '\n'); process.exit(3);
   }

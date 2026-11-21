@@ -15,6 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
 const Teams = require('./teams');   // every NBA/NFL/NHL team: manual watches can be any game, home or away
+const Mutes = require('./mutes');   // "stop Nuggets" / "stop all" silence the automatic games too
 const { findGame } = require('./gt');
 const { renderCharts } = require('./charts');   // price-history PNGs attached to Discord posts
 const Elsewhere = require('./elsewhere');   // hourly "from" prices on TickPick/SeatGeek/Vivid (single tickets) for comparison + charts
@@ -310,6 +311,7 @@ async function launch() {
       }
       watchEv = await gcal.findByTitle('Personal: ticket watch', 'ticket watch');
       const d = watchEv ? watchEv.description || '' : '';
+      CFG.muted = Mutes.parse(d);
       for (const m of d.matchAll(/^\s*WATCH:\s*(\d{4}-\d{2}-\d{2})\s+(.+?)\s+(?:vs\.?|@|at)\s+(.+?)\s*(?:\|(.*))?$/gim)) {
         const target = {}; const t = m[4] || '';
         const a = t.match(/all\s*\$?(\d+)/i), l = t.match(/lower\s*\$?(\d+)/i); if (a) target.all = +a[1]; if (l) target.lower = +l[1];
@@ -338,7 +340,8 @@ async function launch() {
       } catch (e) { errors.push(`${g.team} schedule: ${e.message.slice(0, 80)}`); }
       cache.games.push(entry);
     }
-    const upcoming = cache.games.filter(g => g.date >= today && (g.date <= until || g.manual || g.watched)).sort((a, b) => a.date.localeCompare(b.date));
+    const upcoming = cache.games.filter(g => g.date >= today && (g.date <= until || g.manual || g.watched) && !Mutes.isMuted(g, CFG.muted)).sort((a, b) => a.date.localeCompare(b.date));
+    if ((CFG.muted || []).length) console.log(`Muted: ${CFG.muted.map(Mutes.describe).join(', ')}`);
     console.log(`${cache.games.filter(g => g.date >= today).length} home game(s) known, ${upcoming.length} within ${CFG.daysAhead || 14} days.`);
     let EW = { games: {} };
     try { EW = await Elsewhere.refresh(browser, upcoming); } catch (e) { console.log('Elsewhere failed: ' + e.message.slice(0, 120)); }

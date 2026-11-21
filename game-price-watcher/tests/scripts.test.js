@@ -128,3 +128,28 @@ test('PICKS RECORD is counted in code: Nov 20 line was stuck at Nov 18 (24-15 / 
   assert.strictEqual(once.replace(/^PICKS RECORD.*$/m, ''), log.replace(/^PICKS RECORD.*$/m, ''), 'only the PICKS RECORD line changes');
   assert.strictEqual(bank.record('2026-11-18 | Bruins ML | +102 | DraftKings | Low | 1u ($2.50) | placed: yes (your odds -110) | result: W (BOS 4-1) +1.02u, yours: W +$2.27').su, 1.02, 'units come from the pick, not "yours:"');
 });
+
+// Nov 21: "Watch stop nuggets" STARTED a Nuggets watch, and stopping never silenced the automatic home-game posts.
+test('ticket commands: any stop wording stops (and mutes automatic games), never starts a watch; resume turns it back on', () => {
+  const fs = require('fs'), path = require('path'), { spawnSync } = require('child_process');
+  const dir = path.join(__dirname, '..'), W = path.join(dir, 'wants.json'), orig = fs.readFileSync(W, 'utf8');
+  const run = text => {
+    const r = spawnSync('node', ['commands.js', '--text', text], { cwd: dir, env: { ...process.env, GCAL_SA_KEY: '', DISCORD_WEBHOOK_URL: '' } });
+    assert.ok([0, 3].includes(r.status), String(r.stderr)); return { out: String(r.stdout), c: JSON.parse(fs.readFileSync(W, 'utf8')) };
+  };
+  const reset = () => { const c = JSON.parse(orig); c.games = [{ team: 'Nuggets', opponent: 'Houston Rockets', date: '2099-11-20' }, { team: 'Broncos', opponent: 'Las Vegas Raiders', date: '2099-11-22' }]; c.muted = []; fs.writeFileSync(W, JSON.stringify(c)); };
+  try {
+    for (const [text, games, muted] of [['Watch stop nuggets', 1, [{ team: 'Nuggets' }]], ['watch stop all', 0, [{ all: true }]], ['stop', 0, [{ all: true }]],
+      ['cancel the avs', 2, [{ team: 'Avs' }]], ['no more broncos games', 1, [{ team: 'Broncos' }]], ['mute everything', 0, [{ all: true }]], ['stop watching', 0, [{ all: true }]]]) {
+      reset(); const r = run(text);
+      assert.ok(!/Got it – watching/.test(r.out), `"${text}" must not start a watch`);
+      assert.strictEqual(r.c.games.length, games, text); assert.deepStrictEqual(r.c.muted, muted, text);
+    }
+    reset(); run('stop nuggets'); assert.deepStrictEqual(run('resume nuggets').c.muted, []);
+    reset(); run('stop all'); assert.deepStrictEqual(run('resume all').c.muted, []);
+    const M = require('../mutes');
+    assert.ok(M.isMuted({ team: 'Nuggets', date: '2099-11-25' }, [{ team: 'Nuggets' }]));
+    assert.ok(!M.isMuted({ team: 'Nuggets', date: '2099-11-25', manual: true }, [{ all: true }]), 'a game he asked for is never muted');
+    assert.deepStrictEqual(M.parse('x\nMUTE: all\nMUTE: 2099-11-20 Avalanche'), [{ all: true }, { date: '2099-11-20', team: 'Avalanche' }]);
+  } finally { fs.writeFileSync(W, orig); }
+});
