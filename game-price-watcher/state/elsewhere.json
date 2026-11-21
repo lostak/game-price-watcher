@@ -1,5 +1,5 @@
 {
- "at": "2026-11-21T01:29:44.049Z",
+ "at": "2026-11-21T02:30:59.991Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -12,7 +12,7 @@
     "tickpick": "https://www.tickpick.com/buy-nba-cup-denver-nuggets-vs-houston-rockets-tickets-ball-arena-11-20-26-8pm/8200085/",
     "seatgeek": "https://seatgeek.com/denver-nuggets-tickets/11-20-2026-denver-colorado-ball-arena/nba/18485991"
    },
-   "tickpick": 41,
+   "tickpick": 52,
    "seatgeek": 49
   },
   "2026-11-24 Nuggets vs Dallas Mavericks": {
@@ -20,8 +20,8 @@
     "tickpick": "https://www.tickpick.com/buy-nba-cup-denver-nuggets-vs-dallas-mavericks-tickets-ball-arena-11-24-26-8pm/8200086/",
     "seatgeek": "https://seatgeek.com/denver-nuggets-tickets/11-24-2026-denver-colorado-ball-arena/nba/18485995"
    },
-   "tickpick": 37,
-   "seatgeek": 42
+   "tickpick": 38,
+   "seatgeek": 43
   },
   "2026-12-04 Nuggets vs Tbd (if Necessary)": {
    "urls": {
@@ -37,7 +37,7 @@
    },
    "tickpick": 199,
    "seatgeek": 211,
-   "vivid": 211
+   "vivid": 214
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
@@ -55,8 +55,8 @@
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-25-2026-denver-colorado-ball-arena/nhl/18377043",
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-25-2026/production/7300486"
    },
-   "tickpick": 76,
-   "seatgeek": 82,
+   "tickpick": 79,
+   "seatgeek": 83,
    "vivid": 79
   },
   "2026-11-28 Avs vs San Jose Sharks": {
@@ -65,8 +65,8 @@
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-28-2026-denver-colorado-ball-arena/nhl/18377047",
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501"
    },
-   "tickpick": 122,
-   "seatgeek": 129,
+   "tickpick": 121,
+   "seatgeek": 127,
    "vivid": 122
   },
   "2026-12-13 Seahawks vs New York Giants": {
@@ -81,13 +81,13 @@
   }
  },
  "notes": [
-  "Nuggets tickpick: HTTP 200, 11 game links, 2/3 matched",
+  "Nuggets tickpick: HTTP 403, 10 game links, 2/3 matched",
   "Nuggets seatgeek: HTTP 200, 25 game links, 3/3 matched",
   "Nuggets vivid: HTTP 200, 19 game links, 0/3 matched",
   "Broncos tickpick: HTTP 200, 6 game links, 2/2 matched",
   "Broncos seatgeek: HTTP 200, 8 game links, 2/2 matched",
   "Broncos vivid: HTTP 200, 11 game links, 2/2 matched",
-  "Avs tickpick: HTTP 200, 13 game links, 2/2 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 2/2 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 2/2 matched",
   "Avs vivid: HTTP 200, 25 game links, 2/2 matched",
   "Seahawks tickpick: HTTP 200, 6 game links, 1/1 matched",
