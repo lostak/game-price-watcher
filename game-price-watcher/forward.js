@@ -39,6 +39,9 @@ const clean = t => String(t || '').replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/
 const reply = (dmId, ref, content) => dapi('POST', `/channels/${dmId}/messages`, { content: content.slice(0, 1990), allowed_mentions: { parse: [] }, ...(ref ? { message_reference: { message_id: ref, fail_if_not_exists: false } } : {}) });
 
 // placed: yes for matching picks on the latest log date (today's picks); fills in dollars for picks already graded as not placed
+const normalize = t => String(t || '').trim().replace(/^(?:(?:ok|okay|yeah|yep|yes|i|i've|i have|just|already|all)[\s,.!-]+)+(?=(?:done|did|finished|complete|completed|placed|bet|put in|locked in|booked|took)\b)/i, '');
+const DONE = /^(done|did it|finished|complete|completed|booked|took care of it|✅|👍|✔️?)(?=\s|$|[,.!:-])/i;
+const PLACED = t => /^(placed|bet|put in|locked in|took)\b/i.test(t) && !/^bet\s+(on|that|you|me|it)\b/i.test(t);
 function markPlaced(desc, words) {
   const lines = String(desc || '').split('\n'), dates = lines.map(l => (l.match(/^(\d{4}-\d{2}-\d{2}) \| /) || [])[1]).filter(Boolean).sort();
   // "placed yesterday all" / "placed 11/12 wild" / "placed nov 12 parlay" back-fill an earlier day
@@ -71,25 +74,30 @@ async function handleReplies(st, dmId, owner) {
   for (const m of msgs) {
     st.dmCursor = m.id;
     if (m.author?.id !== owner || m.author?.bot) continue;
-    const text = String(m.content || '').trim(); if (!text) continue;
-    const refEvent = m.message_reference?.message_id && st.sent?.[m.message_reference.message_id];
+    // flexible wording (Nov 21): "ok done", "i did it", "yep, finished", "I placed the parlay", "put in wild" …
+    const text = normalize(m.content); if (!text) continue;
+    // "done" without replying to an alert = the most recent alert, if it was sent in the last 12 hours
+    const snowTime = id => Number(BigInt(id) >> 22n) + 1420070400000;
+    const lastSent = Object.keys(st.sent || {}).sort((a, b) => (BigInt(a) < BigInt(b) ? -1 : 1)).pop();
+    const refEvent = (m.message_reference?.message_id && st.sent?.[m.message_reference.message_id])
+      || (DONE.test(text) && lastSent && Date.now() - snowTime(lastSent) < 12 * 3600e3 ? st.sent[lastSent] : null);
     try {
-      if (/^(help|\?)$/i.test(text)) {
+      if (/^(help|\?|commands|what can (you|i) (do|say)|how does this work)\??$/i.test(text)) {
         await reply(dmId, m.id, 'Reply **done** to an alert to check it off. **placed all**, **placed parlay** or **placed oilers** marks today\'s picks as placed (**placed yesterday all** / **placed 11/12 wild** for an earlier day). Anything else goes to Claude as a "personal …" note (handled hourly, 8 AM–7 PM).');
-      } else if (refEvent && /^(done|did it|finished|complete|✅|👍)\b/i.test(text)) {
+      } else if (refEvent && DONE.test(text)) {
         const ev = await cal.get(refEvent);
         if (/^✅/.test(ev.summary || '')) { await reply(dmId, m.id, 'Already checked off.'); continue; }
         await cal.patch(refEvent, { summary: '✅ ' + ev.summary, description: `DONE ${cal.todayLocal()} – via Discord\n${ev.description || ''}`, reminders: { useDefault: false, overrides: [] } });
         // a done rotation session also gets logged (the Pocket processor advances the rotation)
         const log = /ski workout/i.test(ev.summary) ? 'did ski workout' : /pool focus/i.test(ev.summary) ? 'practiced pool' : /betting lesson/i.test(ev.summary) ? 'did betting lesson' : null;
-        const extra = text.replace(/^(done|did it|finished|complete|✅|👍)[\s,.:-]*/i, '');
+        const extra = text.replace(DONE, '').replace(/^[\s,.:-]+/, '');
         if (log) await cal.insert({ summary: `Claude: personal ${log}${extra ? ' – ' + extra.slice(0, 150) : ''}`, description: `From Bradley's Discord reply (${cal.nowLocal()}).`, when: new Date(), popup: null });
         await reply(dmId, m.id, '✅ Checked off: ' + ev.summary.replace(/^Personal:\s*/i, '') + (log ? ' – logged for the rotation (within the hour).' : ''));
-      } else if (/^placed\b/i.test(text)) {
+      } else if (PLACED(text)) {
         const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
         if (!log) { await reply(dmId, m.id, "I couldn't find the picks log."); continue; }
         const live = await cal.get(log.id).catch(() => log);   // freshest copy right before editing
-        const r = markPlaced(live.description, text.replace(/^placed\s*/i, '') || 'all');
+        const r = markPlaced(live.description, text.replace(/^(placed|bet|put in|locked in|took)\s*/i, '').replace(/^(the|my)\s+/i, '') || 'all');
         if (!r.hit.length) { await reply(dmId, m.id, `No unplaced pick on ${r.day} matches "${text}". Try **placed all**, **placed parlay** or a team name.`); continue; }
         const arch = await bank.archives().catch(() => []);
         await cal.patch(log.id, { description: bank.withCurrent(r.desc, bank.compute(r.desc, arch), cal.nowLocal()) });
@@ -102,7 +110,7 @@ async function handleReplies(st, dmId, owner) {
   }
 }
 
-module.exports = { markPlaced };
+module.exports = { markPlaced, normalize, DONE, PLACED };
 if (require.main === module) (async () => {
   if (!cal.ready || !TOKEN || !CHANNEL) { console.log('forwarder: calendar or Discord bot not configured'); return; }
   let st = null; try { st = JSON.parse(fs.readFileSync(STATE, 'utf8')); } catch {}

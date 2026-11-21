@@ -153,3 +153,13 @@ test('ticket commands: any stop wording stops (and mutes automatic games), never
     assert.deepStrictEqual(M.parse('x\nMUTE: all\nMUTE: 2099-11-20 Avalanche'), [{ all: true }, { date: '2099-11-20', team: 'Avalanche' }]);
   } finally { fs.writeFileSync(W, orig); }
 });
+
+test('DM commands: flexible "done" / "placed" wording, but ordinary chat stays a note', () => {
+  const F = require('../forward');
+  for (const t of ['ok done', 'I did it', 'yep, finished', 'done', '✅', 'all done'])
+    assert.ok(F.DONE.test(F.normalize(t)), t);
+  for (const t of ['I placed the parlay', 'placed all', 'put in wild', 'just placed oilers'])
+    assert.ok(F.PLACED(F.normalize(t)), t);
+  for (const t of ['did you see the game', 'bet on the broncos tonight?', 'doneness of steak'])
+    assert.ok(!F.DONE.test(F.normalize(t)) && !F.PLACED(F.normalize(t)), t);
+});
