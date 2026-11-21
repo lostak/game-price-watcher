@@ -90,7 +90,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 65,
         "section": "354",
@@ -99,7 +99,7 @@
         "url": "https://gametime.co/nba-basketball/nba-cup-rockets-at-nuggets-tickets/11-20-2026-denver-co-ball-arena/events/6a7bd57a01496222ebc85c4b"
       },
       "lower": {
-        "price": 164,
+        "price": 143,
         "section": "132",
         "row": "20",
         "site": "gametime",
@@ -121,11 +121,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 218,
-        "section": "526",
-        "row": "13",
+        "section": "540",
+        "row": "11",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
@@ -152,7 +152,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 309,
         "section": "319",
@@ -183,7 +183,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 35,
         "section": "322–330",
@@ -209,7 +209,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 105,
         "section": "330",
@@ -229,7 +229,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -254,7 +254,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": {
         "price": 221,
         "section": "522",
@@ -275,7 +275,7 @@
     "all": {},
     "lower": {},
     "last": {
-      "at": "2026-11-21T02:48:30.240Z",
+      "at": "2026-11-21T02:53:42.798Z",
       "all": null,
       "lower": null
     }
