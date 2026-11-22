@@ -109,16 +109,16 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T19:54:29.919Z",
+      "at": "2026-11-22T19:59:39.401Z",
       "all": {
-        "price": 282,
+        "price": 251,
         "section": "502",
         "row": "14",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
       "lower": {
-        "price": 456,
+        "price": 426,
         "section": "117",
         "row": "27",
         "site": "gametime",
@@ -140,7 +140,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T19:54:29.919Z",
+      "at": "2026-11-22T19:59:39.401Z",
       "all": {
         "price": 307,
         "section": "325",
@@ -197,7 +197,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T19:54:29.919Z",
+      "at": "2026-11-22T19:59:39.401Z",
       "all": {
         "price": 108,
         "section": "322",
@@ -217,11 +217,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T19:54:29.919Z",
+      "at": "2026-11-22T19:59:39.401Z",
       "all": {
-        "price": 126,
-        "section": "324",
-        "row": "14",
+        "price": 124,
+        "section": "366",
+        "row": "13",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
       },
@@ -242,7 +242,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T19:54:29.919Z",
+      "at": "2026-11-22T19:59:39.401Z",
       "all": {
         "price": 210,
         "section": "518",
