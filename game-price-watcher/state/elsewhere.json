@@ -1,5 +1,5 @@
 {
- "at": "2026-11-22T21:19:04.270Z",
+ "at": "2026-11-22T22:20:29.360Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -13,9 +13,9 @@
     "seatgeek": "https://seatgeek.com/denver-broncos-tickets/11-22-2026-denver-colorado-empower-field-at-mile-high/nfl/18014232",
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-3-2026/production/6489651"
    },
-   "tickpick": 182,
-   "seatgeek": 214,
-   "vivid": 71
+   "tickpick": 166,
+   "seatgeek": 208,
+   "vivid": 265
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
@@ -24,7 +24,7 @@
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-5-2026/production/6489684"
    },
    "tickpick": 111,
-   "seatgeek": 225,
+   "seatgeek": 218,
    "vivid": 117
   },
   "2026-11-25 Avs vs Montreal Canadiens": {
@@ -35,7 +35,7 @@
    },
    "tickpick": 89,
    "seatgeek": 94,
-   "vivid": 87
+   "vivid": 92
   },
   "2026-11-28 Avs vs San Jose Sharks": {
    "urls": {
@@ -43,9 +43,9 @@
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-28-2026-denver-colorado-ball-arena/nhl/18377047",
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501"
    },
-   "tickpick": 117,
-   "seatgeek": 124,
-   "vivid": 117
+   "tickpick": 121,
+   "seatgeek": 128,
+   "vivid": 115
   },
   "2026-12-13 Seahawks vs New York Giants": {
    "urls": {
@@ -62,7 +62,7 @@
   "Broncos tickpick: HTTP 200, 6 game links, 2/2 matched",
   "Broncos seatgeek: HTTP 200, 8 game links, 2/2 matched",
   "Broncos vivid: HTTP 200, 11 game links, 2/2 matched",
-  "Avs tickpick: HTTP 200, 14 game links, 2/2 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 2/2 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 2/2 matched",
   "Avs vivid: HTTP 200, 25 game links, 2/2 matched",
   "Seahawks tickpick: HTTP 200, 6 game links, 1/1 matched",
