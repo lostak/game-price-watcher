@@ -1,11 +1,7 @@
 {
   "2026-11-22 Broncos vs Las Vegas Raiders": {
-    "all": 229,
-    "lower": 440
-  },
-  "2026-11-24 Nuggets vs Dallas Mavericks": {
-    "all": 35,
-    "lower": 112
+    "all": 225,
+    "lower": 408
   },
   "2026-11-25 Avs vs Montreal Canadiens": {
     "all": 105,
@@ -13,10 +9,6 @@
   },
   "2026-11-28 Avs vs San Jose Sharks": {
     "all": 126,
-    "lower": null
-  },
-  "2026-12-04 Nuggets vs Tbd (if Necessary)": {
-    "all": null,
     "lower": null
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
@@ -27,5 +19,5 @@
     "all": 309,
     "lower": 370
   },
-  "_date": "2026-11-21"
+  "_date": "2026-11-22"
 }
