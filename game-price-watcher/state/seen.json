@@ -110,7 +110,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T23:29:51.030Z",
+      "at": "2026-11-22T23:35:00.210Z",
       "all": null,
       "lower": null
     }
@@ -129,11 +129,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T23:29:51.030Z",
+      "at": "2026-11-22T23:35:00.210Z",
       "all": {
-        "price": 307,
-        "section": "325",
-        "row": "P",
+        "price": 309,
+        "section": "319",
+        "row": "EE",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       },
@@ -186,7 +186,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T23:29:51.030Z",
+      "at": "2026-11-22T23:35:00.210Z",
       "all": {
         "price": 108,
         "section": "322",
@@ -206,7 +206,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T23:29:51.030Z",
+      "at": "2026-11-22T23:35:00.210Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -231,7 +231,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T23:29:51.030Z",
+      "at": "2026-11-22T23:35:00.210Z",
       "all": {
         "price": 210,
         "section": "518",
