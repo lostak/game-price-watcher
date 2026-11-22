@@ -110,21 +110,9 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T22:07:43.243Z",
-      "all": {
-        "price": 133,
-        "section": "537",
-        "row": "19",
-        "site": "gametime",
-        "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
-      },
-      "lower": {
-        "price": 222,
-        "section": "107",
-        "row": "40",
-        "site": "gametime",
-        "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
-      }
+      "at": "2026-11-22T22:12:53.173Z",
+      "all": null,
+      "lower": null
     }
   },
   "2026-12-13 Seahawks vs New York Giants": {
@@ -141,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T22:07:43.243Z",
+      "at": "2026-11-22T22:12:53.173Z",
       "all": {
         "price": 307,
         "section": "325",
@@ -198,7 +186,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T22:07:43.243Z",
+      "at": "2026-11-22T22:12:53.173Z",
       "all": {
         "price": 108,
         "section": "322",
@@ -218,7 +206,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T22:07:43.243Z",
+      "at": "2026-11-22T22:12:53.173Z",
       "all": {
         "price": 126,
         "section": "324",
@@ -243,7 +231,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T22:07:43.243Z",
+      "at": "2026-11-22T22:12:53.173Z",
       "all": {
         "price": 210,
         "section": "518",
