@@ -109,16 +109,16 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T21:21:45.833Z",
+      "at": "2026-11-22T21:26:45.691Z",
       "all": {
-        "price": 266,
-        "section": "530",
-        "row": "20",
+        "price": 237,
+        "section": "527",
+        "row": "16",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/raiders-at-broncos-tickets/11-22-2026-denver-co-empower-field-at-mile-high/events/695c95eb04735c7d3049efc7"
       },
       "lower": {
-        "price": 416,
+        "price": 377,
         "section": "117",
         "row": "28",
         "site": "gametime",
@@ -140,7 +140,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T21:21:45.833Z",
+      "at": "2026-11-22T21:26:45.691Z",
       "all": {
         "price": 307,
         "section": "325",
@@ -197,7 +197,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T21:21:45.833Z",
+      "at": "2026-11-22T21:26:45.691Z",
       "all": {
         "price": 108,
         "section": "322",
@@ -211,16 +211,16 @@
   "2026-11-28 Avs vs San Jose Sharks": {
     "all": {
       "first": 121,
-      "low": 121,
-      "lowDate": "2026-11-14",
+      "low": 120,
+      "lowDate": "2026-11-22",
       "alerted": null
     },
     "lower": {},
     "last": {
-      "at": "2026-11-22T21:21:45.833Z",
+      "at": "2026-11-22T21:26:45.691Z",
       "all": {
-        "price": 121,
-        "section": "358",
+        "price": 120,
+        "section": "368",
         "row": "12",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
@@ -242,7 +242,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-22T21:21:45.833Z",
+      "at": "2026-11-22T21:26:45.691Z",
       "all": {
         "price": 210,
         "section": "518",
