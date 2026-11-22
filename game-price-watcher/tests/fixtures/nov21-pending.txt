@@ -1,0 +1,10 @@
+BANKROLL: DraftKings, started $100 on 2026-11-06 | unit $2.50 (2% of $129.98 = $2.60, rounded to $2.50 at the Mon Nov 16 reset; next reset Mon Nov 23) | current $100.00 (Claude's picks only: every pick at its logged stake, placed or not, settled through 11/20; auto Sat, Nov 21, 1:30 PM) | placed bankroll $100.00 (only the picks you placed, at your odds and line; 0 placed)
+PICKS RECORD (every recommendation, placed or not; units only): singles 1-1-0, +0.14u | parlays 0-0, +0.00u | combined +0.14u on 2u risked (log started Fri Nov 6, 2026)
+CLV: 0 of 2 known beat the close (Nov 21: Army and Minnesota did not)
+PICKS (last 4 days):
+2026-11-21 | Army ML vs East Carolina (CFB) | -230 | DraftKings | Low | 1u ($2.50, returns $3.59) | 10:00 AM MT | placed: no | close: -198 (consensus, SportsLine) | result: L (ECU 10-6) -1u (not placed, no $) (auto-graded)
+2026-11-21 | Navy ML vs Memphis (CFB) | +142 | DraftKings | Low | 1u ($2.50, returns $6.05) | 10:00 AM MT | placed: no | close: +110 (consensus, SportsLine) | result: pending
+2026-11-21 | Minnesota ML vs Northwestern (CFB) | +114 | DraftKings | Low | 1u ($2.50, returns $5.35) | 10:00 AM MT | placed: no | close: +124 (consensus, SportsLine) | result: W (MINN 20-17) +1.14u (not placed, no $) (auto-graded)
+2026-11-21 | PARLAY: Army ML / Navy ML / Minnesota ML | +643 | DraftKings | 0.5u ($1.50, returns $11.15) | last leg 10:00 AM MT | placed: no | result: pending
+SLIPS (Bradley's actual bets from uploaded bet slips; the real price and stake – grade these for the bankroll):
+PICKS-LOG

@@ -38,7 +38,17 @@ function checkNfl(msgs, slateDesc) {
   if (legs.length !== p.legs.length) out.push(`#general shows ${legs.length} NFL legs but the slate has ${p.legs.length}`);
   return out;
 }
-module.exports = { checkLineup, checkNfl };
+// Today's NFL parlay post out of #general's last 50 messages (newest first): today's first message and the "(cont.)"
+// messages posted right after it. Nov 22: a bare "(cont.)" filter also picked up last Sunday's continuation, so the
+// check counted 16 legs for an 11-leg post. Newer continuations carry the date too.
+function nflPosts(msgs, label) {
+  const h = msgs.findIndex(m => m.includes(NFL_TITLE) && m.includes(label) && !/\(cont\.\)/.test(m));
+  if (h < 0) return [];
+  const out = [msgs[h]];
+  for (let j = h - 1; j >= 0 && msgs[j].includes(NFL_TITLE) && /\(cont\.\)/.test(msgs[j]); j--) out.push(msgs[j]);
+  return out;
+}
+module.exports = { checkLineup, checkNfl, nflPosts };
 
 if (require.main === module) (async () => {
   const today = gcal.todayLocal(), hm = +new Date().toLocaleTimeString('en-GB', { timeZone: gcal.TZ, hour: '2-digit', minute: '2-digit' }).replace(':', '');
@@ -60,7 +70,7 @@ if (require.main === module) (async () => {
     } catch (e) { issues.push(`couldn't read #general to check today's posts (${e.message})`); }
     if (msgs.length) {
       issues.push(...checkLineup(msgs.find(m => /Picks of the day/i.test(m) && m.includes(label)), slate.description));
-      if (sunday || nflParse(slate.description)) issues.push(...checkNfl(msgs.filter(m => m.includes(NFL_TITLE) && (m.includes(label) || /\(cont\.\)/.test(m))), slate.description));
+      if (sunday || nflParse(slate.description)) issues.push(...checkNfl(nflPosts(msgs, label), slate.description));
     }
     const brief = (await gcal.search('morning brief', { back: 1, ahead: 1 })).find(e => (e.summary || '').includes(label));
     if (brief && /no betting slate yet/i.test(brief.description || '')) issues.push('the morning brief still says there is no betting slate');

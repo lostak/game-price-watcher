@@ -157,12 +157,13 @@ function withRecord(desc, r) {
 async function archives() {
   return (await cal.search('PICKS-ARCHIVE', { back: 400, ahead: 1 })).filter(e => /picks archive/i.test(e.summary || '')).map(e => e.description || '');
 }
-module.exports = { rows, placedRows, compute, withCurrent, archives, yours, clvVerdict, clv, withClv, record, withRecord };
-
-if (require.main === module) (async () => {
-  if (!cal.ready) { console.log('bankroll: calendar not connected'); return; }
+// Rewrites the picks log's BANKROLL, CLV and PICKS RECORD lines from the pick lines (only when a figure changed).
+// Run every 15 min by tick.yml AND by grade.js right after it grades: on Nov 21 the 1:41 PM app check landed between
+// grade.js grading Navy ML / the CFB parlay and the next 15-min bankroll run, so the totals briefly lagged the lines.
+async function refresh({ force = false, dry = false } = {}) {
+  if (!cal.ready) { console.log('bankroll: calendar not connected'); return false; }
   const log = await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 60, ahead: 1 });
-  if (!log) { console.log('bankroll: no picks log'); return; }
+  if (!log) { console.log('bankroll: no picks log'); return false; }
   const arch = await archives(), live = await cal.get(log.id).catch(() => log);
   const c = compute(live.description, arch), old = (String(live.description).match(/\| current \$([\d,.]+)/) || [])[1], oldP = (String(live.description).match(/placed bankroll \$([\d,.]+)/) || [])[1];
   console.log(`bankroll: picks $${c.current.toFixed(2)} (was $${old}); placed $${c.placed.current.toFixed(2)} (was $${oldP}); ${c.rows.length} pick rows`);
@@ -172,9 +173,14 @@ if (require.main === module) (async () => {
   const clvSame = oldClv === k.line || (!oldClv && !k.known);
   const recSame = withRecord(live.description, record(live.description, arch)) === String(live.description);
   if (!recSame) console.log(`bankroll: PICKS RECORD -> ${record(live.description, arch).text}`);
-  if (same(old, c.current) && same(oldP, c.placed.current) && clvSame && recSame && !process.argv.includes('--force')) return;
-  if (DRY) return;
+  if (same(old, c.current) && same(oldP, c.placed.current) && clvSame && recSame && !force) return false;
+  if (dry) return false;
   const fresh = await cal.get(log.id);                        // re-read right before writing; only the BANKROLL, CLV and PICKS RECORD lines change
   await cal.patch(log.id, { description: withRecord(withClv(withCurrent(fresh.description, compute(fresh.description, arch), cal.nowLocal()), clv(fresh.description, arch)), record(fresh.description, arch)) });
   console.log('bankroll: updated');
-})().catch(e => { console.error('bankroll: ' + e.message); process.exit(1); });
+  return true;
+}
+module.exports = { rows, placedRows, compute, withCurrent, archives, yours, clvVerdict, clv, withClv, record, withRecord, refresh };
+
+if (require.main === module) refresh({ force: process.argv.includes('--force'), dry: DRY })
+  .catch(e => { console.error('bankroll: ' + e.message); process.exit(1); });

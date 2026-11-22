@@ -48,7 +48,7 @@ function messages(p, date, label) {
     p.legs.some(l => l.upset) ? '🐶 = upset pick' : ''].filter(Boolean).join('\n');
   const blocks = p.legs.map(l => [`${l.upset ? '🐶 ' : ''}**${noMoney(l.text)}**${l.time ? ` · <t:${info.epoch(date, l.time)}:t>` : ''}`, ...l.reasons.slice(0, 3).map(r => `– ${noMoney(r)}`)].join('\n'));
   const out = []; let cur = top;
-  for (const b of blocks) { if ((cur + '\n\n' + b).length > 1900) { out.push(cur); cur = `🏈 ${TITLE} (cont.)\n\n` + b; } else cur += '\n\n' + b; }
+  for (const b of blocks) { if ((cur + '\n\n' + b).length > 1900) { out.push(cur); cur = `🏈 ${TITLE} (cont.) – ${label}\n\n` + b; } else cur += '\n\n' + b; }
   out.push(cur); return out;
 }
 module.exports = { parse, messages, TITLE };

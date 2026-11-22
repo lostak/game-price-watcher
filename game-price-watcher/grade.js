@@ -76,12 +76,15 @@ module.exports = { grade, withLine, mention, ppu };
 if (require.main === module) (async () => {
   if (!cal.ready && !process.argv.includes('--test')) { console.log('grade: calendar not configured'); return; }
   const TEST = process.argv.includes('--test');   // re-grade Nov 6–8 (known results) without writing anything
+  let gradedAny = false;
   const log = TEST ? { description: TEST_LOG } : await cal.findByTitle('Personal: picks log', 'PICKS-LOG', { back: 400, ahead: 30 });
   if (!log) { console.log('grade: no picks log'); return; }
   await gradeEvent(log, 'picks log');
   // picks ticked in the app after they were archived ("yours: pending" when his line differs) get graded where they live
   if (!TEST) for (const a of (await cal.search('PICKS-ARCHIVE', { back: 400, ahead: 1 })).filter(e => /picks archive/i.test(e.summary || '') && /yours:\s*pending|result:\s*pending/i.test(e.description || '')))
     await gradeEvent(a, a.summary);
+  // totals follow the grades at once (not up to 15 min later): the app check compares them with the graded lines
+  if (gradedAny && !DRY && !TEST) await require('./bankroll').refresh().catch(e => console.log('grade: totals refresh failed – ' + e.message));
   async function gradeEvent(log, name) {
   const lines = String(log.description || '').split('\n'), today = cal.todayLocal();
   const orig = lines.slice();   // to apply only our changes onto a fresh copy at the end
@@ -158,5 +161,6 @@ if (require.main === module) (async () => {
   const live = String((await cal.get(log.id)).description || '').split('\n');
   await cal.patch(log.id, { description: live.map(l => swap.get(l) ?? l).join('\n') });
   console.log(`grade: ${changed} line(s) graded in the ${name}`);
+  gradedAny = true;
   }
 })().catch(e => { console.error('grade:', e.message); process.exit(1); });

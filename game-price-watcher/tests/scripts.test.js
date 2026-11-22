@@ -13,7 +13,7 @@ const nfl = require('../nflparlay');
 const bank = require('../bankroll');
 const { grade, withLine } = require('../grade');
 const { markPlaced } = require('../forward');
-const { checkLineup, checkNfl } = require('../outcheck');
+const { checkLineup, checkNfl, nflPosts } = require('../outcheck');
 
 test('picks log lines give each pick its sport and game time', () => {
   const rows = info.fromLog(LOG, '2026-11-13').filter(r => !r.parlay);
@@ -162,4 +162,34 @@ test('DM commands: flexible "done" / "placed" wording, but ordinary chat stays a
     assert.ok(F.PLACED(F.normalize(t)), t);
   for (const t of ['did you see the game', 'bet on the broncos tonight?', 'doneness of steak'])
     assert.ok(!F.DONE.test(F.normalize(t)) && !F.PLACED(F.normalize(t)), t);
+});
+
+test('totals follow the grades in the same grade.js run (Nov 21: app check at 1:41 PM saw Navy ML graded but PICKS RECORD/bankroll still at the old numbers)', () => {
+  const { spawnSync } = require('child_process');
+  const r = spawnSync(process.execPath, ['-r', path.join(__dirname, 'fake-grade-env.js'), path.join(__dirname, '..', 'grade.js')],
+    { encoding: 'utf8', env: { ...process.env, FAKE_LOG: path.join(__dirname, 'fixtures', 'nov21-pending.txt'), FAKE_TODAY: '2026-11-21' } });
+  assert.strictEqual(r.status, 0, r.stderr);
+  const parts = r.stdout.split('PATCHED\n'), last = parts[parts.length - 1].split('\nPICKS-LOG')[0] + '\nPICKS-LOG';
+  assert.ok(parts.length >= 3, 'grade.js wrote the grades and then the totals: ' + r.stdout);
+  assert.match(last, /Navy ML vs Memphis .*result: W \(NAVY 38-34\) \+1\.42u/);
+  assert.match(last, /PARLAY: Army ML .*result: L \(a leg lost\) -0\.5u/);
+  assert.match(last, /^PICKS RECORD.*singles 2-1-0, \+1\.56u \| parlays 0-1, -0\.50u/m);
+  assert.strictEqual(+(last.match(/\| current \$([\d.]+)/) || [])[1], bank.compute(last, []).current);
+  assert.strictEqual(bank.compute(last, []).current, 102.4);
+});
+test('NFL post check reads only today\'s post (Nov 22: last Sunday\'s "(cont.)" message was counted too – 16 legs vs 11)', () => {
+  const slate = n => 'NFL SUNDAY ML PARLAY: ' + n + ' legs @ DraftKings +3763 – 0.5u ($1.50, wins ~$56) – hits roughly 1 in 40\n' +
+    Array.from({ length: n }, (_, i) => `- ${i === 1 ? 'UPSET: ' : ''}Team${i} ML -150 vs Other${i} – 11:00 AM MT\n` +
+      [1, 2, 3].map(k => `  • reason ${k} for leg ${i}: ${'a long explanation of the matchup and recent form '.repeat(2)}`).join('\n')).join('\n') + '\n';
+  const S15 = slate(12), S22 = slate(11);
+  const old = nfl.messages(nfl.parse(S15), '2026-11-15', 'Sun Nov 15').map(m => m.replace(/ \(cont\.\) – Sun Nov 15/, ' (cont.)'));  // posted before continuations carried the date
+  const now = nfl.messages(nfl.parse(S22), '2026-11-22', 'Sun Nov 22');
+  assert.ok(old.length > 1 && now.length > 1, 'both posts span several messages');
+  assert.ok(now.slice(1).every(m => m.includes('(cont.) – Sun Nov 22')), 'continuations carry the date');
+  const channel = [...now.slice().reverse(), '**Picks of the day** Sun Nov 22', ...old.slice().reverse(), '**Picks of the day** Sun Nov 15'];   // newest first
+  const mine = nflPosts(channel, 'Sun Nov 22');
+  assert.deepStrictEqual(mine, now);
+  assert.deepStrictEqual(checkNfl(mine, S22), []);
+  const oldChan = channel.map(m => m.replace(/ \(cont\.\) – Sun Nov 22/, ' (cont.)'));   // old-style continuations today too
+  assert.deepStrictEqual(checkNfl(nflPosts(oldChan, 'Sun Nov 22'), S22), []);
 });
