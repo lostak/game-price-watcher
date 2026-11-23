@@ -1,5 +1,5 @@
 {
- "at": "2026-11-23T15:10:44.992Z",
+ "at": "2026-11-23T16:12:48.970Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -14,7 +14,7 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-25-2026/production/7300486"
    },
    "tickpick": 100,
-   "seatgeek": 107,
+   "seatgeek": 108,
    "vivid": 103
   },
   "2026-11-28 Avs vs San Jose Sharks": {
@@ -24,7 +24,7 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501"
    },
    "tickpick": 109,
-   "seatgeek": 116,
+   "seatgeek": 118,
    "vivid": 110
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
@@ -44,7 +44,7 @@
     "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971"
    },
    "tickpick": 250,
-   "seatgeek": 296,
+   "seatgeek": 288,
    "vivid": 271
   }
  },
