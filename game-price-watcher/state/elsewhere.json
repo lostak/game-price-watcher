@@ -1,5 +1,5 @@
 {
- "at": "2026-11-23T12:06:20.622Z",
+ "at": "2026-11-23T13:07:38.095Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -34,7 +34,7 @@
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-5-2026/production/6489684"
    },
    "tickpick": 111,
-   "seatgeek": 212,
+   "seatgeek": 218,
    "vivid": 117
   },
   "2026-12-13 Seahawks vs New York Giants": {
@@ -44,7 +44,7 @@
     "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971"
    },
    "tickpick": 250,
-   "seatgeek": 298,
+   "seatgeek": 280,
    "vivid": 271
   }
  },
