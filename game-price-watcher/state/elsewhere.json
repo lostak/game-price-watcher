@@ -1,5 +1,5 @@
 {
- "at": "2026-11-24T17:12:55.906Z",
+ "at": "2026-11-24T18:14:43.944Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -14,7 +14,7 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-25-2026/production/7300486"
    },
    "tickpick": 92,
-   "seatgeek": 97,
+   "seatgeek": 98,
    "vivid": 94
   },
   "2026-11-28 Avs vs San Jose Sharks": {
@@ -49,7 +49,7 @@
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 200, 13 game links, 2/2 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 2/2 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 2/2 matched",
   "Avs vivid: HTTP 200, 25 game links, 2/2 matched",
   "Broncos tickpick: HTTP 200, 5 game links, 1/1 matched",
