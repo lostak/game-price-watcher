@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-24T19:39:57.182Z",
+  "updated": "2026-11-25T19:44:43.269Z",
   "games": [
     {
       "team": "Broncos",
@@ -379,16 +379,6 @@
       "gametimeId": "6a5965fbe8a357f03f178e98",
       "gametime": "https://gametime.co/nhl-hockey/wild-at-avalanche-tickets/4-10-2027-denver-co-ball-arena/events/6a5965fbe8a357f03f178e98",
       "name": "Minnesota Wild at Colorado Avalanche"
-    },
-    {
-      "team": "Nuggets",
-      "venue": "Ball Arena",
-      "opponent": "Dallas Mavericks",
-      "date": "2026-11-24",
-      "time": "20:00",
-      "gametimeId": "6a7bd576a7d23a3a47e6afb6",
-      "gametime": "https://gametime.co/nba-basketball/nba-cup-mavericks-at-nuggets-tickets/11-24-2026-denver-co-ball-arena/events/6a7bd576a7d23a3a47e6afb6",
-      "name": "NBA Cup - Dallas Mavericks at Denver Nuggets"
     },
     {
       "team": "Nuggets",
