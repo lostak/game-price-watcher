@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-25T15:01:19.349Z",
+      "at": "2026-11-25T15:06:17.300Z",
       "all": {
         "price": 274,
         "section": "315",
@@ -186,7 +186,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-25T15:01:19.349Z",
+      "at": "2026-11-25T15:06:17.300Z",
       "all": {
         "price": 106,
         "section": "318",
@@ -200,17 +200,17 @@
   "2026-11-28 Avs vs San Jose Sharks": {
     "all": {
       "first": 121,
-      "low": 114,
-      "lowDate": "2026-11-23",
+      "low": 105,
+      "lowDate": "2026-11-25",
       "alerted": null
     },
     "lower": {},
     "last": {
-      "at": "2026-11-25T15:01:19.349Z",
+      "at": "2026-11-25T15:06:17.300Z",
       "all": {
-        "price": 114,
-        "section": "360",
-        "row": "12",
+        "price": 105,
+        "section": "318",
+        "row": "9",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
       },
@@ -231,7 +231,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-25T15:01:19.349Z",
+      "at": "2026-11-25T15:06:17.300Z",
       "all": {
         "price": 210,
         "section": "523",
