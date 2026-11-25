@@ -1,19 +1,19 @@
 {
   "2026-11-25 Avs vs Montreal Canadiens": {
-    "all": 109,
+    "all": 111,
     "lower": null
   },
   "2026-11-28 Avs vs San Jose Sharks": {
-    "all": 126,
+    "all": 114,
     "lower": null
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
-    "all": 209,
-    "lower": 312
+    "all": 210,
+    "lower": 322
   },
   "2026-12-13 Seahawks vs New York Giants": {
-    "all": 289,
-    "lower": 449
+    "all": 274,
+    "lower": 374
   },
-  "_date": "2026-11-24"
+  "_date": "2026-11-25"
 }
