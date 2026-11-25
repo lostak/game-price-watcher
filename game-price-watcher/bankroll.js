@@ -27,8 +27,9 @@ function rows(text) {          // every pick line: [{date, key, amt (settled $ o
   }
   return out;
 }
-// "placed: yes (your line -4, your odds -110)" → your terms; null fields = same as the pick
-const yours = l => { const f = (l.match(/placed:\s*yes\s*\(([^)]*)\)/i) || [])[1] || ''; return { line: (f.match(/your line ([+-]?\d+(?:\.\d+)?)/i) || [])[1] || null, odds: (f.match(/your odds ([+-]\d+)/i) || [])[1] || null }; };
+// "placed: yes (your line -4, your odds -110, your stake $5)" → your terms; null fields = same as the pick
+const yours = l => { const f = (l.match(/placed:\s*yes\s*\(([^)]*)\)/i) || [])[1] || ''; const st = (f.match(/your stake \$?(\d+(?:\.\d+)?)/i) || [])[1];
+  return { line: (f.match(/your line ([+-]?\d+(?:\.\d+)?)/i) || [])[1] || null, odds: (f.match(/your odds ([+-]\d+)/i) || [])[1] || null, stake: st ? +st : null }; };
 // Bradley's placed bankroll: only Claude's picks he placed, at his odds/line. A "placed: yes" line's dollars are its
 // "yours: W +$1.82" result (or the plain "+$1.81" when placed at the logged terms); a "placed: slip" pick counts through
 // its matching SLIP line (same date, shared team word). Extra bets of his own never count.
@@ -39,7 +40,7 @@ function placedRows(text) {
     const pl = (l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1]?.toLowerCase();
     if (pl === 'slip') { slipPicks.push({ date: m[1], w: words(m[2]) }); continue; }
     if (pl !== 'yes') continue;
-    const sk = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stake = sk ? +sk[2] : 0, res = ((l.match(/result:\s*(.*)$/i) || [])[1] || '').trim();
+    const sk = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stake = yours(l).stake ?? (sk ? +sk[2] : 0), res = ((l.match(/result:\s*(.*)$/i) || [])[1] || '').trim();
     let amt = null;
     const y = res.match(/yours:\s*(W|L|P|push)\b\s*([+-])?\$?([\d,.]+)?/i), d = res.match(/([+-])\$\s?([\d,]+(?:\.\d+)?)/);
     if (y) amt = /^P|push/i.test(y[1]) ? 0 : y[3] ? (y[2] === '-' ? -1 : 1) * +y[3].replace(/,/g, '') : null;

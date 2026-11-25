@@ -105,9 +105,9 @@ if (require.main === module) (async () => {
       if (!g || !g.done) { if (!yoursOnly) graded[date].push('?'); continue; }
       const clean = bet.replace(/\([^)]*\)/g, m => m.replace(/@/g, ' '));
       const { res, note } = grade(clean, g);
-      const per = ppu(p[2]), st = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stakeU = st ? +st[1] : 1, stake$ = st ? +st[2] : null;
-      // Bradley's own terms on a pick he placed: "placed: yes (your line -4, your odds -110)"
-      const yo = yours(l), mineOf = () => {
+      const per = ppu(p[2]), st = l.match(/(\d+(?:\.\d+)?)u \(\$(\d+(?:\.\d+)?)/), stakeU = st ? +st[1] : 1, logged$ = st ? +st[2] : null;
+      // Bradley's own terms on a pick he placed: "placed: yes (your line -4, your odds -110, your stake $5)"
+      const yo = yours(l), stake$ = yo.stake ?? logged$, mineOf = () => {
         const yres = yo.line ? grade(withLine(clean, yo.line), g).res : res, yper = yo.odds ? ppu(yo.odds) : per;
         return `yours: ${yres} ${fd(yres === 'W' ? stake$ * yper : yres === 'L' ? -stake$ : 0)}`;
       };
@@ -116,7 +116,7 @@ if (require.main === module) (async () => {
       const u = res === 'W' ? stakeU * per : res === 'L' ? -stakeU : 0;
       const placed = (l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1]?.toLowerCase();
       if (placed === 'not yet') lines[i] = l.replace(/placed:\s*not yet/i, 'placed: no');   // no slip by grading time
-      const money = placed === 'yes' && stake$ !== null ? (yo.line || yo.odds ? ', ' + mineOf() : `, ${fd(res === 'W' ? stake$ * per : res === 'L' ? -stake$ : 0)}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
+      const money = placed === 'yes' && stake$ !== null ? (yo.line || yo.odds || yo.stake ? ', ' + mineOf() : `, ${fd(res === 'W' ? stake$ * per : res === 'L' ? -stake$ : 0)}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
       lines[i] = lines[i].replace(/result:\s*pending/i, `result: ${res} (${note}) ${fu(u)}${money} (auto-graded)`);
       graded[date].push(res); changed++;
       console.log(`graded ${date} ${bet}: ${res} ${note}`);
@@ -149,8 +149,8 @@ if (require.main === module) (async () => {
     const u = res === 'W' ? +st[1] * per : -st[1];
     const placed = (l.match(/placed:\s*(not yet|yes|slip|no)/i) || [])[1]?.toLowerCase();
     let nl = placed === 'not yet' ? l.replace(/placed:\s*not yet/i, 'placed: no') : l;
-    const yo = yours(l), yper = yo.odds ? ppu(yo.odds) : per;
-    const money = placed === 'yes' ? (yo.odds ? `, yours: ${res} ${fd(res === 'W' ? +st[2] * yper : -st[2])}` : `, ${fd(res === 'W' ? +st[2] * per : -st[2])}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
+    const yo = yours(l), yper = yo.odds ? ppu(yo.odds) : per, ys = yo.stake ?? +st[2];
+    const money = placed === 'yes' ? (yo.odds || yo.stake ? `, yours: ${res} ${fd(res === 'W' ? ys * yper : -ys)}` : `, ${fd(res === 'W' ? +st[2] * per : -st[2])}`) : placed === 'slip' ? ' (see slip)' : ' (not placed, no $)';
     lines[i] = nl.replace(/result:\s*pending/i, `result: ${res} (${res === 'W' ? 'all legs won' : 'a leg lost'}) ${fu(u)}${money} (auto-graded)`);
     changed++; console.log(`graded parlay ${p[0]}: ${res}`);
   }

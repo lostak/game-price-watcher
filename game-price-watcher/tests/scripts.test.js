@@ -193,3 +193,11 @@ test('NFL post check reads only today\'s post (Nov 22: last Sunday\'s "(cont.)" 
   const oldChan = channel.map(m => m.replace(/ \(cont\.\) – Sun Nov 22/, ' (cont.)'));   // old-style continuations today too
   assert.deepStrictEqual(checkNfl(nflPosts(oldChan, 'Sun Nov 22'), S22), []);
 });
+
+// Nov 25: Bradley's bet size can differ from the pick's ("your stake $5.00" from the app's Bet size box)
+test('your stake: parsed, and a pending placed pick rides at your size', () => {
+  assert.deepStrictEqual(bank.yours('x | placed: yes (your odds -115, your stake $5.00) | result: pending'), { line: null, odds: '-115', stake: 5 });
+  assert.strictEqual(bank.yours('x | placed: yes | result: pending').stake, null);
+  const l = '2026-11-25 | Sharks ML @ Ducks (NHL) | +124 | DraftKings | Low | 1u ($2.50, returns $5.60) | 8:00 PM MT | placed: yes (your stake $5.00) | close: pending | result: pending';
+  assert.strictEqual(bank.compute(l, []).placed.pending, 5);
+});
