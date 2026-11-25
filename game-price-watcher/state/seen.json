@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-25T22:49:10.476Z",
+      "at": "2026-11-25T22:54:27.064Z",
       "all": {
         "price": 286,
         "section": "328",
@@ -186,11 +186,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-25T22:49:10.476Z",
+      "at": "2026-11-25T22:54:27.064Z",
       "all": {
-        "price": 107,
-        "section": "364",
-        "row": "10",
+        "price": 103,
+        "section": "310",
+        "row": "15",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed"
       },
@@ -206,11 +206,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-25T22:49:10.476Z",
+      "at": "2026-11-25T22:54:27.064Z",
       "all": {
-        "price": 125,
-        "section": "368",
-        "row": "15",
+        "price": 126,
+        "section": "366",
+        "row": "9",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
       },
@@ -231,7 +231,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-25T22:49:10.476Z",
+      "at": "2026-11-25T22:54:27.064Z",
       "all": {
         "price": 210,
         "section": "523",
