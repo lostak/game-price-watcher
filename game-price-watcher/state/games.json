@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T19:44:43.269Z",
+  "updated": "2026-11-26T19:46:08.720Z",
   "games": [
     {
       "team": "Broncos",
@@ -67,17 +67,6 @@
     {
       "team": "Avs",
       "venue": "Ball Arena",
-      "opponent": "Montreal Canadiens",
-      "date": "2026-11-25",
-      "time": "19:00",
-      "gametimeId": "6a5965fce343825a1361f6ed",
-      "gametime": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed",
-      "name": "Montreal Canadiens at Colorado Avalanche",
-      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-montreal-canadiens-tickets-ball-arena-11-25-26-7pm/8139129/"
-    },
-    {
-      "team": "Avs",
-      "venue": "Ball Arena",
       "opponent": "San Jose Sharks",
       "date": "2026-11-28",
       "time": "19:00",
@@ -138,7 +127,8 @@
       "time": "18:00",
       "gametimeId": "6a5965fcc40d169ac9eb4b38",
       "gametime": "https://gametime.co/nhl-hockey/kraken-at-avalanche-tickets/12-20-2026-denver-co-ball-arena/events/6a5965fcc40d169ac9eb4b38",
-      "name": "Seattle Kraken at Colorado Avalanche"
+      "name": "Seattle Kraken at Colorado Avalanche",
+      "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-seattle-kraken-tickets-ball-arena-12-20-26-6pm/8139236/"
     },
     {
       "team": "Avs",
