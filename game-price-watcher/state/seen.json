@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T21:13:26.465Z",
+      "at": "2026-11-26T21:18:34.602Z",
       "all": {
         "price": 274,
         "section": "327",
@@ -200,11 +200,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T21:13:26.465Z",
+      "at": "2026-11-26T21:18:34.602Z",
       "all": {
         "price": 126,
         "section": "366",
-        "row": "9",
+        "row": "7",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
       },
@@ -225,11 +225,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T21:13:26.465Z",
+      "at": "2026-11-26T21:18:34.602Z",
       "all": {
-        "price": 210,
-        "section": "523",
-        "row": "10",
+        "price": 223,
+        "section": "500",
+        "row": "16",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
