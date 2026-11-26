@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T01:02:33.128Z",
+      "at": "2026-11-26T01:07:44.570Z",
       "all": {
         "price": 286,
         "section": "328",
@@ -180,17 +180,17 @@
   "2026-11-25 Avs vs Montreal Canadiens": {
     "all": {
       "first": 87,
-      "low": 80,
+      "low": 77,
       "lowDate": "2026-11-25",
       "alerted": null
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T01:02:33.128Z",
+      "at": "2026-11-26T01:07:44.570Z",
       "all": {
-        "price": 84,
-        "section": "328",
-        "row": "13",
+        "price": 77,
+        "section": "350",
+        "row": "15",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed"
       },
@@ -206,7 +206,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T01:02:33.128Z",
+      "at": "2026-11-26T01:07:44.570Z",
       "all": {
         "price": 126,
         "section": "366",
@@ -231,7 +231,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T01:02:33.128Z",
+      "at": "2026-11-26T01:07:44.570Z",
       "all": {
         "price": 210,
         "section": "523",
