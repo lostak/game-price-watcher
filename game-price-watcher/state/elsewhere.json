@@ -1,5 +1,5 @@
 {
- "at": "2026-11-26T02:42:15.770Z",
+ "at": "2026-11-26T03:43:44.018Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -10,12 +10,12 @@
   "2026-11-25 Avs vs Montreal Canadiens": {
    "urls": {
     "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-montreal-canadiens-tickets-ball-arena-11-25-26-7pm/8139129/",
-    "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-25-2026-denver-colorado-ball-arena/nhl/18377043",
-    "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-25-2026/production/7300486"
+    "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-25-2026/production/7300486",
+    "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-25-2026-denver-colorado-ball-arena/nhl/18377043"
    },
-   "tickpick": 39,
-   "seatgeek": 47,
-   "vivid": 60
+   "tickpick": 17,
+   "vivid": 60,
+   "seatgeek": 47
   },
   "2026-11-28 Avs vs San Jose Sharks": {
    "urls": {
@@ -23,9 +23,9 @@
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-28-2026-denver-colorado-ball-arena/nhl/18377047",
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501"
    },
-   "tickpick": 101,
+   "tickpick": 97,
    "seatgeek": 109,
-   "vivid": 107
+   "vivid": 101
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
@@ -34,7 +34,7 @@
     "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-5-2026/production/6489684"
    },
    "tickpick": 107,
-   "seatgeek": 206,
+   "seatgeek": 204,
    "vivid": 111
   },
   "2026-12-13 Seahawks vs New York Giants": {
@@ -49,8 +49,8 @@
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 200, 13 game links, 2/2 matched",
-  "Avs seatgeek: HTTP 200, 25 game links, 2/2 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 2/2 matched",
+  "Avs seatgeek: HTTP 200, 25 game links, 1/2 matched",
   "Avs vivid: HTTP 200, 25 game links, 2/2 matched",
   "Broncos tickpick: HTTP 200, 5 game links, 1/1 matched",
   "Broncos seatgeek: HTTP 200, 7 game links, 1/1 matched",
