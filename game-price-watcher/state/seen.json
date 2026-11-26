@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T03:10:46.982Z",
+      "at": "2026-11-26T03:15:56.809Z",
       "all": {
         "price": 286,
         "section": "328",
@@ -186,14 +186,8 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T03:10:46.982Z",
-      "all": {
-        "price": 30,
-        "section": "332",
-        "row": "9",
-        "site": "gametime",
-        "url": "https://gametime.co/nhl-hockey/canadiens-at-avalanche-tickets/11-25-2026-denver-co-ball-arena/events/6a5965fce343825a1361f6ed"
-      },
+      "at": "2026-11-26T03:15:56.809Z",
+      "all": null,
       "lower": null
     }
   },
@@ -206,7 +200,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T03:10:46.982Z",
+      "at": "2026-11-26T03:15:56.809Z",
       "all": {
         "price": 126,
         "section": "366",
@@ -231,7 +225,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T03:10:46.982Z",
+      "at": "2026-11-26T03:15:56.809Z",
       "all": {
         "price": 210,
         "section": "523",
