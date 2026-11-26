@@ -1,5 +1,5 @@
 {
- "at": "2026-11-26T21:20:49.460Z",
+ "at": "2026-11-26T22:22:08.050Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -13,8 +13,8 @@
     "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501",
     "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-28-2026-denver-colorado-ball-arena/nhl/18377047"
    },
-   "tickpick": 101,
-   "vivid": 107,
+   "tickpick": 97,
+   "vivid": 102,
    "seatgeek": 109
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
@@ -39,7 +39,7 @@
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 200, 12 game links, 1/1 matched",
+  "Avs tickpick: HTTP 200, 13 game links, 1/1 matched",
   "Avs seatgeek: HTTP 403, 0 game links, 0/1 matched",
   "Avs vivid: HTTP 200, 25 game links, 1/1 matched",
   "Broncos tickpick: HTTP 200, 5 game links, 1/1 matched",
