@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T02:55:18.828Z",
+      "at": "2026-11-26T03:00:29.882Z",
       "all": {
         "price": 286,
         "section": "328",
@@ -180,15 +180,15 @@
   "2026-11-25 Avs vs Montreal Canadiens": {
     "all": {
       "first": 87,
-      "low": 37,
+      "low": 30,
       "lowDate": "2026-11-25",
       "alerted": null
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T02:55:18.828Z",
+      "at": "2026-11-26T03:00:29.882Z",
       "all": {
-        "price": 37,
+        "price": 30,
         "section": "332",
         "row": "9",
         "site": "gametime",
@@ -206,7 +206,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-26T02:55:18.828Z",
+      "at": "2026-11-26T03:00:29.882Z",
       "all": {
         "price": 126,
         "section": "366",
@@ -231,7 +231,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-26T02:55:18.828Z",
+      "at": "2026-11-26T03:00:29.882Z",
       "all": {
         "price": 210,
         "section": "523",
