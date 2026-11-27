@@ -1,5 +1,5 @@
 {
- "at": "2026-11-27T20:15:42.742Z",
+ "at": "2026-11-27T21:16:59.743Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -15,7 +15,7 @@
    },
    "tickpick": 116,
    "seatgeek": 113,
-   "vivid": 116
+   "vivid": 113
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
@@ -39,11 +39,11 @@
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 403, 12 game links, 1/1 matched",
+  "Avs tickpick: HTTP 403, 14 game links, 1/1 matched",
   "Avs seatgeek: HTTP 200, 25 game links, 1/1 matched",
   "Avs vivid: HTTP 200, 25 game links, 1/1 matched",
   "Broncos tickpick: HTTP 200, 5 game links, 1/1 matched",
-  "Broncos seatgeek: HTTP 200, 7 game links, 1/1 matched",
+  "Broncos seatgeek: HTTP 200, 6 game links, 1/1 matched",
   "Broncos vivid: HTTP 200, 10 game links, 1/1 matched",
   "Seahawks tickpick: HTTP 200, 6 game links, 1/1 matched",
   "Seahawks seatgeek: HTTP 200, 7 game links, 1/1 matched",
