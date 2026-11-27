@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-27T23:43:26.730Z",
+      "at": "2026-11-27T23:48:41.445Z",
       "all": {
         "price": 279,
         "section": "328",
@@ -200,7 +200,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-27T23:43:26.730Z",
+      "at": "2026-11-27T23:48:41.445Z",
       "all": {
         "price": 123,
         "section": "316",
@@ -225,11 +225,11 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-27T23:43:26.730Z",
+      "at": "2026-11-27T23:48:41.445Z",
       "all": {
-        "price": 212,
-        "section": "515",
-        "row": "23",
+        "price": 223,
+        "section": "500",
+        "row": "16",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
