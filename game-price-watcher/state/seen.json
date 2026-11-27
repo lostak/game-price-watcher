@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-27T16:32:58.166Z",
+      "at": "2026-11-27T16:37:59.566Z",
       "all": {
         "price": 279,
         "section": "328",
@@ -200,11 +200,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-27T16:32:58.166Z",
+      "at": "2026-11-27T16:37:59.566Z",
       "all": {
-        "price": 127,
-        "section": "316",
-        "row": "14",
+        "price": 126,
+        "section": "328",
+        "row": "13",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
       },
@@ -225,7 +225,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-27T16:32:58.166Z",
+      "at": "2026-11-27T16:37:59.566Z",
       "all": {
         "price": 223,
         "section": "500",
