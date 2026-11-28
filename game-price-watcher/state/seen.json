@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-28T15:01:08.911Z",
+      "at": "2026-11-28T15:06:21.064Z",
       "all": {
         "price": 296,
         "section": "315",
@@ -200,7 +200,7 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-28T15:01:08.911Z",
+      "at": "2026-11-28T15:06:21.064Z",
       "all": {
         "price": 108,
         "section": "318",
@@ -225,7 +225,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-28T15:01:08.911Z",
+      "at": "2026-11-28T15:06:21.064Z",
       "all": {
         "price": 208,
         "section": "514",
@@ -260,11 +260,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-28T15:01:08.911Z",
+      "at": "2026-11-28T15:06:21.064Z",
       "all": {
-        "price": 102,
-        "section": "360",
-        "row": "12",
+        "price": 108,
+        "section": "318",
+        "row": "10",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/capitals-at-avalanche-tickets/12-12-2026-denver-co-ball-arena/events/6a5965fcbe0211fffb590c29"
       },
