@@ -129,7 +129,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-28T04:56:13.787Z",
+      "at": "2026-11-28T12:01:41.910Z",
       "all": {
         "price": 296,
         "section": "315",
@@ -138,9 +138,9 @@
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       },
       "lower": {
-        "price": 374,
-        "section": "149",
-        "row": "NN",
+        "price": 398,
+        "section": "147",
+        "row": "Z",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/giants-at-seahawks-tickets/12-13-2026-seattle-wa-lumen-field/events/695daa77eb182fc341c99fc2"
       }
@@ -200,11 +200,11 @@
     },
     "lower": {},
     "last": {
-      "at": "2026-11-28T04:56:13.787Z",
+      "at": "2026-11-28T12:01:41.910Z",
       "all": {
-        "price": 113,
-        "section": "374",
-        "row": "15",
+        "price": 111,
+        "section": "318",
+        "row": "11",
         "site": "gametime",
         "url": "https://gametime.co/nhl-hockey/sharks-at-avalanche-tickets/11-28-2026-denver-co-ball-arena/events/6a5965fcd2eefd87bd3d7e79"
       },
@@ -225,7 +225,7 @@
       "alerted": null
     },
     "last": {
-      "at": "2026-11-28T04:56:13.787Z",
+      "at": "2026-11-28T12:01:41.910Z",
       "all": {
         "price": 223,
         "section": "500",
@@ -234,9 +234,9 @@
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       },
       "lower": {
-        "price": 324,
-        "section": "113",
-        "row": "41",
+        "price": 322,
+        "section": "133",
+        "row": "36",
         "site": "gametime",
         "url": "https://gametime.co/nfl-football/dolphins-at-broncos-tickets/12-6-2026-denver-co-empower-field-at-mile-high/events/695c95eefab8a68da2286756"
       }
@@ -248,6 +248,26 @@
     "last": {
       "at": "2026-11-21T20:55:12.734Z",
       "all": null,
+      "lower": null
+    }
+  },
+  "2026-12-12 Avs vs Washington Capitals": {
+    "all": {
+      "first": 102,
+      "low": 102,
+      "lowDate": "2026-11-28",
+      "alerted": null
+    },
+    "lower": {},
+    "last": {
+      "at": "2026-11-28T12:01:41.910Z",
+      "all": {
+        "price": 102,
+        "section": "360",
+        "row": "12",
+        "site": "gametime",
+        "url": "https://gametime.co/nhl-hockey/capitals-at-avalanche-tickets/12-12-2026-denver-co-ball-arena/events/6a5965fcbe0211fffb590c29"
+      },
       "lower": null
     }
   }

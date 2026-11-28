@@ -1,5 +1,5 @@
 {
- "at": "2026-11-28T04:27:43.529Z",
+ "at": "2026-11-28T12:04:00.802Z",
  "vivid": {
   "Nuggets": "https://www.vividseats.com/denver-nuggets-tickets--sports-nba-basketball/performer/235",
   "Avs": "https://www.vividseats.com/colorado-avalanche-tickets--sports-nhl-hockey/performer/191",
@@ -9,44 +9,54 @@
  "games": {
   "2026-11-28 Avs vs San Jose Sharks": {
    "urls": {
-    "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501",
     "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-san-jose-sharks-tickets-ball-arena-11-28-26-7pm/8139144/",
-    "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-28-2026-denver-colorado-ball-arena/nhl/18377047"
+    "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/11-28-2026-denver-colorado-ball-arena/nhl/18377047",
+    "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-11-28-2026/production/7300501"
    },
-   "vivid": 105,
-   "tickpick": 106,
-   "seatgeek": 114
+   "tickpick": 105,
+   "seatgeek": 113,
+   "vivid": 105
+  },
+  "2026-12-12 Avs vs Washington Capitals": {
+   "urls": {
+    "tickpick": "https://www.tickpick.com/buy-colorado-avalanche-vs-washington-capitals-tickets-ball-arena-12-12-26-7pm/8139154/",
+    "seatgeek": "https://seatgeek.com/colorado-avalanche-tickets/12-12-2026-denver-colorado-ball-arena/nhl/18377048",
+    "vivid": "https://www.vividseats.com/colorado-avalanche-tickets-ball-arena-12-12-2026/production/7300541"
+   },
+   "tickpick": 103,
+   "seatgeek": 108,
+   "vivid": 102
   },
   "2026-12-06 Broncos vs Miami Dolphins": {
    "urls": {
-    "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-5-2026/production/6489684",
     "tickpick": "https://www.tickpick.com/buy-denver-broncos-vs-miami-dolphins-tickets-empower-field-at-mile-high-12-6-26-2pm/7730178/",
-    "seatgeek": "https://seatgeek.com/denver-broncos-tickets/12-6-2026-denver-colorado-empower-field-at-mile-high/nfl/18014242"
+    "seatgeek": "https://seatgeek.com/denver-broncos-tickets/12-6-2026-denver-colorado-empower-field-at-mile-high/nfl/18014242",
+    "vivid": "https://www.vividseats.com/denver-broncos-tickets-denver-empower-field-at-mile-high-3-5-2026/production/6489684"
    },
-   "vivid": 126,
    "tickpick": 122,
-   "seatgeek": 203
+   "seatgeek": 175,
+   "vivid": 126
   },
   "2026-12-13 Seahawks vs New York Giants": {
    "urls": {
-    "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971",
     "tickpick": "https://www.tickpick.com/buy-seattle-seahawks-vs-new-york-giants-tickets-lumen-field-12-13-26-1pm/7730371/",
-    "seatgeek": "https://seatgeek.com/seattle-seahawks-tickets/12-13-2026-seattle-washington-lumen-field/nfl/18016693"
+    "seatgeek": "https://seatgeek.com/seattle-seahawks-tickets/12-13-2026-seattle-washington-lumen-field/nfl/18016693",
+    "vivid": "https://www.vividseats.com/seattle-seahawks-tickets-seattle-lumen-field-3-5-2027/production/6492971"
    },
-   "vivid": 277,
    "tickpick": 275,
-   "seatgeek": 296
+   "seatgeek": 299,
+   "vivid": 277
   }
  },
  "notes": [
-  "Avs tickpick: HTTP 403, 0 game links, 0/1 matched",
-  "Avs seatgeek: HTTP 403, 0 game links, 0/1 matched",
-  "Avs vivid: HTTP 200, 25 game links, 1/1 matched",
-  "Broncos tickpick: HTTP 403, 0 game links, 0/1 matched",
-  "Broncos seatgeek: HTTP 403, 0 game links, 0/1 matched",
-  "Broncos vivid: HTTP 200, 10 game links, 1/1 matched",
-  "Seahawks tickpick: HTTP 403, 0 game links, 0/1 matched",
-  "Seahawks seatgeek: HTTP 403, 0 game links, 0/1 matched",
+  "Avs tickpick: HTTP 200, 12 game links, 2/2 matched",
+  "Avs seatgeek: HTTP 200, 25 game links, 2/2 matched",
+  "Avs vivid: HTTP 200, 25 game links, 2/2 matched",
+  "Broncos tickpick: HTTP 200, 4 game links, 1/1 matched",
+  "Broncos seatgeek: HTTP 200, 6 game links, 1/1 matched",
+  "Broncos vivid: HTTP 200, 9 game links, 1/1 matched",
+  "Seahawks tickpick: HTTP 200, 6 game links, 1/1 matched",
+  "Seahawks seatgeek: HTTP 200, 7 game links, 1/1 matched",
   "Seahawks vivid: HTTP 200, 8 game links, 1/1 matched"
  ]
 }
